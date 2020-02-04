@@ -244,7 +244,7 @@ fdutimens (int fd, char const *file, struct timespec const timespec[2])
 # if HAVE_UTIMENSAT
       if (fd < 0)
         {
-          result = utimensat (AT_FDCWD, file, ts, 0);
+          result = utimensat (AT_FDCWD, file, ts, AT_SYMLINK_NOFOLLOW);
 #  ifdef __linux__
           /* Work around a kernel bug:
              http://bugzilla.redhat.com/442352
