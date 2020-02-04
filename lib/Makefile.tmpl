@@ -1,6 +1,6 @@
 # Makefile for GNU cpio library.
 
-# Copyright (C) 2004 Free Software Foundation, Inc.
+# Copyright (C) 2004, 2005 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -14,12 +14,12 @@
 
 ## You should have received a copy of the GNU General Public License
 ## along with this program; if not, write to the Free Software
-## Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-## 02111-1307, USA.
+## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+## 02110-1301, USA.
 
 noinst_LIBRARIES = libcpio.a
-noinst_HEADERS = system.h localedir.h rmt.h
-libcpio_a_SOURCES = rtapelib.c
+noinst_HEADERS = system.h system-ioctl.h localedir.h rmt.h paxlib.h
+libcpio_a_SOURCES = fatal.c rtapelib.c paxerror.c paxexit.c paxconvert.c paxnames.c
 
 EXTRA_DIST=Makefile.tmpl bcopy.c mkdir.c strdup.c strerror.c
 
@@ -37,6 +37,7 @@ libcpio_a_DEPENDENCIES = $(libcpio_a_LIBADD)
 
 rtapelib.o: localedir.h
 
+AM_CPPFLAGS =
 BUILT_SOURCES =
 MAINTAINERCLEANFILES =
 MOSTLYCLEANFILES =

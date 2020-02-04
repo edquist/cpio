@@ -14,8 +14,8 @@
 
 ## You should have received a copy of the GNU General Public License
 ## along with this program; if not, write to the Free Software
-## Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
-## 02111-1307, USA.
+## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+## 02110-1301 USA.
 
 EXTRA_DIST = $(TESTSUITE_AT) testsuite package.m4
 DISTCLEANFILES       = atconfig $(check_SCRIPTS)
@@ -73,10 +73,11 @@ installcheck-local:
 
 check_PROGRAMS = genfile
 
-genfile_SOURCES = genfile.c
+genfile_SOURCES = genfile.c argcv.c argcv.h
 
 localedir = $(datadir)/locale
 INCLUDES = -I$(top_srcdir)/lib -I../lib -I$(top_srcdir)/src
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\"
 
-LDADD = ../lib/libcpio.a $(LIBINTL)
+LDADD = ../lib/libcpio.a $(LIBINTL) $(LIB_CLOCK_GETTIME)
 

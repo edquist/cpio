@@ -12,3 +12,7 @@ src/util.c
 lib/getopt.c
 lib/rtapelib.c
 lib/strerror.c
+lib/paxconvert.c
+lib/paxerror.c
+lib/paxexit.c
+lib/paxnames.c

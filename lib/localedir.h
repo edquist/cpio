@@ -1,4 +1,4 @@
-#define LOCALEDIR "/usr/local/share/locale"
+#define LOCALEDIR "/usr/share/locale"
 #ifndef DEFAULT_RMT_COMMAND
-# define DEFAULT_RMT_COMMAND "/usr/local/libexec/rmt"
+# define DEFAULT_RMT_COMMAND "/usr/libexec/rmt"
 #endif

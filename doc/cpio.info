@@ -1,36 +1,36 @@
-This is cpio.info, produced by makeinfo version 4.6 from cpio.texi.
+This is cpio.info, produced by makeinfo version 4.8 from cpio.texi.
 
+INFO-DIR-SECTION Archiving
 START-INFO-DIR-ENTRY
-* cpio: (cpio).                 Making tape (or disk) archives.
+* Cpio: (cpio).                 Copy-in-copy-out archiver to tape or disk.
 END-INFO-DIR-ENTRY
 
-   This file documents GNU cpio 2.5.
+   This manual documents GNU cpio (version 2.7, 6 July 2006).
 
-   Copyright (C) 1995, 2001, 2002 Free Software Foundation, Inc.
+   Copyright (C) 1995, 2001, 2002, 2004 Free Software Foundation, Inc.
 
-   Permission is granted to make and distribute verbatim copies of this
-manual provided the copyright notice and this permission notice are
-preserved on all copies.
+     Permission is granted to copy, distribute and/or modify this
+     document under the terms of the GNU Free Documentation License,
+     Version 1.2 or any later version published by the Free Software
+     Foundation; with no Invariant Sections, with the Front-Cover texts
+     being "A GNU Manual", and with the Back-Cover Texts as in (a)
+     below.  A copy of the license is included in the section entitled
+     "GNU Free Documentation License".
 
-   Permission is granted to copy and distribute modified versions of
-this manual under the conditions for verbatim copying, provided that
-the entire resulting derived work is distributed under the terms of a
-permission notice identical to this one.
-
-   Permission is granted to copy and distribute translations of this
-manual into another language, under the above conditions for modified
-versions, except that this permission notice may be stated in a
-translation approved by the Foundation.
+     (a) The FSF's Back-Cover Text is: "You have freedom to copy and
+     modify this GNU Manual, like GNU software.  Copies published by
+     the Free Software Foundation raise funds for GNU development."
 
 
 File: cpio.info,  Node: Top,  Next: Introduction,  Prev: (dir),  Up: (dir)
 
-
+cpio
+****
 
 GNU cpio is a tool for creating and extracting archives, or copying
 files from one place to another.  It handles a number of cpio formats as
 well as reading and writing tar files.  This is the first edition of the
-GNU cpio documentation and is consistant with GNU cpio 2.5.
+GNU cpio documentation and is consistant with 2.7.
 
 * Menu:
 
@@ -38,6 +38,7 @@ GNU cpio documentation and is consistant with GNU cpio 2.5.
 * Tutorial::                    Getting started.
 * Invoking `cpio'::             How to invoke `cpio'.
 * Media::                       Using tapes and other archive media.
+* Reports::                     Reporting bugs or suggestions
 * Concept Index::               Concept index.
 
  --- The Detailed Node Listing ---
@@ -52,15 +53,15 @@ Invoking cpio
 
 File: cpio.info,  Node: Introduction,  Next: Tutorial,  Prev: Top,  Up: Top
 
-Introduction
-************
+1 Introduction
+**************
 
 GNU cpio copies files into or out of a cpio or tar archive, The archive
 can be another file on the disk, a magnetic tape, or a pipe.
 
    GNU cpio supports the following archive formats: binary, old ASCII,
 new ASCII, crc, HPUX binary, HPUX old ASCII, old tar, and POSIX.1 tar.
-The tar format is provided for compatability with the tar program. By
+The tar format is provided for compatibility with the tar program. By
 default, cpio creates binary format archives, for compatibility with
 older cpio programs.  When extracting from archives, cpio automatically
 recognizes which kind of archive it is reading and can read archives
@@ -69,8 +70,8 @@ created on machines with a different byte-order.
 
 File: cpio.info,  Node: Tutorial,  Next: Invoking `cpio',  Prev: Introduction,  Up: Top
 
-Tutorial
-********
+2 Tutorial
+**********
 
 GNU cpio performs three primary functions.  Copying files to an
 archive, Extracting files from an archive, and passing files to another
@@ -147,8 +148,8 @@ finds to the directory `new-dir'.
 
 File: cpio.info,  Node: Invoking `cpio',  Next: Media,  Prev: Tutorial,  Up: Top
 
-Invoking cpio
-*************
+3 Invoking cpio
+***************
 
 * Menu:
 
@@ -160,8 +161,8 @@ Invoking cpio
 
 File: cpio.info,  Node: Copy-out mode,  Next: Copy-in mode,  Prev: Invoking `cpio',  Up: Invoking `cpio'
 
-Copy-out mode
-=============
+3.1 Copy-out mode
+=================
 
 In copy-out mode, cpio copies files into an archive.  It reads a list
 of filenames, one per line, on the standard input, and writes the
@@ -181,8 +182,8 @@ unreadable.  *Note Options::.
 
 File: cpio.info,  Node: Copy-in mode,  Next: Copy-pass mode,  Prev: Copy-out mode,  Up: Invoking `cpio'
 
-Copy-in mode
-============
+3.2 Copy-in mode
+================
 
 In copy-in mode, cpio copies files out of an archive or lists the
 archive contents.  It reads the archive from the standard input.  Any
@@ -203,14 +204,14 @@ extracted.  *Note Options::.
      [--swap-halfwords] [--io-size=bytes] [--pattern-file=file]
      [--format=format] [--owner=[user][:.][group]]
      [--no-preserve-owner] [--message=message] [--help] [--version]
-     [-no-absolute-filenames] [--sparse] [-only-verify-crc] [-quiet]
+     [--no-absolute-filenames] [--sparse] [-only-verify-crc] [-quiet]
      [--rsh-command=command] [pattern...] [< archive]
 
 
 File: cpio.info,  Node: Copy-pass mode,  Next: Options,  Prev: Copy-in mode,  Up: Invoking `cpio'
 
-Copy-pass mode
-==============
+3.3 Copy-pass mode
+==================
 
 In copy-pass mode, cpio copies files from one directory tree to
 another, combining the copy-out and copy-in steps without actually
@@ -228,8 +229,8 @@ non-option argument.  *Note Options::.
 
 File: cpio.info,  Node: Options,  Prev: Copy-pass mode,  Up: Invoking `cpio'
 
-Options
-=======
+3.4 Options
+===========
 
 `-0, --null'
      Read a list of filenames terminated by a null character, instead
@@ -437,10 +438,10 @@ Options
      Print the cpio program version number and exit.
 
 
-File: cpio.info,  Node: Media,  Next: Concept Index,  Prev: Invoking `cpio',  Up: Top
+File: cpio.info,  Node: Media,  Next: Reports,  Prev: Invoking `cpio',  Up: Top
 
-Magnetic Media
-**************
+4 Magnetic Media
+****************
 
 Archives are usually written on removable media-tape cartridges, mag
 tapes, or floppy disks.
@@ -461,33 +462,55 @@ Sticking a floppy disk to a filing cabinet using a magnet is probably
 not a good idea.
 
 
-File: cpio.info,  Node: Concept Index,  Prev: Media,  Up: Top
+File: cpio.info,  Node: Reports,  Next: Concept Index,  Prev: Media,  Up: Top
+
+5 Reporting bugs or suggestions
+*******************************
+
+It is possible you will encounter a bug in `cpio'.  If this happens, we
+would like to hear about it. As the purpose of bug reporting is to
+improve software, please be sure to include maximum information when
+reporting a bug. The information needed is:
+
+   * Version of the package you are using.
+
+   * Compilation options used when configuring the package.
+
+   * Conditions under which the bug appears.
+
+   Send your report to <bug-cpio@gnu.org>. Allow us a couple of days to
+answer.
+
+
+File: cpio.info,  Node: Concept Index,  Prev: Reports,  Up: Top
 
 Concept Index
 *************
 
+ [index ]
 * Menu:
 
-* command line options:                  Invoking `cpio'.
-* copying directory structures:          Tutorial.
-* creating a cpio archive:               Tutorial.
-* extracting a cpio archive:             Tutorial.
-* invoking cpio:                         Invoking `cpio'.
-* magnetic media:                        Media.
-* passing directory structures:          Tutorial.
+* command line options:                  Invoking `cpio'.       (line 6)
+* copying directory structures:          Tutorial.              (line 6)
+* creating a cpio archive:               Tutorial.              (line 6)
+* extracting a cpio archive:             Tutorial.              (line 6)
+* invoking cpio:                         Invoking `cpio'.       (line 6)
+* magnetic media:                        Media.                 (line 6)
+* passing directory structures:          Tutorial.              (line 6)
 
 
 
 Tag Table:
-Node: Top938
-Node: Introduction1657
-Node: Tutorial2369
-Node: Invoking `cpio'6038
-Node: Copy-out mode6227
-Node: Copy-in mode7153
-Node: Copy-pass mode8531
-Node: Options9324
-Node: Media16592
-Node: Concept Index17575
+Node: Top1008
+Node: Introduction1789
+Node: Tutorial2505
+Node: Invoking `cpio'6178
+Node: Copy-out mode6371
+Node: Copy-in mode7305
+Node: Copy-pass mode8692
+Node: Options9493
+Node: Media16769
+Node: Reports17750
+Node: Concept Index18381
 
 End Tag Table

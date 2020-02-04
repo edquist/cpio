@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl This file is part of GNU cpio
-dnl Copyright (C) 2003, 2004 Free Software Foundation, Inc.
+dnl Copyright (C) 2003, 2004, 2005 Free Software Foundation, Inc.
 dnl
 dnl This program is free software; you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
@@ -12,17 +12,17 @@ dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
 dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 dnl GNU General Public License for more details.
 dnl
-dnl You should have received a copy of the GNU General Public License along
-dnl with this program; if not, write to the Free Software Foundation, Inc.,
-dnl 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  
+dnl You should have received a copy of the GNU General Public License
+dnl along with this program; if not, write to the Free Software Foundation,
+dnl Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-AC_INIT([GNU cpio], [2.6], [bug-cpio@gnu.org], [cpio])
+AC_INIT([GNU cpio], [2.7], [bug-cpio@gnu.org], [cpio])
 AC_CONFIG_SRCDIR(src/cpio.h)
-AC_CONFIG_AUX_DIR([scripts])
+AC_CONFIG_AUX_DIR([build-aux])
 AM_INIT_AUTOMAKE
 AC_CONFIG_HEADERS([config.h])
 
-AC_PREREQ(2.54)
+AC_PREREQ([2.59])
 
 dnl Check for programs
 gl_USE_SYSTEM_EXTENSIONS
@@ -44,11 +44,18 @@ AC_HEADER_STDC
 AC_HEADER_DIRENT
 
 cpio_GNULIB
+cpio_PAXUTILS
 
 AC_SUBST(CPIO_MT_PROG)
-PU_RMT
 
-AC_CHECK_HEADERS(unistd.h stdlib.h string.h fcntl.h sys/io/trioctl.h utmp.h getopt.h locale.h libintl.h sys/wait.h utime.h)
+AC_ARG_ENABLE(mt,
+ AC_HELP_STRING([--enable-mt], [Enable building of mt program]),
+ [case $enableval in
+  yes) CPIO_MT_PROG='mt$(EXEEXT)';;
+  no)  ;;
+  esac])
+
+AC_CHECK_HEADERS(unistd.h stdlib.h string.h fcntl.h sys/io/trioctl.h utmp.h getopt.h locale.h libintl.h sys/wait.h utime.h locale.h)
 AC_REPLACE_FUNCS(bcopy mkdir strdup strerror)
 
 AC_MSG_CHECKING(for sys_errlist and sys_nerr)
@@ -95,12 +102,10 @@ fi
 AC_CHECK_FUNCS(lchown endpwent endgrent)
 AC_FUNC_VPRINTF
 AC_FUNC_ALLOCA
-AC_CHECK_LIB(nsl, gethostname, [LIBS="$LIBS -lnsl"])
-AC_CHECK_LIB(socket, setsockopt, [LIBS="$LIBS -lsocket"])
 
 # Gettext.
-AM_GNU_GETTEXT([external], [need-ngettext])
-AM_GNU_GETTEXT_VERSION(0.13)
+AM_GNU_GETTEXT([external], [need-formatstring-macros])
+AM_GNU_GETTEXT_VERSION(0.15)
 
 # Initialize the test suite.
 AC_CONFIG_TESTDIR(tests)
