@@ -1,4 +1,9 @@
 
+Major changes in version 2.5:
+
+* bug fixes from Debian, Red Hat, and SuSE GNU/Linux Distribution patches
+* --rsh-command option
+
 Major changes in version 2.4:
 
 * new texinfo documentation

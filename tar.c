@@ -1,5 +1,5 @@
 /* tar.c - read in write tar headers for cpio
-   Copyright (C) 1992 Free Software Foundation, Inc.
+   Copyright (C) 1992, 2001 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,9 +11,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 #include <stdio.h>
 #include <sys/types.h>
@@ -261,15 +261,18 @@ read_in_tar_header (file_hdr, in_des)
       file_hdr->c_nlink = 1;
       otoa (tar_hdr->mode, &file_hdr->c_mode);
       file_hdr->c_mode = file_hdr->c_mode & 07777;
+  /* Debian hack: This version of cpio uses the -n flag also to extract
+     tar archives using the numeric UID/GID instead of the user/group
+     names in /etc/passwd and /etc/groups.  (98/10/15) -BEM */
 #ifndef __MSDOS__
-      if (archive_format == arf_ustar
+      if (archive_format == arf_ustar && !numeric_uid
 	  && (uidp = getuidbyname (tar_hdr->uname)))
 	file_hdr->c_uid = *uidp;
       else
 #endif
 	otoa (tar_hdr->uid, &file_hdr->c_uid);
 #ifndef __MSDOS__
-      if (archive_format == arf_ustar
+      if (archive_format == arf_ustar && !numeric_uid
 	  && (gidp = getgidbyname (tar_hdr->gname)))
 	file_hdr->c_gid = *gidp;
       else

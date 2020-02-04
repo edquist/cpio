@@ -1,5 +1,5 @@
 /* userspec.c -- Parse a user and group string.
-   Copyright (C) 1989, 1990, 1991, 1992 Free Software Foundation, Inc.
+   Copyright (C) 1989, 1990, 1991, 1992, 2001 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,9 +11,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 /* Written by David MacKenzie <djm@gnu.ai.mit.edu>.  */
 
@@ -82,7 +82,16 @@ struct group *getgrgid ();
 
 #define isdigit(c) ((c) >= '0' && (c) <= '9')
 
+/* Debian hack: required to compile in glibc_2.1 (provided by Juan
+   Cespedes) <cespedes@debian.org>.  This bug has been reported to
+   "bug-gnu-utils@prep.ai.mit.edu".  (98/5/19) -BEM */
+#ifndef __GLIBC__
+#ifdef __STDC__
+char *strdup (const char *s);
+#else /* !__STDC__ */
 char *strdup ();
+#endif /* __STDC__ */
+#endif
 
 /* Return nonzero if STR represents an unsigned decimal integer,
    otherwise return 0. */

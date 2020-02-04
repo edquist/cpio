@@ -1,19 +1,19 @@
 /* Definitions for communicating with a remote tape drive.
-   Copyright (C) 1988, 1992 Free Software Foundation, Inc.
+Copyright (C) 1988, 1992, 2001 Free Software Foundation, Inc.
 
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
-   any later version.
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2, or (at your option)
+any later version.
 
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
@@ -67,10 +67,10 @@ extern char *index ();
 #define _remdev(path)	(!f_force_local && (__rmt_path=index(path, ':')))
 #define _isrmt(fd)		((fd) >= __REM_BIAS)
 
-#define rmtopen(path,oflag,mode) (_remdev(path) ? __rmt_open(path, oflag, mode, __REM_BIAS) : open(path, oflag, mode))
+#define rmtopen(path,oflag,mode,rsh) (_remdev(path) ? __rmt_open(path, oflag, mode, __REM_BIAS,rsh) : open(path, oflag, mode))
 #define rmtaccess(path, amode)	(_remdev(path) ? 0 : access(path, amode))
 #define rmtstat(path, buf)	(_remdev(path) ? (errno = EOPNOTSUPP), -1 : stat(path, buf))
-#define rmtcreat(path, mode)	(_remdev(path) ? __rmt_open (path, 1 | O_CREAT, mode, __REM_BIAS) : creat(path, mode))
+#define rmtcreat(path, mode, rsh)	(_remdev(path) ? __rmt_open (path, 1 | O_CREAT, mode, __REM_BIAS, rsh) : creat(path, mode))
 #define rmtlstat(path,buf)	(_remdev(path) ? (errno = EOPNOTSUPP), -1 : lstat(path,buf))
 
 #define rmtread(fd, buf, n)	(_isrmt(fd) ? __rmt_read(fd - __REM_BIAS, buf, n) : read(fd, buf, n))

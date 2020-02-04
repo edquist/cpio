@@ -1,5 +1,5 @@
 /* Functions for communicating with a remote tape drive.
-   Copyright (C) 1988, 1992 Free Software Foundation, Inc.
+   Copyright (C) 1988, 1992, 2001 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,9 +11,9 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
-   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.  */
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation, Inc.,
+   59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
 
 /* The man page rmt(8) for /etc/rmt documents the remote mag tape
    protocol which rdump and rrestore use.  Unfortunately, the man
@@ -264,11 +264,12 @@ _rmt_rexec (host, user)
    On error, return -1.  */
 
 int
-__rmt_open (path, oflag, mode, bias)
+__rmt_open (path, oflag, mode, bias, remote_shell)
      char *path;
      int oflag;
      int mode;
      int bias;
+     const char *remote_shell;
 {
   int i, rc;
   char buffer[CMDBUFSIZE];	/* Command buffer.  */
@@ -372,29 +373,43 @@ __rmt_open (path, oflag, mode, bias)
 
       if (*login)
 	{
-	  execl ("/usr/ucb/rsh", "rsh", system, "-l", login,
+	  /* Debian hack: added remote shell command line option.
+	     (98/5/20) -BEM */
+	  if (remote_shell) {
+	    const char *remote_shell_basename;
+	    remote_shell_basename = strrchr (remote_shell, '/');
+	    if (remote_shell_basename)
+	      remote_shell_basename++;
+	    else
+	      remote_shell_basename = remote_shell;
+	    execl (remote_shell, remote_shell_basename, system, "-l", login,
 		 "/etc/rmt", (char *) 0);
-	  execl ("/usr/bin/remsh", "remsh", system, "-l", login,
+	  } else {
+	  execl ("/usr/bin/ssh", "ssh", system, "-l", login,
 		 "/etc/rmt", (char *) 0);
 	  execl ("/usr/bin/rsh", "rsh", system, "-l", login,
 		 "/etc/rmt", (char *) 0);
-	  execl ("/usr/bsd/rsh", "rsh", system, "-l", login,
-		 "/etc/rmt", (char *) 0);
-	  execl ("/usr/bin/nsh", "nsh", system, "-l", login,
-		 "/etc/rmt", (char *) 0);
+	  }
 	}
       else
 	{
-	  execl ("/usr/ucb/rsh", "rsh", system,
+	  /* Debian hack: added remote shell command line option.
+	     (98/5/20) -BEM */
+	  if (remote_shell) {
+	    const char *remote_shell_basename;
+	    remote_shell_basename = strrchr (remote_shell, '/');
+	    if (remote_shell_basename)
+	      remote_shell_basename++;
+	    else
+	      remote_shell_basename = remote_shell;
+	    execl (remote_shell, remote_shell_basename, system,
 		 "/etc/rmt", (char *) 0);
-	  execl ("/usr/bin/remsh", "remsh", system,
+	  } else {
+	  execl ("/usr/bin/ssh", "ssh", system,
 		 "/etc/rmt", (char *) 0);
 	  execl ("/usr/bin/rsh", "rsh", system,
 		 "/etc/rmt", (char *) 0);
-	  execl ("/usr/bsd/rsh", "rsh", system,
-		 "/etc/rmt", (char *) 0);
-	  execl ("/usr/bin/nsh", "nsh", system,
-		 "/etc/rmt", (char *) 0);
+	  }
 	}
 
       /* Bad problems if we get here.  */
