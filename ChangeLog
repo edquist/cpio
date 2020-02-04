@@ -1,3 +1,105 @@
+2009-06-20  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Version 2.10
+
+2009-06-19  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Update docs.
+	* NEWS, THANKS: Update
+
+	Make sure the structs used for I/O mapping are not padded.
+	* am/flushleft.m4, am/pack.m4: New files.
+	* Makefile.am (ACLOCAL_AMFLAGS): Add -I am.
+	* bootstrap: Fix arguments to aclocal.
+	* configure.ac: Call CPIO_PACKED_STRUCTS.
+	* src/cpiohdr.h: Ensure old_cpio_header,
+	old_ascii_header and new_ascii_header are packed.
+
+2009-06-19  Clint Adams  <schizo@debian.org>
+
+	Improve docs
+	* doc/cpio.texi: Document format file size limits.
+
+2009-06-19  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Housekeeping changes
+	* lib/Makefile.am: New file
+	* src/Makefile.am (INCLUDES): add lib
+	* src/main.c: Include configmake.h (needed for LOCALEDIR).
+	* tests/Makefile.am (check-local, installcheck-local): Honor
+	TESTSUITEFLAGS.
+
+2009-03-07  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Refelect changes to paxutils
+
+2009-02-14  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Fix exit codes
+
+	Minor fix
+
+	Fix bootstrap
+
+	Delete paxutils
+
+	Switch to Git
+
+2008-03-06  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	* bootstrap: Update .cvsignore files.
+	* po/.cvsignore: Update.
+
+	* bootstrap: Sync with tar.
+	* po/.cvsignore: New file.
+
+2008-02-09  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	* NEWS, configure.ac: Raise the patchlevel number.
+	* THANKS: Update
+	
+	* doc/cpio.texi: Fix a typo.
+	* src/extern.h (warn_if_file_changed): Fix type of the 2nd
+	argument.
+	* src/tar.c (write_out_tar_header): Stylistic change.
+	* src/util.c (copy_files_disk_to_disk): Fix types of automatic
+	variables. 
+	(warn_if_file_changed): Fix type of the 2nd argument.
+	
+	Patches supplied by Ladislav Michnovic.
+	
+2008-02-08  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	* po/POTFILES.in: Add missing files.
+	* src/Makefile.am (INCLUDES): Add -I$(top_builddir)/lxib
+	* src/extern.h (warn_if_file_changed): Fix type of the 3rd
+	argument.
+	* src/util.c (copy_files_tape_to_disk)
+	(copy_files_disk_to_tape): Fix types of size and k.
+	(warn_if_file_changed): Fix type of the 3rd argument.
+
+2007-12-05  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Fix mingw build. Thanks to Robert Millan.
+	
+	* NEWS, THANKS: Update.
+	* bootstrap: Create lib/system.c, m4/sysdep.m4, update lib/system.h.
+	* mingw.m4, sysdep.m4: New files.
+	* configure.ac: Raise version number to 2.9.90.
+	Call CPIO_SYSDEP. Remove the call to gl_USE_SYSTEM_EXTENSIONS.
+	(AC_CHECK_HEADERS): Add process.h sys/ioctl.h
+	* lib/Makefile.am (libcpio_a_SOURCES): Add system.c
+	* src/idcache.c: Include system.h
+	* src/userspec.c: Remove alloca stuff (already handled by
+	gnulib). Include alloca.h.
+	Remove useless declarations of get.* functions.
+	* src/util.c: Include sys/ioctl.h conditionally.
+
+2007-09-28  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	* src/copyin.c (read_in_binary): Fix passing improper argument
+	to swab_array. Reported by Dr. David Alan Gilbert.
+
 2007-06-28  Sergey Poznyakoff  <gray@gnu.org.ua>
 
 	* bootstrap: Update for the change of the TP URL
@@ -1814,4 +1916,5 @@ Sat Dec  2 13:22:37 1989  David J. MacKenzie  (djm at hobbes.ai.mit.edu)
 Local Variables:
 mode: change-log
 version-control: never
+buffer-read-only: t
 End:

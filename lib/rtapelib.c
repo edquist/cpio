@@ -425,7 +425,10 @@ rmt_open__ (const char *file_name, int open_mode, int bias,
   }
 
   /* FIXME: Should somewhat validate the decoding, here.  */
-
+  if (gethostbyname (remote_host) == NULL)
+    error (EXIT_ON_EXEC_ERROR, 0, _("Cannot connect to %s: resolve failed"),
+	   remote_host);
+	  
   if (remote_user && *remote_user == '\0')
     remote_user = 0;
 
@@ -461,7 +464,7 @@ rmt_open__ (const char *file_name, int open_mode, int bias,
 	return -1;
 #endif
       }
-    remote_shell_basename = base_name (remote_shell);
+    remote_shell_basename = last_component (remote_shell);
 
     /* Set up the pipes for the `rsh' command, and fork.  */
 

@@ -1,6 +1,6 @@
 # Makefile for GNU cpio regression tests.
 
-# Copyright (C) 2004, 2007 Free Software Foundation, Inc.
+# Copyright (C) 2004, 2007, 2008, 2009 Free Software Foundation, Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -62,11 +62,11 @@ clean-local:
 	$(SHELL) $(TESTSUITE) --clean
 
 check-local: atconfig atlocal $(TESTSUITE)
-	$(SHELL) $(TESTSUITE)
+	$(SHELL) $(TESTSUITE) $(TESTSUITEFLAGS)
 
 # Run the test suite on the *installed* tree.
 installcheck-local:
-	$(SHELL) $(TESTSUITE) AUTOTEST_PATH=$(exec_prefix)/bin
+	$(SHELL) $(TESTSUITE) $(TESTSUITEFLAGS) AUTOTEST_PATH=$(exec_prefix)/bin
 
 
 ## ------------ ##
@@ -78,8 +78,8 @@ check_PROGRAMS = genfile
 genfile_SOURCES = genfile.c argcv.c argcv.h
 
 localedir = $(datadir)/locale
-INCLUDES = -I$(top_srcdir)/lib -I../lib -I$(top_srcdir)/src
+INCLUDES = -I$(top_srcdir)/gnu -I../gnu -I$(top_srcdir)/lib
 AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\"
 
-LDADD = ../lib/libcpio.a $(LIBINTL) $(LIB_CLOCK_GETTIME)
+LDADD=../gnu/libgnu.a @LIB_CLOCK_GETTIME@ @INTLLIBS@
 

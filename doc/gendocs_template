@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<!-- $Id: gendocs_template,v 1.2 2005/05/19 09:35:29 gray Exp $ -->
+<!-- $Id$ -->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
 <head>
@@ -99,7 +99,7 @@ permitted in any medium, provided this notice is preserved.
 <p>
 Updated:
 <!-- timestamp start -->
-$Date: 2005/05/19 09:35:29 $ $Author: gray $
+$Date$ $Author$
 <!-- timestamp end -->
 </p>
 </div>

@@ -1,11 +1,11 @@
 /* Generate a file containing some preset patterns.
    Print statistics for existing files.
 
-   Copyright (C) 1995, 1996, 1997, 2001, 2003, 2004, 2005, 2006, 2007
-   Free Software Foundation, Inc.
+   Copyright (C) 1995, 1996, 1997, 2001, 2003, 2004, 2005, 2006, 2007,
+   2008, 2009 Free Software Foundation, Inc.
 
    François Pinard <pinard@iro.umontreal.ca>, 1995.
-   Sergey Poznyakoff <gray@mirddin.farlep.net>, 2004, 2005, 2006.
+   Sergey Poznyakoff <gray@mirddin.farlep.net>, 2004, 2005, 2006, 2007, 2008.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,7 +29,6 @@
 #include <argp.h>
 #include <argcv.h>
 #include <getdate.h>
-#include <setenv.h>
 #include <utimens.h>
 #include <inttostr.h>
 #include <fcntl.h>
@@ -262,13 +261,11 @@ verify_file (char *file_name)
 	error (0, errno, _("stat(%s) failed"), file_name);
 
       if (st.st_size != file_length + seek_offset)
-	{
-	  printf ("%lu %lu\n", (unsigned long)st.st_size , (unsigned long)file_length);
-	  exit (1);
-	}
+	error (1, 0, _("requested file length %lu, actual %lu"),
+	       (unsigned long)st.st_size, (unsigned long)file_length);
 
       if (mode == mode_sparse && !ST_IS_SPARSE (st))
-	exit (1);
+	error (1, 0, _("created file is not sparse"));
     }
 }
 
@@ -577,7 +574,7 @@ print_stat (const char *name)
 	{
 	  mode_t mask = ~0;
 
-	  if (ispunct (p[4]))
+	  if (ispunct ((unsigned char) p[4]))
 	    {
 	      char *q;
 
@@ -774,12 +771,12 @@ exec_command (void)
 
   while ((p = fgets (buf, sizeof buf, fp)))
     {
-      while (*p && !isspace (*p) && *p != ':')
+      while (*p && !isspace ((unsigned char) *p) && *p != ':')
 	p++;
 
       if (*p == ':')
 	{
-	  for (p++; *p && isspace (*p); p++)
+	  for (p++; *p && isspace ((unsigned char) *p); p++)
 	    ;
 
 	  if (*p
@@ -787,7 +784,7 @@ exec_command (void)
 	    {
 	      char *end;
 	      size_t n = strtoul (p + sizeof CHECKPOINT_TEXT - 1, &end, 10);
-	      if (!(*end && !isspace (*end)))
+	      if (!(*end && !isspace ((unsigned char) *end)))
 		{
 		  process_checkpoint (n);
 		  continue;
