@@ -1,7 +1,7 @@
 /* -*- buffer-read-only: t -*- vi: set ro: */
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* fd-relative mkdir
-   Copyright (C) 2005, 2006 Free Software Foundation, Inc.
+   Copyright (C) 2005-2006, 2009-2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,13 +20,7 @@
 
 #include <config.h>
 
-#include "openat.h"
-
 #include <unistd.h>
-
-#include "dirname.h" /* solely for definition of IS_ABSOLUTE_FILE_NAME */
-#include "save-cwd.h"
-#include "openat-priv.h"
 
 /* Solaris 10 has no function like this.
    Create a subdirectory, FILE, with mode MODE, in the directory
@@ -37,8 +31,6 @@
 
 #define AT_FUNC_NAME mkdirat
 #define AT_FUNC_F1 mkdir
-#define AT_FUNC_F2 mkdir
-#define AT_FUNC_USE_F1_COND 1
 #define AT_FUNC_POST_FILE_PARAM_DECLS , mode_t mode
 #define AT_FUNC_POST_FILE_ARGS        , mode
 #include "at-func.c"

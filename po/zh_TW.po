@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cpio 2.9.91\n"
 "Report-Msgid-Bugs-To: bug-cpio@gnu.org\n"
-"POT-Creation-Date: 2009-06-20 11:32+0300\n"
+"POT-Creation-Date: 2010-03-10 15:04+0200\n"
 "PO-Revision-Date: 2008-08-20 20:08+0800\n"
 "Last-Translator: Zi-You Dai <ioppooster@gmail.com>\n"
 "Language-Team: Chinese (traditional)  <zh-l10n@linux.org.tw>\n"
@@ -57,35 +57,35 @@ msgstr "%.*s：未知 ARGP_HELP_FMT 參數"
 msgid "Garbage in ARGP_HELP_FMT: %s"
 msgstr "無用輸入 ARGP_HELP_FMT: %s"
 
-#: gnu/argp-help.c:1248
+#: gnu/argp-help.c:1246
 msgid ""
 "Mandatory or optional arguments to long options are also mandatory or "
 "optional for any corresponding short options."
 msgstr "強制性或選擇性的引數到長的選項，也是強制性或任擇任何相應的簡短選項。"
 
-#: gnu/argp-help.c:1641
+#: gnu/argp-help.c:1639
 msgid "Usage:"
 msgstr "用法："
 
-#: gnu/argp-help.c:1645
+#: gnu/argp-help.c:1643
 msgid "  or: "
 msgstr "或："
 
-#: gnu/argp-help.c:1657
+#: gnu/argp-help.c:1655
 msgid " [OPTION...]"
 msgstr "[選項...]"
 
-#: gnu/argp-help.c:1684
+#: gnu/argp-help.c:1682
 #, c-format
 msgid "Try `%s --help' or `%s --usage' for more information.\n"
 msgstr "試試 `%s --help' 或 `%s --usage' 獲得更多資訊。\n"
 
-#: gnu/argp-help.c:1712
+#: gnu/argp-help.c:1710
 #, c-format
 msgid "Report bugs to %s.\n"
 msgstr "報告臭蟲到 %s。\n"
 
-#: gnu/argp-help.c:1931 gnu/error.c:127
+#: gnu/argp-help.c:1929 gnu/error.c:155
 msgid "Unknown system error"
 msgstr "未知系統錯誤"
 
@@ -97,7 +97,7 @@ msgstr "給予這份幫助清單"
 msgid "give a short usage message"
 msgstr "給予短的使用訊息"
 
-#: gnu/argp-parse.c:85 tests/genfile.c:129
+#: gnu/argp-parse.c:85 tests/genfile.c:131
 msgid "NAME"
 msgstr "名稱"
 
@@ -109,7 +109,7 @@ msgstr "設定程式名稱"
 msgid "SECS"
 msgstr "SECS"
 
-#: gnu/argp-parse.c:87 src/main.c:238
+#: gnu/argp-parse.c:87
 msgid "hang for SECS seconds (default 3600)"
 msgstr "展出 SECS 秒 （預設 3600）"
 
@@ -136,59 +136,54 @@ msgstr "（程式錯誤）選項應以識別！？"
 msgid "write error"
 msgstr "寫入錯誤"
 
-#: gnu/getopt.c:528 gnu/getopt.c:544
-#, c-format
-msgid "%s: option `%s' is ambiguous\n"
+#: gnu/getopt.c:531 gnu/getopt.c:547
+#, fuzzy, c-format
+msgid "%s: option '%s' is ambiguous\n"
 msgstr "%s：選項 `%s' 是含糊的\n"
 
-#: gnu/getopt.c:577 gnu/getopt.c:581
-#, c-format
-msgid "%s: option `--%s' doesn't allow an argument\n"
+#: gnu/getopt.c:580 gnu/getopt.c:584
+#, fuzzy, c-format
+msgid "%s: option '--%s' doesn't allow an argument\n"
 msgstr "%s：選項 `--%s' 不容許的引數\n"
 
-#: gnu/getopt.c:590 gnu/getopt.c:595
-#, c-format
-msgid "%s: option `%c%s' doesn't allow an argument\n"
+#: gnu/getopt.c:593 gnu/getopt.c:598
+#, fuzzy, c-format
+msgid "%s: option '%c%s' doesn't allow an argument\n"
 msgstr "%s：選項 `%c%s' 不容許的引數\n"
 
-#: gnu/getopt.c:638 gnu/getopt.c:657 gnu/getopt.c:973 gnu/getopt.c:992
-#, c-format
-msgid "%s: option `%s' requires an argument\n"
+#: gnu/getopt.c:641 gnu/getopt.c:660 gnu/getopt.c:963 gnu/getopt.c:982
+#, fuzzy, c-format
+msgid "%s: option '%s' requires an argument\n"
 msgstr "%s：選項 `%s' 需要一個引數\n"
 
-#: gnu/getopt.c:695 gnu/getopt.c:698
-#, c-format
-msgid "%s: unrecognized option `--%s'\n"
+#: gnu/getopt.c:698 gnu/getopt.c:701
+#, fuzzy, c-format
+msgid "%s: unrecognized option '--%s'\n"
 msgstr "%s：無法辨識選項 `--%s'\n"
 
-#: gnu/getopt.c:706 gnu/getopt.c:709
-#, c-format
-msgid "%s: unrecognized option `%c%s'\n"
+#: gnu/getopt.c:709 gnu/getopt.c:712
+#, fuzzy, c-format
+msgid "%s: unrecognized option '%c%s'\n"
 msgstr "%s： 無法辨識選項 `%c%s'\n"
 
 #: gnu/getopt.c:761 gnu/getopt.c:764
-#, c-format
-msgid "%s: illegal option -- %c\n"
-msgstr "%s：非法的選項 -- %c\n"
-
-#: gnu/getopt.c:770 gnu/getopt.c:773
-#, c-format
-msgid "%s: invalid option -- %c\n"
+#, fuzzy, c-format
+msgid "%s: invalid option -- '%c'\n"
 msgstr "%s：無效的選項 -- %c\n"
 
-#: gnu/getopt.c:825 gnu/getopt.c:841 gnu/getopt.c:1045 gnu/getopt.c:1063
-#, c-format
-msgid "%s: option requires an argument -- %c\n"
+#: gnu/getopt.c:814 gnu/getopt.c:831 gnu/getopt.c:1034 gnu/getopt.c:1052
+#, fuzzy, c-format
+msgid "%s: option requires an argument -- '%c'\n"
 msgstr "%s：選項需要一個引數 -- %c\n"
 
-#: gnu/getopt.c:894 gnu/getopt.c:910
-#, c-format
-msgid "%s: option `-W %s' is ambiguous\n"
+#: gnu/getopt.c:884 gnu/getopt.c:900
+#, fuzzy, c-format
+msgid "%s: option '-W %s' is ambiguous\n"
 msgstr "%s：選項 `-W %s' 是含糊的\n"
 
-#: gnu/getopt.c:934 gnu/getopt.c:952
-#, c-format
-msgid "%s: option `-W %s' doesn't allow an argument\n"
+#: gnu/getopt.c:924 gnu/getopt.c:942
+#, fuzzy, c-format
+msgid "%s: option '-W %s' doesn't allow an argument\n"
 msgstr "%s：選項 `-W %s' 不容許一個引數\n"
 
 #: gnu/obstack.c:425 gnu/obstack.c:427 gnu/xalloc-die.c:36
@@ -200,7 +195,7 @@ msgstr "記憶體用盡"
 msgid "unable to record current working directory"
 msgstr "無法記錄當前的工作目錄"
 
-#: gnu/openat-die.c:49
+#: gnu/openat-die.c:54
 #, c-format
 msgid "failed to return to initial working directory"
 msgstr "未有返回初始工作目錄"
@@ -218,26 +213,26 @@ msgstr "未有返回初始工作目錄"
 #. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
 #. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
 #. MARK).  A British English Unicode locale should instead
-#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK) and
-#. U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
+#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK)
+#. and U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
 #.
 #. If you don't know what to put here, please see
 #. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
 #. and use glyphs suitable for your language.
-#: gnu/quotearg.c:251
+#: gnu/quotearg.c:274
 msgid "`"
 msgstr ""
 
-#: gnu/quotearg.c:252
+#: gnu/quotearg.c:275
 msgid "'"
 msgstr ""
 
-#: gnu/version-etc.c:66
+#: gnu/version-etc.c:76
 #, c-format
 msgid "Packaged by %s (%s)\n"
 msgstr ""
 
-#: gnu/version-etc.c:69
+#: gnu/version-etc.c:79
 #, c-format
 msgid "Packaged by %s\n"
 msgstr ""
@@ -245,11 +240,11 @@ msgstr ""
 #. TRANSLATORS: Translate "(C)" to the copyright symbol
 #. (C-in-a-circle), if this symbol is available in the user's
 #. locale.  Otherwise, do not translate "(C)"; leave it as-is.
-#: gnu/version-etc.c:76
+#: gnu/version-etc.c:86
 msgid "(C)"
 msgstr ""
 
-#: gnu/version-etc.c:78
+#: gnu/version-etc.c:88
 #, fuzzy
 msgid ""
 "\n"
@@ -265,19 +260,19 @@ msgstr ""
 "There is NO WARRANTY, to the extent permitted by law.\n"
 
 #. TRANSLATORS: %s denotes an author name.
-#: gnu/version-etc.c:94
+#: gnu/version-etc.c:104
 #, c-format
 msgid "Written by %s.\n"
 msgstr "Written by %s.\n"
 
 #. TRANSLATORS: Each %s denotes an author name.
-#: gnu/version-etc.c:98
+#: gnu/version-etc.c:108
 #, c-format
 msgid "Written by %s and %s.\n"
 msgstr "Written by %s and %s.\n"
 
 #. TRANSLATORS: Each %s denotes an author name.
-#: gnu/version-etc.c:102
+#: gnu/version-etc.c:112
 #, c-format
 msgid "Written by %s, %s, and %s.\n"
 msgstr "Written by %s, %s, and %s.\n"
@@ -285,7 +280,7 @@ msgstr "Written by %s, %s, and %s.\n"
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:108
+#: gnu/version-etc.c:119
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -297,7 +292,7 @@ msgstr ""
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:114
+#: gnu/version-etc.c:126
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -309,7 +304,7 @@ msgstr ""
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:120
+#: gnu/version-etc.c:133
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -321,7 +316,7 @@ msgstr ""
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:127
+#: gnu/version-etc.c:141
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -333,7 +328,7 @@ msgstr ""
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:134
+#: gnu/version-etc.c:149
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -347,7 +342,7 @@ msgstr ""
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:142
+#: gnu/version-etc.c:158
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -361,7 +356,7 @@ msgstr ""
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:152
+#: gnu/version-etc.c:169
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -376,29 +371,30 @@ msgstr ""
 #. for this package.  Please add _another line_ saying
 #. "Report translation bugs to <...>\n" with the address for translation
 #. bugs (typically your translation team's web or email address).
-#: gnu/version-etc.c:192 rmt/rmt.c:315
-#, c-format
+#: gnu/version-etc.c:247
+#, fuzzy, c-format
 msgid ""
 "\n"
-"Report bugs to <%s>.\n"
-msgstr ""
-"\n"
-"報告臭蟲到 <%s>。\n"
+"Report bugs to: %s\n"
+msgstr "報告臭蟲到 %s。\n"
 
-#: gnu/version-etc.c:194
+#: gnu/version-etc.c:249
 #, fuzzy, c-format
-msgid "Report %s bugs to <%s>.\n"
-msgstr ""
-"\n"
-"報告臭蟲到 <%s>。\n"
+msgid "Report %s bugs to: %s\n"
+msgstr "報告臭蟲到 %s。\n"
 
-#: gnu/version-etc.c:197
+#: gnu/version-etc.c:253
 #, c-format
-msgid "%s home page: <http://www.gnu.org/software/%s/>.\n"
+msgid "%s home page: <%s>\n"
 msgstr ""
 
-#: gnu/version-etc.c:199
-msgid "General help using GNU software: <http://www.gnu.org/gethelp/>.\n"
+#: gnu/version-etc.c:255
+#, c-format
+msgid "%s home page: <http://www.gnu.org/software/%s/>\n"
+msgstr ""
+
+#: gnu/version-etc.c:258
+msgid "General help using GNU software: <http://www.gnu.org/gethelp/>\n"
 msgstr ""
 
 #. TRANSLATORS: %s after `Cannot' is a function name, e.g. `Cannot open'.
@@ -510,63 +506,83 @@ msgstr ""
 msgid "Cannot execute remote shell"
 msgstr "不能執行遠端的shell"
 
-#: rmt/rmt.c:142
-msgid "Input string too long"
-msgstr "輸入字符串太長"
-
-#: rmt/rmt.c:161
-msgid "Number syntax error"
-msgstr "有多少語法錯誤"
-
-#: rmt/rmt.c:180
-msgid "rmtd: Cannot allocate buffer space\n"
-msgstr "rmtd: 無法分配緩衝區空間\n"
-
-#: rmt/rmt.c:182
-msgid "Cannot allocate buffer space"
-msgstr "無法分配緩衝區空間"
-
-#: rmt/rmt.c:304
-#, c-format
-msgid "Try `%s --help' for more information.\n"
-msgstr ""
-
-#: rmt/rmt.c:308
-#, c-format
-msgid ""
-"Usage: %s [OPTION]\n"
-"Manipulate a tape drive, accepting commands from a remote process.\n"
-"\n"
-"  --version  Output version info.\n"
-"  --help     Output this help.\n"
-msgstr ""
-"用法： %s [選項]\n"
-"接受一個從遠端進程的命令，操作一個磁帶機。\n"
-"\n"
-"  --version  輸出版本資訊。\n"
-"  --help     輸出這份幫助。\n"
-
-#: rmt/rmt.c:397
-msgid "Seek offset error"
-msgstr ""
-
-#: rmt/rmt.c:406 rmt/rmt.c:547 rmt/rmt.c:557
-msgid "Seek offset out of range"
-msgstr ""
-
-#: rmt/rmt.c:428
+#: rmt/rmt.c:413
 msgid "Seek direction out of range"
 msgstr ""
 
-#: rmt/rmt.c:472
-msgid "rmtd: Premature eof\n"
+#: rmt/rmt.c:419
+msgid "Invalid seek direction"
 msgstr ""
 
-#: rmt/rmt.c:474
-msgid "Premature end of file"
+#: rmt/rmt.c:427
+#, fuzzy
+msgid "Invalid seek offset"
+msgstr "無效大小：%s"
+
+#: rmt/rmt.c:433
+msgid "Seek offset out of range"
+msgstr ""
+
+#: rmt/rmt.c:474 rmt/rmt.c:525 rmt/rmt.c:589
+msgid "Invalid byte count"
+msgstr ""
+
+#: rmt/rmt.c:480 rmt/rmt.c:531 rmt/rmt.c:595 rmt/rmt.c:606
+msgid "Byte count out of range"
+msgstr ""
+
+#: rmt/rmt.c:539
+#, fuzzy
+msgid "Premature eof"
 msgstr "檔案非正常終止"
 
-#: rmt/rmt.c:672
+#: rmt/rmt.c:582
+#, fuzzy
+msgid "Invalid operation code"
+msgstr "主要操作模式："
+
+#: rmt/rmt.c:617 rmt/rmt.c:661
+msgid "Operation not supported"
+msgstr ""
+
+#: rmt/rmt.c:645
+#, fuzzy
+msgid "Unexpected arguments"
+msgstr "沒有足夠的引數"
+
+#: rmt/rmt.c:670
+msgid "Manipulate a tape drive, accepting commands from a remote process"
+msgstr ""
+
+#: rmt/rmt.c:677 src/main.c:123 tests/genfile.c:167
+msgid "NUMBER"
+msgstr "數目"
+
+#: rmt/rmt.c:678
+msgid "set debug level"
+msgstr ""
+
+#: rmt/rmt.c:679 src/main.c:151 src/main.c:157 tests/genfile.c:133
+#: tests/genfile.c:181 tests/genfile.c:185 tests/genfile.c:188
+#: tests/genfile.c:194
+msgid "FILE"
+msgstr "檔案"
+
+#: rmt/rmt.c:680
+msgid "set debug output file name"
+msgstr ""
+
+#: rmt/rmt.c:696 rmt/rmt.c:764
+#, fuzzy, c-format
+msgid "cannot open %s"
+msgstr "不能開啟 %s"
+
+#: rmt/rmt.c:761 tests/genfile.c:885 tests/genfile.c:902
+#, c-format
+msgid "too many arguments"
+msgstr "太多引數"
+
+#: rmt/rmt.c:803
 msgid "Garbage command"
 msgstr "模糊的命令"
 
@@ -586,7 +602,7 @@ msgstr "重新命名 %s -> "
 msgid "%s: file name too long"
 msgstr "%s:檔案名稱太長"
 
-#: src/copyin.c:181 src/copyin.c:528 src/copyin.c:553 src/copyin.c:1524
+#: src/copyin.c:181 src/copyin.c:528 src/copyin.c:553 src/copyin.c:1442
 #, c-format
 msgid "%s: checksum error (0x%lx, should be 0x%lx)"
 msgstr "%s：校驗錯誤 (0x%lx, 應為 0x%lx)"
@@ -601,7 +617,7 @@ msgstr "%s 未建立：已有更新或同樣新的版本存在"
 msgid "cannot remove current %s"
 msgstr "不能刪除當前 %s"
 
-#: src/copyin.c:279 src/copyin.c:476 src/copyin.c:683 src/copypass.c:433
+#: src/copyin.c:279 src/copyin.c:476 src/copyin.c:601 src/copypass.c:394
 #, c-format
 msgid "cannot link %s to %s"
 msgstr "無法將 %s 連接到 %s"
@@ -616,47 +632,42 @@ msgstr "無法交換 %s 的半字：半字值異常"
 msgid "cannot swap bytes of %s: odd number of bytes"
 msgstr "無法交換 %s 位元：位元值異常"
 
-#: src/copyin.c:642
-#, c-format
-msgid "%s is not a directory"
-msgstr "%s 不是目錄"
-
-#: src/copyin.c:755
+#: src/copyin.c:673
 #, c-format
 msgid "%s: Cannot symlink to %s"
 msgstr ""
 
-#: src/copyin.c:809 src/copyout.c:851 src/copypass.c:356
+#: src/copyin.c:727 src/copyout.c:850 src/copypass.c:317
 #, c-format
 msgid "%s: unknown file type"
 msgstr "%s:未知檔案類型"
 
-#: src/copyin.c:994 src/copyin.c:1001
+#: src/copyin.c:912 src/copyin.c:919
 #, c-format
 msgid "Malformed number %.*s"
 msgstr "畸型數字 %.*s"
 
-#: src/copyin.c:1011
+#: src/copyin.c:929
 #, c-format
 msgid "Archive value %.*s is out of range"
 msgstr "存檔值 %.*s 超出範圍"
 
-#: src/copyin.c:1046
+#: src/copyin.c:964
 #, c-format
 msgid "premature end of archive"
 msgstr "存檔非正常終止"
 
-#: src/copyin.c:1266
+#: src/copyin.c:1184
 #, c-format
 msgid "warning: archive header has reverse byte-order"
 msgstr "警告：存檔標頭是相反的 byte-order"
 
-#: src/copyin.c:1413
+#: src/copyin.c:1331
 #, c-format
 msgid "standard input is closed"
 msgstr "標準輸入是關閉的"
 
-#: src/copyin.c:1579 src/copyout.c:894 src/copypass.c:374
+#: src/copyin.c:1497 src/copyout.c:893 src/copypass.c:335
 #, fuzzy, c-format
 msgid "%lu block\n"
 msgid_plural "%lu blocks\n"
@@ -738,32 +749,32 @@ msgstr "rdev"
 msgid "%s: truncating inode number"
 msgstr "%s：截斷 inode 數目"
 
-#: src/copyout.c:620
+#: src/copyout.c:619
 #, c-format
 msgid "standard output is closed"
 msgstr "標準輸出是關閉的"
 
-#: src/copyout.c:641 src/copypass.c:86
+#: src/copyout.c:640 src/copypass.c:86
 #, c-format
 msgid "blank line ignored"
 msgstr "忽略空白列"
 
-#: src/copyout.c:776
+#: src/copyout.c:775
 #, c-format
 msgid "%s not dumped: not a regular file"
 msgstr ""
 
-#: src/copyout.c:827
+#: src/copyout.c:826
 #, c-format
 msgid "%s: symbolic link too long"
 msgstr ""
 
-#: src/copypass.c:428
+#: src/copypass.c:389
 #, c-format
 msgid "%s linked to %s"
 msgstr ""
 
-#: src/main.c:68
+#: src/main.c:73
 msgid ""
 "GNU `cpio' copies files to and from archives\n"
 "\n"
@@ -785,40 +796,40 @@ msgstr ""
 "  # Copy files named in name-list to destination-directory\n"
 "  cpio -p destination-directory < name-list\n"
 
-#: src/main.c:82
+#: src/main.c:87
 #, c-format
 msgid "%s is meaningless with %s"
 msgstr "%s 與 %s 在一起時無意義"
 
-#: src/main.c:88
+#: src/main.c:93
 msgid "Main operation mode:"
 msgstr "主要操作模式："
 
-#: src/main.c:90
+#: src/main.c:95
 msgid "Create the archive (run in copy-out mode)"
 msgstr "建立檔案（運行在 copy-out 模式）"
 
-#: src/main.c:92
+#: src/main.c:97
 msgid "Extract files from an archive (run in copy-in mode)"
 msgstr "解壓縮檔案，從一個存檔（運行在 copy-in 模式）"
 
-#: src/main.c:94
+#: src/main.c:99
 msgid "Run in copy-pass mode"
 msgstr "運行在 copy-pass 模式"
 
-#: src/main.c:96
+#: src/main.c:101
 msgid "Print a table of contents of the input"
 msgstr "列出輸入表格的內容"
 
-#: src/main.c:102
+#: src/main.c:107
 msgid "Operation modifiers valid in any mode:"
 msgstr "應用於所有模式的選項："
 
-#: src/main.c:104 src/main.c:171 src/main.c:200
+#: src/main.c:109 src/main.c:176 src/main.c:205
 msgid "[[USER@]HOST:]FILE-NAME"
 msgstr "[[用戶@]主機:]檔名"
 
-#: src/main.c:105
+#: src/main.c:110
 msgid ""
 "Use this FILE-NAME instead of standard input or output. Optional USER and "
 "HOST specify the user and host names in case of a remote archive"
@@ -826,276 +837,228 @@ msgstr ""
 "使用檔名來替代標準輸入或輸出。Optional USER and HOST specify the user and "
 "host names in case of a remote archive"
 
-#: src/main.c:107
+#: src/main.c:112
 msgid "Archive file is local, even if its name contains colons"
 msgstr "存檔的檔案是本地的，即使其名稱中包含冒號"
 
-#: src/main.c:108 tests/genfile.c:152
+#: src/main.c:113 tests/genfile.c:154
 msgid "FORMAT"
 msgstr "格式"
 
-#: src/main.c:109
+#: src/main.c:114
 msgid "Use given archive FORMAT"
 msgstr "使用指定的存檔格式"
 
-#: src/main.c:111
+#: src/main.c:116
 msgid "Set the I/O block size to 5120 bytes"
 msgstr "設定 I/O 區塊大小為 5120 bytes"
 
-#: src/main.c:112
+#: src/main.c:117
 msgid "BLOCK-SIZE"
 msgstr "BLOCK-SIZE"
 
-#: src/main.c:113
+#: src/main.c:118
 msgid "Set the I/O block size to BLOCK-SIZE * 512 bytes"
 msgstr "設定 I/O 區塊大小為 BLOCK-SIZE * 512 bytes"
 
-#: src/main.c:115
+#: src/main.c:120
 msgid "Use the old portable (ASCII) archive format"
 msgstr "使用舊有可移植 (ASCII) 的存檔格式"
 
-#: src/main.c:117
+#: src/main.c:122
 msgid "Print a \".\" for each file processed"
 msgstr "每處理一個檔案就列印一個\".\""
 
-#: src/main.c:118 tests/genfile.c:165
-msgid "NUMBER"
-msgstr "數目"
-
-#: src/main.c:119
+#: src/main.c:124
 msgid "Set the I/O block size to the given NUMBER of bytes"
 msgstr ""
 
-#: src/main.c:120 tests/genfile.c:168
+#: src/main.c:125 tests/genfile.c:170
 msgid "STRING"
 msgstr "字符串"
 
-#: src/main.c:121
+#: src/main.c:126
 msgid "Print STRING when the end of a volume of the backup media is reached"
 msgstr ""
 
-#: src/main.c:124
+#: src/main.c:129
 msgid "Only copy files that do not match any of the given patterns"
 msgstr ""
 
-#: src/main.c:126
+#: src/main.c:131
 msgid "In the verbose table of contents listing, show numeric UID and GID"
 msgstr ""
 
-#: src/main.c:128 tests/genfile.c:162 tests/genfile.c:189
+#: src/main.c:133 src/mt.c:182 tests/genfile.c:191
 msgid "COMMAND"
 msgstr "指令"
 
-#: src/main.c:129
+#: src/main.c:134
 msgid "Use remote COMMAND instead of rsh"
 msgstr "使用遠端指令代替 rsh"
 
-#: src/main.c:131
+#: src/main.c:136
 msgid "Do not print the number of blocks copied"
 msgstr ""
 
-#: src/main.c:133
+#: src/main.c:138
 msgid "Verbosely list the files processed"
 msgstr ""
 
-#: src/main.c:136
+#: src/main.c:141
 msgid "Enable debugging info"
 msgstr "開啟除錯訊息"
 
-#: src/main.c:138
+#: src/main.c:143
 msgid "FLAG"
 msgstr "標誌"
 
-#: src/main.c:139
+#: src/main.c:144
 msgid ""
 "Control warning display. Currently FLAG is one of 'none', 'truncate', 'all'. "
 "Multiple options accumulate."
 msgstr ""
 
-#: src/main.c:145
+#: src/main.c:150
 msgid "Operation modifiers valid only in copy-in mode:"
 msgstr ""
 
-#: src/main.c:146 src/main.c:152 tests/genfile.c:131 tests/genfile.c:179
-#: tests/genfile.c:183 tests/genfile.c:186
-msgid "FILE"
-msgstr "檔案"
-
-#: src/main.c:147
+#: src/main.c:152
 msgid ""
 "Read additional patterns specifying filenames to extract or list from FILE"
 msgstr ""
 
-#: src/main.c:149
+#: src/main.c:154
 msgid ""
 "When reading a CRC format archive, only verify the CRC's of each file in the "
 "archive, don't actually extract the files"
 msgstr ""
 
-#: src/main.c:151
+#: src/main.c:156
 msgid "Interactively rename files"
 msgstr "以交互方式重新命名檔案"
 
-#: src/main.c:155
+#: src/main.c:160
 msgid ""
 "Swap both halfwords of words and bytes of halfwords in the data. Equivalent "
 "to -sS"
 msgstr ""
 
-#: src/main.c:157
+#: src/main.c:162
 msgid "Swap the bytes of each halfword in the files"
 msgstr ""
 
-#: src/main.c:159
+#: src/main.c:164
 msgid "Swap the halfwords of each word (4 bytes) in the files"
 msgstr ""
 
-#: src/main.c:162
+#: src/main.c:167
 msgid "Extract files to standard output"
 msgstr "檔案解壓縮到標準輸出"
 
-#: src/main.c:168
+#: src/main.c:173
 msgid "Operation modifiers valid only in copy-out mode:"
 msgstr ""
 
-#: src/main.c:170
+#: src/main.c:175
 msgid "Append to an existing archive."
 msgstr "附加到現有的存檔。"
 
-#: src/main.c:172
+#: src/main.c:177
 msgid ""
 "Archive filename to use instead of standard output. Optional USER and HOST "
 "specify the user and host names in case of a remote archive"
 msgstr ""
 
-#: src/main.c:178
+#: src/main.c:183
 msgid "Operation modifiers valid only in copy-pass mode:"
 msgstr ""
 
-#: src/main.c:180
+#: src/main.c:185
 msgid "Link files instead of copying them, when  possible"
 msgstr ""
 
-#: src/main.c:187
+#: src/main.c:192
 msgid "Operation modifiers valid in copy-in and copy-out modes:"
 msgstr ""
 
-#: src/main.c:189
+#: src/main.c:194
 msgid "Do not strip file system prefix components from the file names"
 msgstr ""
 
-#: src/main.c:192
+#: src/main.c:197
 msgid "Create all files relative to the current directory"
 msgstr "在當前目錄建立所有檔案相對"
 
-#: src/main.c:197
+#: src/main.c:202
 msgid "Operation modifiers valid in copy-out and copy-pass modes:"
 msgstr ""
 
-#: src/main.c:199
+#: src/main.c:204
 msgid ""
 "A list of filenames is terminated by a null character instead of a newline"
 msgstr ""
 
-#: src/main.c:201
+#: src/main.c:206
 msgid ""
 "Archive filename to use instead of standard input. Optional USER and HOST "
 "specify the user and host names in case of a remote archive"
 msgstr ""
 
-#: src/main.c:203
+#: src/main.c:208
 msgid ""
 "Dereference  symbolic  links  (copy  the files that they point to instead of "
 "copying the links)."
 msgstr ""
 
-#: src/main.c:204
+#: src/main.c:209
 msgid "[USER][:.][GROUP]"
 msgstr "[使用者][:.][群組]"
 
-#: src/main.c:205
+#: src/main.c:210
 msgid ""
 "Set the ownership of all files created to the specified USER and/or GROUP"
 msgstr ""
 
-#: src/main.c:207
+#: src/main.c:212
 msgid "Reset the access times of files after reading them"
 msgstr "重置存取時間的檔案後，讀取它"
 
-#: src/main.c:213
+#: src/main.c:218
 msgid "Operation modifiers valid in copy-in and copy-pass modes:"
 msgstr ""
 
-#: src/main.c:215
+#: src/main.c:220
 msgid "Retain previous file modification times when creating files"
 msgstr ""
 
-#: src/main.c:217
+#: src/main.c:222
 msgid "Create leading directories where needed"
 msgstr "如有需要建立引導目錄"
 
-#: src/main.c:219
+#: src/main.c:224
 msgid "Do not change the ownership of the files"
 msgstr "不改變所有權的檔案"
 
-#: src/main.c:221
+#: src/main.c:226
 msgid "Replace all files unconditionally"
 msgstr "無條件的覆蓋所有檔案"
 
-#: src/main.c:223
+#: src/main.c:228
 msgid "Write files with large blocks of zeros as sparse files"
 msgstr "把含有大區塊零的檔案以稀疏檔案方式寫出"
 
-#: src/main.c:229
-msgid "Informative options:"
-msgstr "詳細選項："
-
-#: src/main.c:231
-msgid "Give this help list"
-msgstr "給予這份幫助清單"
-
-#: src/main.c:232
-msgid "Give a short usage message"
-msgstr "給予一個簡短使用信息"
-
-#: src/main.c:233
-msgid "Print license and exit"
-msgstr "列出許可和離開"
-
-#: src/main.c:234
-msgid "Print program version"
-msgstr "列出程式版本"
-
-#: src/main.c:251
-#, c-format
-msgid ""
-"   GNU cpio is free software; you can redistribute it and/or modify\n"
-"   it under the terms of the GNU General Public License as published by\n"
-"   the Free Software Foundation; either version 3 of the License, or\n"
-"   (at your option) any later version.\n"
-"\n"
-"   GNU cpio is distributed in the hope that it will be useful,\n"
-"   but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-"   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-"   GNU General Public License for more details.\n"
-"\n"
-"   You should have received a copy of the GNU General Public License\n"
-"   along with GNU cpio; if not, write to the Free Software Foundation,\n"
-"   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA\n"
-"\n"
-msgstr ""
-
-#: src/main.c:335 src/main.c:352
+#: src/main.c:304 src/main.c:321
 #, c-format
 msgid "invalid block size"
 msgstr "無效的區塊大小"
 
-#: src/main.c:341 src/main.c:373
+#: src/main.c:310 src/main.c:342
 #, c-format
 msgid "Archive format multiply defined"
 msgstr "存檔格式多重定義"
 
-#: src/main.c:391
+#: src/main.c:360
 #, c-format
 msgid ""
 "invalid archive format `%s'; valid formats are:\n"
@@ -1104,31 +1067,31 @@ msgstr ""
 "無效的存檔格式 `%s'; 有效格式是：\n"
 "crc newc odc bin ustar tar (全大寫也承認)"
 
-#: src/main.c:398 src/main.c:448 src/main.c:462
+#: src/main.c:367 src/main.c:417 src/main.c:431
 #, c-format
 msgid "Mode already defined"
 msgstr "模式已經定義"
 
-#: src/main.c:442
+#: src/main.c:411
 #, c-format
 msgid "--no-preserve-owner cannot be used with --owner"
 msgstr "--no-preserve-owner 不能用於 --owner"
 
-#: src/main.c:485
+#: src/main.c:454
 #, c-format
 msgid "--owner cannot be used with --no-preserve-owner"
 msgstr "--owner 不能用於 --no-preserve-owner"
 
-#: src/main.c:532
+#: src/main.c:501
 #, c-format
 msgid "Invalid value for --warning option: %s"
 msgstr "--warning 無效值選項：%s"
 
-#: src/main.c:585
+#: src/main.c:531
 msgid "[destination-directory]"
 msgstr "[目的地目錄]"
 
-#: src/main.c:604 src/main.c:620
+#: src/main.c:561
 #, c-format
 msgid ""
 "You must specify one of -oipt options.\n"
@@ -1137,49 +1100,49 @@ msgstr ""
 "您必須指定 one of -oipt 選項。\n"
 "試試 `%s --help' 或 `%s --usage' 以獲取更多信息。\n"
 
-#: src/main.c:648
+#: src/main.c:589
 #, c-format
 msgid "Both -I and -F are used in copy-in mode"
 msgstr " -l 和 -F 兩者是使用 copy-in 模式"
 
-#: src/main.c:660 src/main.c:696
+#: src/main.c:601 src/main.c:637
 #, c-format
 msgid "Too many arguments"
 msgstr "太多引數"
 
-#: src/main.c:679
+#: src/main.c:620
 #, c-format
 msgid ""
 "--append is used but no archive file name is given (use -F or -O options)"
 msgstr ""
 "--append is used but no archive file name is given （使用 -F 或 -O 選項）"
 
-#: src/main.c:685
+#: src/main.c:626
 #, c-format
 msgid "Both -O and -F are used in copy-out mode"
 msgstr " -O 和 -F 兩者是使用 copy-out 模式"
 
-#: src/main.c:698
+#: src/main.c:639
 #, c-format
 msgid "Not enough arguments"
 msgstr "沒有足夠的引數"
 
-#: src/main.c:702
+#: src/main.c:643
 #, c-format
 msgid "Archive format is not specified in copy-pass mode (use --format option)"
 msgstr "存檔格式是未指定在 copy-pass 模式 （使用 --format 選項）"
 
-#: src/main.c:724
+#: src/main.c:665
 #, c-format
 msgid "-F can be used only with --create or --extract"
 msgstr "只能用於 -F 與 --create 或 --extract"
 
-#: src/main.c:727
+#: src/main.c:668
 #, c-format
 msgid "Cannot open %s"
 msgstr "不能開啟 %s"
 
-#: src/main.c:799
+#: src/main.c:740
 #, c-format
 msgid "error closing archive"
 msgstr "錯誤，關閉存檔"
@@ -1194,41 +1157,63 @@ msgstr "不能作出目錄 `%s'"
 msgid "`%s' exists but is not a directory"
 msgstr "`%s' 存在，但不是目錄"
 
+#: src/mt.c:166
+msgid "control magnetic tape drive operation"
+msgstr ""
+
+#: src/mt.c:180
+msgid "DEVICE"
+msgstr ""
+
+#: src/mt.c:181
+msgid "use device as the file name of the tape drive to operate on"
+msgstr ""
+
 #: src/mt.c:183
-#, c-format
-msgid "%s is not a character special file"
-msgstr ""
+#, fuzzy
+msgid "use remote COMMAND instead of rsh"
+msgstr "使用遠端指令代替 rsh"
 
-#: src/mt.c:196 src/mt.c:205
-#, c-format
-msgid "%s: rmtioctl failed"
-msgstr "%s: rmtioctl 失敗"
+#: src/mt.c:204
+#, fuzzy
+msgid "operation"
+msgstr "主要操作模式："
 
-#: src/mt.c:225
-#, c-format
-msgid ""
-"Usage: %s [-V] [-f device] [--file=device] [--rsh-command=command]\n"
-"\t[--help] [--version] operation [count]\n"
-msgstr ""
-"用法：%s [-V] [-f 設備] [--file=設備] [--rsh-command=命令]\n"
-"\t[--help] [--version] operation [count]\n"
+#: src/mt.c:212
+#, fuzzy, c-format
+msgid "invalid count value"
+msgstr "無效的使用者"
 
-#: src/mt.c:307
+#: src/mt.c:231
 #, c-format
 msgid "no tape device specified"
 msgstr "沒有指定磁帶設備"
 
-#: src/mt.c:320
+#: src/mt.c:254
+msgid "operation [count]"
+msgstr ""
+
+#: src/mt.c:271
+#, c-format
+msgid "%s is not a character special file"
+msgstr ""
+
+#: src/mt.c:282 src/mt.c:291
+#, c-format
+msgid "%s: rmtioctl failed"
+msgstr "%s: rmtioctl 失敗"
+
+#: src/mt.c:344
 #, c-format
 msgid "%s: rmtopen failed"
 msgstr "%s: rmtopen 失敗"
 
-#: src/mt.c:333
+#: src/mt.c:357
 #, c-format
 msgid "%s: rmtclose failed"
 msgstr "%s: rmtclose 失敗"
 
-#: src/tar.c:308
+#: src/tar.c:309
 #, c-format
 msgid "invalid header: checksum error"
 msgstr "無效的檔頭：校驗錯誤"
@@ -1312,234 +1297,300 @@ msgstr ""
 msgid "internal error: tape descriptor changed from %d to %d"
 msgstr ""
 
-#: src/util.c:1422
+#: src/util.c:1610
 #, c-format
-msgid "%s: Unexpected inconsistency when making directory"
-msgstr ""
+msgid "%s is not a directory"
+msgstr "%s 不是目錄"
 
-#: tests/genfile.c:111
+#: tests/genfile.c:112
 msgid ""
 "genfile manipulates data files for GNU paxutils test suite.\n"
 "OPTIONS are:\n"
 msgstr ""
 
-#: tests/genfile.c:126
+#: tests/genfile.c:128
 msgid "File creation options:"
 msgstr "檔案建立選項："
 
-#: tests/genfile.c:127 tests/genfile.c:138
+#: tests/genfile.c:129 tests/genfile.c:140
 msgid "SIZE"
 msgstr "大小"
 
-#: tests/genfile.c:128
+#: tests/genfile.c:130
 msgid "Create file of the given SIZE"
 msgstr "給予建立檔案的大小"
 
-#: tests/genfile.c:130
+#: tests/genfile.c:132
 msgid "Write to file NAME, instead of standard output"
 msgstr "寫入檔案名稱，而不是標準輸出"
 
-#: tests/genfile.c:132
+#: tests/genfile.c:134
 msgid "Read file names from FILE"
 msgstr "從檔案讀檔名"
 
-#: tests/genfile.c:134
+#: tests/genfile.c:136
 msgid "-T reads null-terminated names"
 msgstr ""
 
-#: tests/genfile.c:135
+#: tests/genfile.c:137
 msgid "PATTERN"
 msgstr "樣本"
 
-#: tests/genfile.c:136
+#: tests/genfile.c:138
 msgid "Fill the file with the given PATTERN. PATTERN is 'default' or 'zeros'"
 msgstr ""
 
-#: tests/genfile.c:139
+#: tests/genfile.c:141
 msgid "Size of a block for sparse file"
 msgstr ""
 
-#: tests/genfile.c:141
+#: tests/genfile.c:143
 msgid "Generate sparse file. Rest of the command line gives the file map."
 msgstr ""
 
-#: tests/genfile.c:143
+#: tests/genfile.c:145
 msgid "OFFSET"
 msgstr ""
 
-#: tests/genfile.c:144
+#: tests/genfile.c:146
 msgid "Seek to the given offset before writing data"
 msgstr ""
 
-#: tests/genfile.c:150
+#: tests/genfile.c:152
 msgid "File statistics options:"
 msgstr "檔案統計選項："
 
-#: tests/genfile.c:153
+#: tests/genfile.c:155
 msgid "Print contents of struct stat for each given file. Default FORMAT is: "
 msgstr ""
 
-#: tests/genfile.c:160
+#: tests/genfile.c:162
 msgid "Synchronous execution options:"
 msgstr "同步執行選項："
 
-#: tests/genfile.c:163
+#: tests/genfile.c:164
+#, fuzzy
+msgid "OPTION"
+msgstr "[選項...]"
+
+#: tests/genfile.c:165
 msgid ""
-"Execute given COMMAND. Useful with --checkpoint and one of --cut, --append, "
-"--touch"
+"Execute ARGS. Useful with --checkpoint and one of --cut, --append, --touch, "
+"--unlink"
 msgstr ""
 
-#: tests/genfile.c:166
+#: tests/genfile.c:168
 msgid "Perform given action (see below) upon reaching checkpoint NUMBER"
 msgstr ""
 
-#: tests/genfile.c:169
+#: tests/genfile.c:171
 msgid "Set date for next --touch option"
 msgstr ""
 
-#: tests/genfile.c:172
+#: tests/genfile.c:174
 msgid "Display executed checkpoints and exit status of COMMAND"
 msgstr "顯示執行的檢查站和退出狀態的命令"
 
-#: tests/genfile.c:177
+#: tests/genfile.c:179
 msgid ""
 "Synchronous execution actions. These are executed when checkpoint number "
 "given by --checkpoint option is reached."
 msgstr ""
 
-#: tests/genfile.c:180
+#: tests/genfile.c:182
 msgid ""
 "Truncate FILE to the size specified by previous --length option (or 0, if it "
 "is not given)"
 msgstr ""
 
-#: tests/genfile.c:184
+#: tests/genfile.c:186
 msgid "Append SIZE bytes to FILE. SIZE is given by previous --length option."
 msgstr ""
 
-#: tests/genfile.c:187
+#: tests/genfile.c:189
 msgid "Update the access and modification times of FILE"
 msgstr "檔案更新存取和修改的時間"
 
-#: tests/genfile.c:190
+#: tests/genfile.c:192
 msgid "Execute COMMAND"
 msgstr "執行命令"
 
-#: tests/genfile.c:240
+#: tests/genfile.c:195
+msgid "Unlink FILE"
+msgstr ""
+
+#: tests/genfile.c:245
 #, c-format
 msgid "Invalid size: %s"
 msgstr "無效大小：%s"
 
-#: tests/genfile.c:245
+#: tests/genfile.c:250
 #, c-format
 msgid "Number out of allowed range: %s"
 msgstr "數字列允許的範圍：%s"
 
-#: tests/genfile.c:248
+#: tests/genfile.c:253
 #, c-format
 msgid "Negative size: %s"
 msgstr "拒絕的大小：%s"
 
-#: tests/genfile.c:261 tests/genfile.c:558
+#: tests/genfile.c:266 tests/genfile.c:568
 #, c-format
 msgid "stat(%s) failed"
 msgstr "開始(%s)失敗"
 
-#: tests/genfile.c:264
+#: tests/genfile.c:269
 #, c-format
 msgid "requested file length %lu, actual %lu"
 msgstr ""
 
-#: tests/genfile.c:268
+#: tests/genfile.c:273
 #, c-format
 msgid "created file is not sparse"
 msgstr ""
 
-#: tests/genfile.c:353
+#: tests/genfile.c:362
 #, c-format
 msgid "Error parsing number near `%s'"
 msgstr ""
 
-#: tests/genfile.c:359
+#: tests/genfile.c:368
 #, c-format
 msgid "Unknown date format"
 msgstr "未知的日期格式"
 
-#: tests/genfile.c:382
+#: tests/genfile.c:392
 msgid "[ARGS...]"
 msgstr ""
 
-#: tests/genfile.c:419 tests/genfile.c:459 tests/genfile.c:512
-#: tests/genfile.c:662 tests/genfile.c:676
+#: tests/genfile.c:429 tests/genfile.c:469 tests/genfile.c:522
+#: tests/genfile.c:672 tests/genfile.c:686
 #, c-format
 msgid "cannot open `%s'"
 msgstr ""
 
-#: tests/genfile.c:425
+#: tests/genfile.c:435
 msgid "cannot seek"
 msgstr ""
 
-#: tests/genfile.c:442
+#: tests/genfile.c:452
 #, c-format
 msgid "file name contains null character"
 msgstr "檔名中包含空的字符"
 
-#: tests/genfile.c:507
+#: tests/genfile.c:517
 #, c-format
 msgid "cannot generate sparse files on standard output, use --file option"
 msgstr ""
 
-#: tests/genfile.c:585
+#: tests/genfile.c:595
 #, c-format
 msgid "incorrect mask (near `%s')"
 msgstr ""
 
-#: tests/genfile.c:591 tests/genfile.c:624
+#: tests/genfile.c:601 tests/genfile.c:634
 #, c-format
 msgid "Unknown field `%s'"
 msgstr "未知領域 `%s'"
 
-#: tests/genfile.c:651
+#: tests/genfile.c:661
 #, c-format
 msgid "cannot set time on `%s'"
 msgstr "不能設定時間在 `%s'"
 
-#: tests/genfile.c:805
+#: tests/genfile.c:700
+#, fuzzy, c-format
+msgid "cannot unlink `%s'"
+msgstr "無法將 %s 連接到 %s"
+
+#: tests/genfile.c:826
 #, c-format
 msgid "Command exited successfully\n"
 msgstr "命令退出成功\n"
 
-#: tests/genfile.c:807
+#: tests/genfile.c:828
 #, c-format
 msgid "Command failed with status %d\n"
 msgstr "命令失敗與狀態 %d\n"
 
-#: tests/genfile.c:811
+#: tests/genfile.c:832
 #, c-format
 msgid "Command terminated on signal %d\n"
 msgstr "命令終止的信號 %d\n"
 
-#: tests/genfile.c:813
+#: tests/genfile.c:834
 #, c-format
 msgid "Command stopped on signal %d\n"
 msgstr "命令停止在信號 %d\n"
 
-#: tests/genfile.c:816
+#: tests/genfile.c:837
 #, c-format
 msgid "Command dumped core\n"
 msgstr ""
 
-#: tests/genfile.c:819
+#: tests/genfile.c:840
 #, c-format
 msgid "Command terminated\n"
 msgstr "命令終止\n"
 
-#: tests/genfile.c:851
+#: tests/genfile.c:872
 #, c-format
 msgid "--stat requires file names"
 msgstr "--stat 需要檔案名稱"
 
-#: tests/genfile.c:864
-#, c-format
-msgid "too many arguments"
-msgstr "太多引數"
+#~ msgid "%s: illegal option -- %c\n"
+#~ msgstr "%s：非法的選項 -- %c\n"
+
+#~ msgid "Input string too long"
+#~ msgstr "輸入字符串太長"
+
+#~ msgid "Number syntax error"
+#~ msgstr "有多少語法錯誤"
+
+#~ msgid "rmtd: Cannot allocate buffer space\n"
+#~ msgstr "rmtd: 無法分配緩衝區空間\n"
+
+#~ msgid "Cannot allocate buffer space"
+#~ msgstr "無法分配緩衝區空間"
+
+#~ msgid ""
+#~ "Usage: %s [OPTION]\n"
+#~ "Manipulate a tape drive, accepting commands from a remote process.\n"
+#~ "\n"
+#~ "  --version  Output version info.\n"
+#~ "  --help     Output this help.\n"
+#~ msgstr ""
+#~ "用法： %s [選項]\n"
+#~ "接受一個從遠端進程的命令，操作一個磁帶機。\n"
+#~ "\n"
+#~ "  --version  輸出版本資訊。\n"
+#~ "  --help     輸出這份幫助。\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Report bugs to <%s>.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "報告臭蟲到 <%s>。\n"
+
+#~ msgid "Informative options:"
+#~ msgstr "詳細選項："
+
+#~ msgid "Give this help list"
+#~ msgstr "給予這份幫助清單"
+
+#~ msgid "Give a short usage message"
+#~ msgstr "給予一個簡短使用信息"
+
+#~ msgid "Print license and exit"
+#~ msgstr "列出許可和離開"
+
+#~ msgid "Print program version"
+#~ msgstr "列出程式版本"
+
+#~ msgid ""
+#~ "Usage: %s [-V] [-f device] [--file=device] [--rsh-command=command]\n"
+#~ "\t[--help] [--version] operation [count]\n"
+#~ msgstr ""
+#~ "用法：%s [-V] [-f 設備] [--file=設備] [--rsh-command=命令]\n"
+#~ "\t[--help] [--version] operation [count]\n"

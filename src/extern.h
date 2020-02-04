@@ -1,6 +1,6 @@
 /* extern.h - External declarations for cpio.  Requires system.h.
-   Copyright (C) 1990, 1991, 1992, 2001, 2006, 
-   2007 Free Software Foundation, Inc.
+   Copyright (C) 1990, 1991, 1992, 2001, 2006, 2007, 2009, 2010 Free
+   Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ extern char *new_media_message_after_number;
 extern int archive_des;
 extern char *archive_name;
 extern char *rsh_command_option;
-extern unsigned int crc;
+extern unsigned long crc;
 extern int delayed_seek_count;
 #ifdef DEBUG_CPIO
 extern int debug_flag;
@@ -95,7 +95,6 @@ extern char input_is_special;
 extern char output_is_special;
 extern char input_is_seekable;
 extern char output_is_seekable;
-extern char *program_name;
 extern int (*xstat) ();
 extern void (*copy_function) ();
 
@@ -120,7 +119,7 @@ void process_copy_out (void);
 /* copypass.c */
 void process_copy_pass (void);
 int link_to_maj_min_ino (char *file_name, int st_dev_maj, 
-			 int st_dev_min, int st_ino);
+			 int st_dev_min, ino_t st_ino);
 int link_to_name (char *link_name, char *link_target);
 
 /* dirname.c */
@@ -170,9 +169,9 @@ void warn_if_file_changed (char *file_name, off_t old_file_size,
                            time_t old_file_mtime);
 void create_all_directories (char *name);
 void prepare_append (int out_file_des);
-char *find_inode_file (unsigned long node_num,
+char *find_inode_file (ino_t node_num,
 		       unsigned long major_num, unsigned long minor_num);
-void add_inode (unsigned long node_num, char *file_name,
+void add_inode (ino_t node_num, char *file_name,
 	        unsigned long major_num, unsigned long minor_num);
 int open_archive (char *file);
 void tape_offline (int tape_des);
@@ -197,8 +196,10 @@ void set_perms (int fd, struct cpio_file_stat *header);
 void set_file_times (int fd, const char *name, unsigned long atime,
 		     unsigned long mtime);
 void stat_to_cpio (struct cpio_file_stat *hdr, struct stat *st);
+void cpio_to_stat (struct stat *st, struct cpio_file_stat *hdr);
 void cpio_safer_name_suffix (char *name, bool link_target,
 			     bool absolute_names, bool strip_leading_dots);
+int cpio_create_dir (struct cpio_file_stat *file_hdr, int existing_dir);
 
 /* FIXME: These two defines should be defined in paxutils */
 #define LG_8  3
@@ -208,10 +209,11 @@ uintmax_t from_ascii (char const *where, size_t digs, unsigned logbase);
 
 #define FROM_OCTAL(f) from_ascii (f, sizeof f, LG_8)
 #define FROM_HEX(f) from_ascii (f, sizeof f, LG_16)
-	    
+
+void delay_cpio_set_stat (struct cpio_file_stat *file_stat,
+			  mode_t invert_permissions);
 void delay_set_stat (char const *file_name, struct stat *st,
 		     mode_t invert_permissions);
-void repair_delayed_set_stat (char const *dir,
-			      struct stat *dir_stat_info);
+int repair_delayed_set_stat (struct cpio_file_stat *file_hdr);
 void apply_delayed_set_stat (void);
      

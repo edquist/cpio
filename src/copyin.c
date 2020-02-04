@@ -1,6 +1,6 @@
 /* copyin.c - extract or list a cpio archive
-   Copyright (C) 1990,1991,1992,2001,2002,2003,2004,
-   2005, 2006, 2007 Free Software Foundation, Inc.
+   Copyright (C) 1990, 1991, 1992, 2001, 2002, 2003, 2004, 2005, 2006,
+   2007, 2009, 2010 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -258,7 +258,7 @@ create_defered_links (struct cpio_file_stat *file_hdr)
 {
   struct deferment *d;
   struct deferment *d_prev;
-  int	ino;
+  ino_t	ino;
   int 	maj;
   int   min;
   int 	link_res;
@@ -306,7 +306,7 @@ create_defered_links_to_skipped (struct cpio_file_stat *file_hdr,
 {
   struct deferment *d;
   struct deferment *d_prev;
-  int	ino;
+  ino_t	ino;
   int 	maj;
   int   min;
   if (file_hdr->c_filesize == 0)
@@ -567,88 +567,6 @@ copyin_regular_file (struct cpio_file_stat* file_hdr, int in_file_des)
 }
 
 static void
-copyin_directory (struct cpio_file_stat *file_hdr, int existing_dir)
-{
-  int res;			/* Result of various function calls.  */
-#ifdef HPUX_CDF
-  int cdf_flag;                 /* True if file is a CDF.  */
-  int cdf_char;                 /* Index of `+' char indicating a CDF.  */
-#endif
-
-  if (to_stdout_option)
-    return;
-  
-  /* Strip any trailing `/'s off the filename; tar puts
-     them on.  We might as well do it here in case anybody
-     else does too, since they cause strange things to happen.  */
-  strip_trailing_slashes (file_hdr->c_name);
-
-  /* Ignore the current directory.  It must already exist,
-     and we don't want to change its permission, ownership
-     or time.  */
-  if (file_hdr->c_name[0] == '.' && file_hdr->c_name[1] == '\0')
-    {
-      return;
-    }
-
-#ifdef HPUX_CDF
-  cdf_flag = 0;
-#endif
-  if (!existing_dir)
-
-    {
-#ifdef HPUX_CDF
-      /* If the directory name ends in a + and is SUID,
-	 then it is a CDF.  Strip the trailing + from
-	 the name before creating it.  */
-      cdf_char = strlen (file_hdr->c_name) - 1;
-      if ( (cdf_char > 0) &&
-	   (file_hdr->c_mode & 04000) && 
-	   (file_hdr->c_name [cdf_char] == '+') )
-	{
-	  file_hdr->c_name [cdf_char] = '\0';
-	  cdf_flag = 1;
-	}
-#endif
-      res = mkdir (file_hdr->c_name, file_hdr->c_mode);
-    }
-  else
-    res = 0;
-  if (res < 0 && create_dir_flag)
-    {
-      create_all_directories (file_hdr->c_name);
-      res = mkdir (file_hdr->c_name, file_hdr->c_mode);
-    }
-  if (res < 0)
-    {
-      /* In some odd cases where the file_hdr->c_name includes `.',
-	 the directory may have actually been created by
-	 create_all_directories(), so the mkdir will fail
-	 because the directory exists.  If that's the case,
-	 don't complain about it.  */
-      struct stat file_stat;
-      if (errno != EEXIST)
-	{
-	  mkdir_error (file_hdr->c_name);
-	  return;
-	}
-      if (lstat (file_hdr->c_name, &file_stat))
-	{
-	  stat_error (file_hdr->c_name);
-	  return;
-	}
-      if (!(S_ISDIR (file_stat.st_mode)))
-	{
-	  error (0, 0, _("%s is not a directory"),
-		 quotearg_colon (file_hdr->c_name));
-	  return;
-	}
-    }
-
-  set_perms (-1, file_hdr); 
-}
-
-static void
 copyin_device (struct cpio_file_stat* file_hdr)
 {
   int res;			/* Result of various function calls.  */
@@ -769,7 +687,7 @@ copyin_link(struct cpio_file_stat *file_hdr, int in_file_des)
 }
 
 static void
-copyin_file (struct cpio_file_stat* file_hdr, int in_file_des)
+copyin_file (struct cpio_file_stat *file_hdr, int in_file_des)
 {
   int existing_dir;
 
@@ -785,7 +703,7 @@ copyin_file (struct cpio_file_stat* file_hdr, int in_file_des)
       break;
 
     case CP_IFDIR:
-      copyin_directory (file_hdr, existing_dir);
+      cpio_create_dir (file_hdr, existing_dir);
       break;
 
     case CP_IFCHR:
@@ -843,7 +761,7 @@ long_format (struct cpio_file_stat *file_hdr, char *link_name)
     }
   tbuf[16] = '\0';
 
-  printf ("%s %3lu ", mbuf, file_hdr->c_nlink);
+  printf ("%s %3lu ", mbuf, (unsigned long) file_hdr->c_nlink);
 
   if (numeric_uid)
     printf ("%-8u %-8u ", (unsigned int) file_hdr->c_uid,
@@ -1434,8 +1352,8 @@ process_copy_in ()
 	  struct cpio_file_stat *h;
 	  h = &file_hdr;
 	  fprintf (stderr, 
-		"magic = 0%o, ino = %d, mode = 0%o, uid = %d, gid = %d\n",
-		h->c_magic, h->c_ino, h->c_mode, h->c_uid, h->c_gid);
+		"magic = 0%o, ino = %ld, mode = 0%o, uid = %d, gid = %d\n",
+		h->c_magic, (long)h->c_ino, h->c_mode, h->c_uid, h->c_gid);
 	  fprintf (stderr, 
 		"nlink = %d, mtime = %d, filesize = %d, dev_maj = 0x%x\n",
 		h->c_nlink, h->c_mtime, h->c_filesize, h->c_dev_maj);

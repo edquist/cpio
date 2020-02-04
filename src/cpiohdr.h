@@ -1,5 +1,5 @@
 /* Extended cpio header from POSIX.1.
-   Copyright (C) 1992, 2006, 2007 Free Software Foundation, Inc.
+   Copyright (C) 1992, 2006, 2007, 2010 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -37,13 +37,13 @@
 struct old_cpio_header
 {
   unsigned short c_magic;
-  short c_dev;
+  unsigned short c_dev;
   unsigned short c_ino;
   unsigned short c_mode;
   unsigned short c_uid;
   unsigned short c_gid;
   unsigned short c_nlink;
-  short c_rdev;
+  unsigned short c_rdev;
   unsigned short c_mtimes[2];
   unsigned short c_namesize;
   unsigned short c_filesizes[2];

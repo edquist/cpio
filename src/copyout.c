@@ -1,6 +1,6 @@
 /* copyout.c - create a cpio archive
-   Copyright (C) 1990, 1991, 1992, 2001, 2003, 2004,
-   2006, 2007 Free Software Foundation, Inc.
+   Copyright (C) 1990, 1991, 1992, 2001, 2003, 2004, 2006, 2007, 2009,
+   2010 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,10 +33,10 @@
 /* Read FILE_SIZE bytes of FILE_NAME from IN_FILE_DES and
    compute and return a checksum for them.  */
 
-static unsigned int
+static unsigned long
 read_for_checksum (int in_file_des, int file_size, char *file_name)
 {
-  unsigned int crc;
+  unsigned long crc;
   char buf[BUFSIZ];
   int bytes_left;
   int bytes_read;
@@ -110,7 +110,7 @@ static int
 count_defered_links_to_dev_ino (struct cpio_file_stat *file_hdr)
 {
   struct deferment *d;
-  int	ino;
+  ino_t	ino;
   int 	maj;
   int   min;
   int 	count;
@@ -167,7 +167,7 @@ writeout_other_defers (struct cpio_file_stat *file_hdr, int out_des)
 {
   struct deferment *d;
   struct deferment *d_prev;
-  int	ino;
+  ino_t	ino;
   int 	maj;
   int   min;
   ino = file_hdr->c_ino;
@@ -595,7 +595,6 @@ assign_string (char **pvar, char *value)
 void
 process_copy_out ()
 {
-  int res;			/* Result of functions.  */
   dynamic_string input_name;	/* Name of file read from stdin.  */
   struct stat file_stat;	/* Stat record for file.  */
   struct cpio_file_stat file_hdr; /* Output header information.  */

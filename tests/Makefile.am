@@ -1,6 +1,7 @@
 # Makefile for GNU cpio regression tests.
 
-# Copyright (C) 2004, 2007, 2008, 2009 Free Software Foundation, Inc.
+# Copyright (C) 2004, 2007, 2008, 2009, 2010 Free Software Foundation,
+# Inc.
 
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -45,6 +46,11 @@ TESTSUITE_AT = \
  testsuite.at\
  inout.at\
  interdir.at\
+ setstat01.at\
+ setstat02.at\
+ setstat03.at\
+ setstat04.at\
+ setstat05.at\
  symlink.at\
  version.at
 

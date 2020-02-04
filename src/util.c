@@ -1,6 +1,6 @@
 /* util.c - Several utility routines for cpio.
-   Copyright (C) 1990, 1991, 1992, 2001, 2004,
-   2006, 2007 Free Software Foundation, Inc.
+   Copyright (C) 1990, 1991, 1992, 2001, 2004, 2006, 2007, 2010 Free
+   Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -686,7 +686,7 @@ prepare_append (int out_file_des)
 
 struct inode_val
 {
-  unsigned long inode;
+  ino_t inode;
   unsigned long major_num;
   unsigned long minor_num;
   char *file_name;
@@ -713,7 +713,7 @@ inode_val_compare (const void *val1, const void *val2)
 }
 
 char *
-find_inode_file (unsigned long node_num, unsigned long major_num,
+find_inode_file (ino_t node_num, unsigned long major_num,
 		 unsigned long minor_num)
 {
   struct inode_val sample;
@@ -732,7 +732,7 @@ find_inode_file (unsigned long node_num, unsigned long major_num,
 /* Associate FILE_NAME with the inode NODE_NUM.  (Insert into hash table.)  */
 
 void
-add_inode (unsigned long node_num, char *file_name, unsigned long major_num,
+add_inode (ino_t node_num, char *file_name, unsigned long major_num,
 	   unsigned long minor_num)
 {
   struct inode_val *temp;
@@ -1256,15 +1256,58 @@ stat_to_cpio (struct cpio_file_stat *hdr, struct stat *st)
   else if (S_ISNWK (st->st_mode))
     hdr->c_mode |= CP_IFNWK;
 #endif
+  hdr->c_nlink = st->st_nlink;
   hdr->c_uid = CPIO_UID (st->st_uid);
   hdr->c_gid = CPIO_GID (st->st_gid);
-  hdr->c_nlink = st->st_nlink;
   hdr->c_rdev_maj = major (st->st_rdev);
   hdr->c_rdev_min = minor (st->st_rdev);
   hdr->c_mtime = st->st_mtime;
   hdr->c_filesize = st->st_size;
   hdr->c_chksum = 0;
   hdr->c_tar_linkname = NULL;
+}
+
+void
+cpio_to_stat (struct stat *st, struct cpio_file_stat *hdr)
+{
+  memset (st, 0, sizeof (*st));
+  st->st_dev = makedev (hdr->c_dev_maj, hdr->c_dev_min);
+  st->st_ino = hdr->c_ino;
+  st->st_mode = hdr->c_mode & 0777;
+  if (hdr->c_mode & CP_IFREG)
+    st->st_mode |= S_IFREG;
+  else if (hdr->c_mode & CP_IFDIR)
+    st->st_mode |= S_IFDIR;
+#ifdef S_IFBLK
+  else if (hdr->c_mode & CP_IFBLK)
+    st->st_mode |= S_IFBLK;
+#endif
+#ifdef S_IFCHR
+  else if (hdr->c_mode & CP_IFCHR)
+    st->st_mode |= S_IFCHR;
+#endif
+#ifdef S_IFFIFO
+  else if (hdr->c_mode & CP_IFIFO)
+    st->st_mode |= S_IFIFO;
+#endif
+#ifdef S_IFLNK
+  else if (hdr->c_mode & CP_IFLNK)
+    st->st_mode |= S_IFLNK;
+#endif
+#ifdef S_IFSOCK
+  else if (hdr->c_mode & CP_IFSOCK)
+    st->st_mode |= S_IFSOCK;
+#endif
+#ifdef S_IFNWK
+  else if (hdr->c_mode & CP_IFNWK)
+    st->st_mode |= S_IFNWK;
+#endif
+  st->st_nlink = hdr->c_nlink;
+  st->st_uid = CPIO_UID (hdr->c_uid);
+  st->st_gid = CPIO_GID (hdr->c_gid);
+  st->st_rdev = makedev (hdr->c_rdev_maj, hdr->c_rdev_min);
+  st->st_mtime = hdr->c_mtime;
+  st->st_size = hdr->c_filesize;
 }
 
 #ifndef HAVE_FCHOWN
@@ -1289,7 +1332,7 @@ fchmod_or_chmod (int fd, const char *name, mode_t mode)
   if (HAVE_FCHMOD && fd != -1)
     return fchmod (fd, mode);
   else
-    return chmod(name, mode);
+    return chmod (name, mode);
 }
 
 void
@@ -1375,28 +1418,37 @@ struct delayed_set_stat
 static struct delayed_set_stat *delayed_set_stat_head;
 
 void
-delay_set_stat (char const *file_name, struct stat *st,
-		mode_t invert_permissions)
+delay_cpio_set_stat (struct cpio_file_stat *file_stat,
+		     mode_t invert_permissions)
 {
-  size_t file_name_len = strlen (file_name);
+  size_t file_name_len = strlen (file_stat->c_name);
   struct delayed_set_stat *data =
     xmalloc (sizeof (struct delayed_set_stat) + file_name_len + 1);
   data->next = delayed_set_stat_head;
-  memset (&data->stat, 0, sizeof data->stat);
-  stat_to_cpio (&data->stat, st);
+  memcpy (&data->stat, file_stat, sizeof data->stat);
   data->stat.c_name = (char*) (data + 1);
-  strcpy (data->stat.c_name, file_name);
+  strcpy (data->stat.c_name, file_stat->c_name);
   data->invert_permissions = invert_permissions;
   delayed_set_stat_head = data;
+}
+
+void
+delay_set_stat (char const *file_name, struct stat *st,
+		mode_t invert_permissions)
+{
+  struct cpio_file_stat fs;
+
+  stat_to_cpio (&fs, st);
+  fs.c_name = (char*) file_name;
+  delay_cpio_set_stat (&fs, invert_permissions);
 }
 
 /* Update the delayed_set_stat info for an intermediate directory
    created within the file name of DIR.  The intermediate directory turned
    out to be the same as this directory, e.g. due to ".." or symbolic
    links.  *DIR_STAT_INFO is the status of the directory.  */
-void
-repair_delayed_set_stat (char const *dir,
-			 struct stat *dir_stat_info)
+int
+repair_inter_delayed_set_stat (struct stat *dir_stat_info)
 {
   struct delayed_set_stat *data;
   for (data = delayed_set_stat_head; data; data = data->next)
@@ -1405,7 +1457,7 @@ repair_delayed_set_stat (char const *dir,
       if (stat (data->stat.c_name, &st) != 0)
 	{
 	  stat_error (data->stat.c_name);
-	  return;
+	  return -1;
 	}
 
       if (st.st_dev == dir_stat_info->st_dev
@@ -1415,12 +1467,31 @@ repair_delayed_set_stat (char const *dir,
 	  data->invert_permissions =
 	    ((dir_stat_info->st_mode ^ st.st_mode)
 	     & MODE_RWX & ~ newdir_umask);
-	  return;
+	  return 0;
 	}
     }
+  return 1;
+}
 
-  ERROR ((0, 0, _("%s: Unexpected inconsistency when making directory"),
-	  quotearg_colon (dir)));
+/* Update the delayed_set_stat info for a directory matching
+   FILE_HDR.
+
+   Return 0 if such info was found, 1 otherwise. */
+int
+repair_delayed_set_stat (struct cpio_file_stat *file_hdr)
+{
+  struct delayed_set_stat *data;
+  for (data = delayed_set_stat_head; data; data = data->next)
+    {
+      if (strcmp (file_hdr->c_name, data->stat.c_name) == 0)
+	{
+	  data->invert_permissions = 0;
+	  memcpy (&data->stat, file_hdr,
+		  offsetof (struct cpio_file_stat, c_name));
+	  return 0;
+	}
+    }
+  return 1;
 }
 
 void
@@ -1439,4 +1510,111 @@ apply_delayed_set_stat ()
     }
 }
 
+
+static int
+cpio_mkdir (struct cpio_file_stat *file_hdr, int *setstat_delayed)
+{
+  int rc;
+  mode_t mode = file_hdr->c_mode;
+  
+  if (!(file_hdr->c_mode & S_IWUSR))
+    {
+      rc = mkdir (file_hdr->c_name, mode | S_IWUSR);
+      if (rc == 0)
+	{
+	  delay_cpio_set_stat (file_hdr, 0);
+	  *setstat_delayed = 1;
+	}
+    }
+  else
+    {
+      rc = mkdir (file_hdr->c_name, mode);
+      *setstat_delayed = 0;
+    }
+  return rc;
+}
+
+int
+cpio_create_dir (struct cpio_file_stat *file_hdr, int existing_dir)
+{
+  int res;			/* Result of various function calls.  */
+#ifdef HPUX_CDF
+  int cdf_flag;                 /* True if file is a CDF.  */
+  int cdf_char;                 /* Index of `+' char indicating a CDF.  */
+#endif
+  int setstat_delayed = 0;
+  
+  if (to_stdout_option)
+    return 0;
+  
+  /* Strip any trailing `/'s off the filename; tar puts
+     them on.  We might as well do it here in case anybody
+     else does too, since they cause strange things to happen.  */
+  strip_trailing_slashes (file_hdr->c_name);
+
+  /* Ignore the current directory.  It must already exist,
+     and we don't want to change its permission, ownership
+     or time.  */
+  if (file_hdr->c_name[0] == '.' && file_hdr->c_name[1] == '\0')
+    {
+      return 0;
+    }
+
+#ifdef HPUX_CDF
+  cdf_flag = 0;
+#endif
+  if (!existing_dir)
+    {
+#ifdef HPUX_CDF
+      /* If the directory name ends in a + and is SUID,
+	 then it is a CDF.  Strip the trailing + from
+	 the name before creating it.  */
+      cdf_char = strlen (file_hdr->c_name) - 1;
+      if ( (cdf_char > 0) &&
+	   (file_hdr->c_mode & 04000) && 
+	   (file_hdr->c_name [cdf_char] == '+') )
+	{
+	  file_hdr->c_name [cdf_char] = '\0';
+	  cdf_flag = 1;
+	}
+#endif
+      res = cpio_mkdir (file_hdr, &setstat_delayed);
+    }
+  else
+    res = 0;
+  if (res < 0 && create_dir_flag)
+    {
+      create_all_directories (file_hdr->c_name);
+      res = cpio_mkdir (file_hdr, &setstat_delayed);
+    }
+  if (res < 0)
+    {
+      /* In some odd cases where the file_hdr->c_name includes `.',
+	 the directory may have actually been created by
+	 create_all_directories(), so the mkdir will fail
+	 because the directory exists.  If that's the case,
+	 don't complain about it.  */
+      struct stat file_stat;
+      if (errno != EEXIST)
+	{
+	  mkdir_error (file_hdr->c_name);
+	  return -1;
+	}
+      if (lstat (file_hdr->c_name, &file_stat))
+	{
+	  stat_error (file_hdr->c_name);
+	  return -1;
+	}
+      if (!(S_ISDIR (file_stat.st_mode)))
+	{
+	  error (0, 0, _("%s is not a directory"),
+		 quotearg_colon (file_hdr->c_name));
+	  return -1;
+	}
+    }
+
+  if (!setstat_delayed && repair_delayed_set_stat (file_hdr))
+    set_perms (-1, file_hdr);
+  return 0;
+}
 

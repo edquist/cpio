@@ -2,8 +2,8 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* savedir.c -- save the list of files in a directory in a string
 
-   Copyright (C) 1990, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005,
-   2006 Free Software Foundation, Inc.
+   Copyright (C) 1990, 1997-2001, 2003-2006, 2009-2010 Free Software
+   Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,26 +28,20 @@
 
 #include <errno.h>
 
-#include <dirent.h>
+#include "dirent--.h"
 #ifndef _D_EXACT_NAMLEN
-# define _D_EXACT_NAMLEN(dp)	strlen ((dp)->d_name)
+# define _D_EXACT_NAMLEN(dp)    strlen ((dp)->d_name)
 #endif
 
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "openat.h"
 #include "xalloc.h"
 
 #ifndef NAME_SIZE_DEFAULT
 # define NAME_SIZE_DEFAULT 512
 #endif
-
-/* The results of opendir() in this file are not used with dirfd and fchdir,
-   therefore save some unnecessary work in fchdir.c.  */
-#undef opendir
-#undef closedir
 
 /* Return a freshly allocated string containing the file names
    in directory DIRP, separated by '\0' characters;
@@ -76,31 +70,31 @@ savedirstream (DIR *dirp)
       errno = 0;
       dp = readdir (dirp);
       if (! dp)
-	break;
+        break;
 
       /* Skip "", ".", and "..".  "" is returned by at least one buggy
          implementation: Solaris 2.4 readdir on NFS file systems.  */
       entry = dp->d_name;
       if (entry[entry[0] != '.' ? 0 : entry[1] != '.' ? 1 : 2] != '\0')
-	{
-	  size_t entry_size = _D_EXACT_NAMLEN (dp) + 1;
-	  if (used + entry_size < used)
-	    xalloc_die ();
-	  if (allocated <= used + entry_size)
-	    {
-	      do
-		{
-		  if (2 * allocated < allocated)
-		    xalloc_die ();
-		  allocated *= 2;
-		}
-	      while (allocated <= used + entry_size);
+        {
+          size_t entry_size = _D_EXACT_NAMLEN (dp) + 1;
+          if (used + entry_size < used)
+            xalloc_die ();
+          if (allocated <= used + entry_size)
+            {
+              do
+                {
+                  if (2 * allocated < allocated)
+                    xalloc_die ();
+                  allocated *= 2;
+                }
+              while (allocated <= used + entry_size);
 
-	      name_space = xrealloc (name_space, allocated);
-	    }
-	  memcpy (name_space + used, entry, entry_size);
-	  used += entry_size;
-	}
+              name_space = xrealloc (name_space, allocated);
+            }
+          memcpy (name_space + used, entry, entry_size);
+          used += entry_size;
+        }
     }
   name_space[used] = '\0';
   save_errno = errno;

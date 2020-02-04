@@ -621,7 +621,7 @@ at_change_dir=false
 # List of the tested programs.
 at_tested='cpio'
 # List of the all the test groups.
-at_groups_all=' 1 2 3 4'
+at_groups_all=' 1 2 3 4 5 6 7 8 9'
 # As many question marks as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -631,6 +631,11 @@ at_help_all="1;version.at:19;cpio version;;
 2;inout.at:19;basic functionality: copyin/copyout;copyin copyout;
 3;symlink.at:22;symlink;symlink copyout;
 4;interdir.at:24;interdir;interdir copyin copypass;
+5;setstat01.at:17;delayed setstat;setstat setstat01;
+6;setstat02.at:17;delayed setstat (with -depth);setstat debian=458079 setstat02;
+7;setstat03.at:17;delayed setstat (copy-pass);setstat debian=458079 setstat03;
+8;setstat04.at:17;delayed setstat (umask);setstat debian=458079 setstat04;
+9;setstat05.at:17;delayed setstat (umask, copy-pass);setstat debian=458079 setstat05;
 "
 
 # at_func_validate_ranges [NAME...]
@@ -642,7 +647,7 @@ at_func_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 4; then
+    if test $at_value -lt 1 || test $at_value -gt 9; then
       $as_echo "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -879,7 +884,7 @@ fi
 # List of tests.
 if $at_list_p; then
   cat <<_ATEOF || at_write_fail=1
-GNU cpio 2.10 test suite test groups:
+GNU cpio 2.11 test suite test groups:
 
  NUM: FILE-NAME:LINE     TEST-GROUP-NAME
       KEYWORDS
@@ -908,7 +913,7 @@ _ATEOF
   exit $at_write_fail
 fi
 if $at_version_p; then
-  $as_echo "$as_me (GNU cpio 2.10)" &&
+  $as_echo "$as_me (GNU cpio 2.11)" &&
   cat <<\_ACEOF || at_write_fail=1
 
 Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008
@@ -1091,13 +1096,13 @@ exec 5>>"$at_suite_log"
 # Banners and logs.
 cat <<\_ASBOX
 ## ------------------------- ##
-## GNU cpio 2.10 test suite. ##
+## GNU cpio 2.11 test suite. ##
 ## ------------------------- ##
 _ASBOX
 {
   cat <<\_ASBOX
 ## ------------------------- ##
-## GNU cpio 2.10 test suite. ##
+## GNU cpio 2.11 test suite. ##
 ## ------------------------- ##
 _ASBOX
   echo
@@ -1829,7 +1834,7 @@ _ASBOX
   $as_echo "Please send \`${at_testdir+${at_testdir}/}$as_me.log' and all information you think might help:
 
    To: <bug-cpio@gnu.org>
-   Subject: [GNU cpio 2.10] $as_me: $at_fail_list${at_fail_list:+ failed${at_xpass_list:+, }}$at_xpass_list${at_xpass_list:+ passed unexpectedly}
+   Subject: [GNU cpio 2.11] $as_me: $at_fail_list${at_fail_list:+ failed${at_xpass_list:+, }}$at_xpass_list${at_xpass_list:+ passed unexpectedly}
 "
   if test $at_debug_p = false; then
     echo
@@ -1859,19 +1864,19 @@ echo "#                             -*- compilation -*-" >> "$at_group_log"
 
 
 { $at_traceoff
-$as_echo "$at_srcdir/version.at:21: cpio --version"
+$as_echo "$at_srcdir/version.at:21: cpio --version | sed 1q"
 echo version.at:21 >"$at_check_line_file"
 
 if test -n "$at_traceon"; then
-  ( $at_traceon; cpio --version ) >"$at_stdout" 2>"$at_stder1"
+  ( $at_traceon; cpio --version | sed 1q ) >"$at_stdout" 2>"$at_stder1"
   at_func_filter_trace $?
 else
-  ( :; cpio --version ) >"$at_stdout" 2>"$at_stderr"
+  ( :; cpio --version | sed 1q ) >"$at_stdout" 2>"$at_stderr"
 fi
 at_status=$?
 at_failed=false
 at_func_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "cpio (GNU cpio) 2.10
+echo >>"$at_stdout"; $as_echo "cpio (GNU cpio) 2.11
 " | \
   $at_diff - "$at_stdout" || at_failed=:
 at_func_check_status 0 $at_status "$at_srcdir/version.at:21"
@@ -2139,3 +2144,399 @@ $at_traceon; }
 ) 5>&1 2>&1 | eval $at_tee_pipe
 at_status=`cat "$at_status_file"`
 #AT_STOP_4
+#AT_START_5
+# 5. setstat01.at:17: delayed setstat
+at_setup_line='setstat01.at:17'
+at_desc="delayed setstat"
+$at_quiet $as_echo_n "  5: $at_desc                                "
+at_xfail=no
+echo "#                             -*- compilation -*-" >> "$at_group_log"
+(
+  $as_echo "5. setstat01.at:17: testing ..."
+  $at_traceon
+
+
+
+# In cpio up to 2.10, in copy-in mode, permissions and ownership of
+# created directories were set right after creating them. If directory
+# permissions did not allow writing to it, cpio was unable to populate
+# the directory.
+
+{ $at_traceoff
+$as_echo "$at_srcdir/setstat01.at:25:
+mkdir dir
+echo \"test file\" > dir/file
+chmod 500 dir
+
+find dir | cpio -o --quiet > archive
+mv dir old
+
+cpio -i --quiet < archive
+genfile --stat=mode.777 dir
+"
+echo setstat01.at:25 >"$at_check_line_file"
+
+if { echo 'Not enabling shell tracing (command contains an embedded newline)'
+   false; }; then
+  ( $at_traceon;
+mkdir dir
+echo "test file" > dir/file
+chmod 500 dir
+
+find dir | cpio -o --quiet > archive
+mv dir old
+
+cpio -i --quiet < archive
+genfile --stat=mode.777 dir
+ ) >"$at_stdout" 2>"$at_stder1"
+  at_func_filter_trace $?
+else
+  ( :;
+mkdir dir
+echo "test file" > dir/file
+chmod 500 dir
+
+find dir | cpio -o --quiet > archive
+mv dir old
+
+cpio -i --quiet < archive
+genfile --stat=mode.777 dir
+ ) >"$at_stdout" 2>"$at_stderr"
+fi
+at_status=$?
+at_failed=false
+at_func_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "500
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_func_check_status 0 $at_status "$at_srcdir/setstat01.at:25"
+
+$at_failed && at_func_log_failure
+$at_traceon; }
+
+
+  $at_traceoff
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 | eval $at_tee_pipe
+at_status=`cat "$at_status_file"`
+#AT_STOP_5
+#AT_START_6
+# 6. setstat02.at:17: delayed setstat (with -depth)
+at_setup_line='setstat02.at:17'
+at_desc="delayed setstat (with -depth)"
+$at_quiet $as_echo_n "  6: $at_desc                  "
+at_xfail=no
+echo "#                             -*- compilation -*-" >> "$at_group_log"
+(
+  $as_echo "6. setstat02.at:17: testing ..."
+  $at_traceon
+
+
+
+# Description: Cpio versions up to 2.10 failed to restore directory
+# permissions, if the directory was already present on dist (e.g. when
+# using find . -depth).
+#
+# References:
+#   <20090620185721.GA18708@scru.org>
+#   http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=458079
+#
+# See also: setstat03, setstat04, setstat05
+
+{ $at_traceoff
+$as_echo "$at_srcdir/setstat02.at:30:
+mkdir dir
+echo \"test file\" > dir/file
+chmod 500 dir
+
+find dir -depth | cpio -o --quiet > archive
+mv dir old
+
+cpio -id --quiet < archive
+genfile --stat=mode.777 dir
+"
+echo setstat02.at:30 >"$at_check_line_file"
+
+if { echo 'Not enabling shell tracing (command contains an embedded newline)'
+   false; }; then
+  ( $at_traceon;
+mkdir dir
+echo "test file" > dir/file
+chmod 500 dir
+
+find dir -depth | cpio -o --quiet > archive
+mv dir old
+
+cpio -id --quiet < archive
+genfile --stat=mode.777 dir
+ ) >"$at_stdout" 2>"$at_stder1"
+  at_func_filter_trace $?
+else
+  ( :;
+mkdir dir
+echo "test file" > dir/file
+chmod 500 dir
+
+find dir -depth | cpio -o --quiet > archive
+mv dir old
+
+cpio -id --quiet < archive
+genfile --stat=mode.777 dir
+ ) >"$at_stdout" 2>"$at_stderr"
+fi
+at_status=$?
+at_failed=false
+at_func_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "500
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_func_check_status 0 $at_status "$at_srcdir/setstat02.at:30"
+
+$at_failed && at_func_log_failure
+$at_traceon; }
+
+
+  $at_traceoff
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 | eval $at_tee_pipe
+at_status=`cat "$at_status_file"`
+#AT_STOP_6
+#AT_START_7
+# 7. setstat03.at:17: delayed setstat (copy-pass)
+at_setup_line='setstat03.at:17'
+at_desc="delayed setstat (copy-pass)"
+$at_quiet $as_echo_n "  7: $at_desc                    "
+at_xfail=no
+echo "#                             -*- compilation -*-" >> "$at_group_log"
+(
+  $as_echo "7. setstat03.at:17: testing ..."
+  $at_traceon
+
+
+
+# Description: Cpio versions up to 2.10 failed to restore directory
+# permissions, if the directory was already present on dist (e.g. when
+# using find . -depth).
+# This test case does the same as setstat02, but using copy-pass mode.
+#
+# References:
+#   <20090620185721.GA18708@scru.org>
+#   http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=458079
+#
+# See also: setstat02, setstat04. setstat05
+
+{ $at_traceoff
+$as_echo "$at_srcdir/setstat03.at:31:
+mkdir dir
+echo \"test file\" > dir/file
+chmod 500 dir
+mkdir newdir
+
+find dir -depth | cpio -pmaud --quiet newdir
+genfile --stat=mode.777 newdir/dir
+"
+echo setstat03.at:31 >"$at_check_line_file"
+
+if { echo 'Not enabling shell tracing (command contains an embedded newline)'
+   false; }; then
+  ( $at_traceon;
+mkdir dir
+echo "test file" > dir/file
+chmod 500 dir
+mkdir newdir
+
+find dir -depth | cpio -pmaud --quiet newdir
+genfile --stat=mode.777 newdir/dir
+ ) >"$at_stdout" 2>"$at_stder1"
+  at_func_filter_trace $?
+else
+  ( :;
+mkdir dir
+echo "test file" > dir/file
+chmod 500 dir
+mkdir newdir
+
+find dir -depth | cpio -pmaud --quiet newdir
+genfile --stat=mode.777 newdir/dir
+ ) >"$at_stdout" 2>"$at_stderr"
+fi
+at_status=$?
+at_failed=false
+at_func_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "500
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_func_check_status 0 $at_status "$at_srcdir/setstat03.at:31"
+
+$at_failed && at_func_log_failure
+$at_traceon; }
+
+
+  $at_traceoff
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 | eval $at_tee_pipe
+at_status=`cat "$at_status_file"`
+#AT_STOP_7
+#AT_START_8
+# 8. setstat04.at:17: delayed setstat (umask)
+at_setup_line='setstat04.at:17'
+at_desc="delayed setstat (umask)"
+$at_quiet $as_echo_n "  8: $at_desc                        "
+at_xfail=no
+echo "#                             -*- compilation -*-" >> "$at_group_log"
+(
+  $as_echo "8. setstat04.at:17: testing ..."
+  $at_traceon
+
+
+
+# Description: Cpio versions up to 2.10 failed to restore directory
+# permissions, if the directory was already present on dist (e.g. when
+# using find . -depth).
+# This test case verifies whether umask settings do not affect directory
+# permissions.
+#
+# References:
+#   <20090620185721.GA18708@scru.org>
+#   http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=458079
+#
+# See also: setstat02, setstat03, setstat05
+
+{ $at_traceoff
+$as_echo "$at_srcdir/setstat04.at:32:
+umask 022
+mkdir dir
+echo \"test file\" > dir/file
+mkdir newdir
+find dir -depth | cpio -o --quiet > archive
+mv dir old
+
+umask 077
+cpio -id --quiet < archive
+genfile --stat=mode.777 dir
+"
+echo setstat04.at:32 >"$at_check_line_file"
+
+if { echo 'Not enabling shell tracing (command contains an embedded newline)'
+   false; }; then
+  ( $at_traceon;
+umask 022
+mkdir dir
+echo "test file" > dir/file
+mkdir newdir
+find dir -depth | cpio -o --quiet > archive
+mv dir old
+
+umask 077
+cpio -id --quiet < archive
+genfile --stat=mode.777 dir
+ ) >"$at_stdout" 2>"$at_stder1"
+  at_func_filter_trace $?
+else
+  ( :;
+umask 022
+mkdir dir
+echo "test file" > dir/file
+mkdir newdir
+find dir -depth | cpio -o --quiet > archive
+mv dir old
+
+umask 077
+cpio -id --quiet < archive
+genfile --stat=mode.777 dir
+ ) >"$at_stdout" 2>"$at_stderr"
+fi
+at_status=$?
+at_failed=false
+at_func_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "755
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_func_check_status 0 $at_status "$at_srcdir/setstat04.at:32"
+
+$at_failed && at_func_log_failure
+$at_traceon; }
+
+
+  $at_traceoff
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 | eval $at_tee_pipe
+at_status=`cat "$at_status_file"`
+#AT_STOP_8
+#AT_START_9
+# 9. setstat05.at:17: delayed setstat (umask, copy-pass)
+at_setup_line='setstat05.at:17'
+at_desc="delayed setstat (umask, copy-pass)"
+$at_quiet $as_echo_n "  9: $at_desc             "
+at_xfail=no
+echo "#                             -*- compilation -*-" >> "$at_group_log"
+(
+  $as_echo "9. setstat05.at:17: testing ..."
+  $at_traceon
+
+
+
+# Description: Cpio versions up to 2.10 failed to restore directory
+# permissions, if the directory was already present on dist (e.g. when
+# using find . -depth).
+# This test case verifies whether umask settings do not affect directory
+# permissions in copy-pass mode.
+#
+# References:
+#   <20090620185721.GA18708@scru.org>
+#   http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=458079
+#
+# See also: setstat02, setstat03
+
+{ $at_traceoff
+$as_echo "$at_srcdir/setstat05.at:32:
+umask 022
+mkdir dir
+echo \"test file\" > dir/file
+mkdir newdir
+umask 077
+find dir -depth | cpio -pmaud --quiet newdir
+genfile --stat=mode.777 newdir/dir
+"
+echo setstat05.at:32 >"$at_check_line_file"
+
+if { echo 'Not enabling shell tracing (command contains an embedded newline)'
+   false; }; then
+  ( $at_traceon;
+umask 022
+mkdir dir
+echo "test file" > dir/file
+mkdir newdir
+umask 077
+find dir -depth | cpio -pmaud --quiet newdir
+genfile --stat=mode.777 newdir/dir
+ ) >"$at_stdout" 2>"$at_stder1"
+  at_func_filter_trace $?
+else
+  ( :;
+umask 022
+mkdir dir
+echo "test file" > dir/file
+mkdir newdir
+umask 077
+find dir -depth | cpio -pmaud --quiet newdir
+genfile --stat=mode.777 newdir/dir
+ ) >"$at_stdout" 2>"$at_stderr"
+fi
+at_status=$?
+at_failed=false
+at_func_diff_devnull "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; $as_echo "755
+" | \
+  $at_diff - "$at_stdout" || at_failed=:
+at_func_check_status 0 $at_status "$at_srcdir/setstat05.at:32"
+
+$at_failed && at_func_log_failure
+$at_traceon; }
+
+
+  $at_traceoff
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 | eval $at_tee_pipe
+at_status=`cat "$at_status_file"`
+#AT_STOP_9

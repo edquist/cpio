@@ -1,8 +1,7 @@
 /* -*- buffer-read-only: t -*- vi: set ro: */
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
-/* Like fcntl.h, but redefine some names to avoid glitches.
-
-   Copyright (C) 2005 Free Software Foundation, Inc.
+/* Version hook for Argp.
+   Copyright (C) 2009, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,13 +16,25 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-/* Written by Paul Eggert.  */
+#include <config.h>
+#include <version-etc.h>
+#include <argp.h>
+#include <argp-version-etc.h>
 
-#include <fcntl.h>
-#include "fcntl-safer.h"
+static const char *program_canonical_name;
+static const char * const *program_authors;
 
-#undef open
-#define open open_safer
+static void
+version_etc_hook (FILE *stream, struct argp_state *state)
+{
+  version_etc_ar (stream, program_canonical_name, PACKAGE_NAME, VERSION,
+                  program_authors);
+}
 
-#undef creat
-#define creat creat_safer
+void
+argp_version_setup (const char *name, const char * const *authors)
+{
+  argp_program_version_hook = version_etc_hook;
+  program_canonical_name = name;
+  program_authors = authors;
+}

@@ -1,8 +1,8 @@
 /* -*- buffer-read-only: t -*- vi: set ro: */
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
-/* Invoke fcntl-like functions, but avoid some glitches.
+/* Invoke dirent-like functions, but avoid some glitches.
 
-   Copyright (C) 2005 Free Software Foundation, Inc.
+   Copyright (C) 2009, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,9 +17,8 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-/* Written by Paul Eggert.  */
+/* Written by Eric Blake.  */
 
-#include <sys/types.h>
+#include <dirent.h>
 
-int open_safer (char const *, int, ...);
-int creat_safer (char const *, mode_t);
+DIR *opendir_safer (const char *name);

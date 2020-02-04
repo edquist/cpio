@@ -5,9 +5,10 @@ START-INFO-DIR-ENTRY
 * Cpio: (cpio).                 Copy-in-copy-out archiver to tape or disk.
 END-INFO-DIR-ENTRY
 
-   This manual documents GNU cpio (version 2.10, 19 June 2009).
+   This manual documents GNU cpio (version 2.11, 12 February 2010).
 
-   Copyright (C) 1995, 2001, 2002, 2004 Free Software Foundation, Inc.
+   Copyright (C) 1995, 2001, 2002, 2004, 2010 Free Software Foundation,
+Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -30,7 +31,7 @@ cpio
 GNU cpio is a tool for creating and extracting archives, or copying
 files from one place to another.  It handles a number of cpio formats as
 well as reading and writing tar files.  This is the first edition of the
-GNU cpio documentation and is consistent with 2.10.
+GNU cpio documentation and is consistent with 2.11.
 
 * Menu:
 
@@ -546,16 +547,16 @@ Concept Index
 
 
 Tag Table:
-Node: Top1011
-Node: Introduction1793
-Node: Tutorial2509
-Node: Invoking cpio6180
-Node: Copy-out mode6371
-Node: Copy-in mode7302
-Node: Copy-pass mode8701
-Node: Options9500
-Node: Media17621
-Node: Reports18600
-Node: Concept Index19231
+Node: Top1021
+Node: Introduction1803
+Node: Tutorial2519
+Node: Invoking cpio6190
+Node: Copy-out mode6381
+Node: Copy-in mode7312
+Node: Copy-pass mode8711
+Node: Options9510
+Node: Media17631
+Node: Reports18610
+Node: Concept Index19241
 
 End Tag Table

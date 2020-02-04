@@ -2,7 +2,7 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* Return a safer copy of a file descriptor.
 
-   Copyright (C) 2005, 2006, 2009 Free Software Foundation, Inc.
+   Copyright (C) 2005-2006, 2009-2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@
 #include "unistd-safer.h"
 
 #include <errno.h>
-
 #include <unistd.h>
 
 /* Return FD, unless FD would be a copy of standard input, output, or

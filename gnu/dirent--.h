@@ -1,8 +1,8 @@
 /* -*- buffer-read-only: t -*- vi: set ro: */
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
-/* getpagesize emulation for systems where it cannot be done in a C macro.
+/* Like dirent.h, but redefine some names to avoid glitches.
 
-   Copyright (C) 2007 Free Software Foundation, Inc.
+   Copyright (C) 2009, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,25 +17,9 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-/* Written by Bruno Haible and Martin Lambers.  */
+/* Written by Eric Blake.  */
 
-#include <config.h>
+#include "dirent-safer.h"
 
-/* Specification. */
-#include <unistd.h>
-
-/* This implementation is only for native Win32 systems.  */
-#if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
-
-# define WIN32_LEAN_AND_MEAN
-# include <windows.h>
-
-int
-getpagesize (void)
-{
-  SYSTEM_INFO system_info;
-  GetSystemInfo (&system_info);
-  return system_info.dwPageSize;
-}
-
-#endif
+#undef opendir
+#define opendir opendir_safer

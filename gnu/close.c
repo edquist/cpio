@@ -1,7 +1,7 @@
 /* -*- buffer-read-only: t -*- vi: set ro: */
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* close replacement.
-   Copyright (C) 2008-2009 Free Software Foundation, Inc.
+   Copyright (C) 2008-2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ rpl_close (int fd)
   int retval = close (fd);
 #endif
 
-#ifdef FCHDIR_REPLACEMENT
+#if REPLACE_FCHDIR
   if (retval >= 0)
     _gl_unregister_fd (fd);
 #endif

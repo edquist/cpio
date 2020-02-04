@@ -1,5 +1,6 @@
 # This file is part of GNU cpio
-# Copyright (C) 2003, 2004, 2007, 2009 Free Software Foundation, Inc.
+# Copyright (C) 2003, 2004, 2007, 2009, 2010 Free Software Foundation,
+# Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -50,4 +51,3 @@ noinst_HEADERS =\
 
 LDADD=../lib/libpax.a ../gnu/libgnu.a @INTLLIBS@
 
-mt.o main.o: ../lib/rmt-command.h

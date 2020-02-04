@@ -1,7 +1,8 @@
 /* -*- buffer-read-only: t -*- vi: set ro: */
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* stpcpy.c -- copy a string and return pointer to end of new string
-   Copyright (C) 1992, 1995, 1997-1998, 2006 Free Software Foundation, Inc.
+   Copyright (C) 1992, 1995, 1997-1998, 2006, 2009-2010 Free Software
+   Foundation, Inc.
 
    NOTE: The canonical source of this file is maintained with the GNU C Library.
    Bugs can be reported to bug-glibc@prep.ai.mit.edu.

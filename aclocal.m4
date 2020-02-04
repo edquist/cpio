@@ -1,4 +1,4 @@
-# generated automatically by aclocal 1.11 -*- Autoconf -*-
+# generated automatically by aclocal 1.11.1 -*- Autoconf -*-
 
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
 # 2005, 2006, 2007, 2008, 2009  Free Software Foundation, Inc.
@@ -34,7 +34,7 @@ AC_DEFUN([AM_AUTOMAKE_VERSION],
 [am__api_version='1.11'
 dnl Some users find AM_AUTOMAKE_VERSION and mistake it for a way to
 dnl require some minimum version.  Point them to the right macro.
-m4_if([$1], [1.11], [],
+m4_if([$1], [1.11.1], [],
       [AC_FATAL([Do not call $0, use AM_INIT_AUTOMAKE([$1]).])])dnl
 ])
 
@@ -50,7 +50,7 @@ m4_define([_AM_AUTOCONF_VERSION], [])
 # Call AM_AUTOMAKE_VERSION and AM_AUTOMAKE_VERSION so they can be traced.
 # This function is AC_REQUIREd by AM_INIT_AUTOMAKE.
 AC_DEFUN([AM_SET_CURRENT_AUTOMAKE_VERSION],
-[AM_AUTOMAKE_VERSION([1.11])dnl
+[AM_AUTOMAKE_VERSION([1.11.1])dnl
 m4_ifndef([AC_AUTOCONF_VERSION],
   [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
 _AM_AUTOCONF_VERSION(m4_defn([AC_AUTOCONF_VERSION]))])
@@ -741,6 +741,23 @@ AC_DEFUN([_AM_SET_OPTIONS],
 AC_DEFUN([_AM_IF_OPTION],
 [m4_ifset(_AM_MANGLE_OPTION([$1]), [$2], [$3])])
 
+# Copyright (C) 2001, 2003, 2005  Free Software Foundation, Inc.
+#
+# This file is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# AM_RUN_LOG(COMMAND)
+# -------------------
+# Run COMMAND, save the exit status in ac_status, and log it.
+# (This has been adapted from Autoconf's _AC_RUN_LOG macro.)
+AC_DEFUN([AM_RUN_LOG],
+[{ echo "$as_me:$LINENO: $1" >&AS_MESSAGE_LOG_FD
+   ($1) >&AS_MESSAGE_LOG_FD 2>&AS_MESSAGE_LOG_FD
+   ac_status=$?
+   echo "$as_me:$LINENO: \$? = $ac_status" >&AS_MESSAGE_LOG_FD
+   (exit $ac_status); }])
+
 # Check to make sure that the build environment is sane.    -*- Autoconf -*-
 
 # Copyright (C) 1996, 1997, 2000, 2001, 2003, 2005, 2008
@@ -805,6 +822,33 @@ else
 Check your system clock])
 fi
 AC_MSG_RESULT(yes)])
+
+# Copyright (C) 2009  Free Software Foundation, Inc.
+#
+# This file is free software; the Free Software Foundation
+# gives unlimited permission to copy and/or distribute it,
+# with or without modifications, as long as this notice is preserved.
+
+# serial 1
+
+# AM_SILENT_RULES([DEFAULT])
+# --------------------------
+# Enable less verbose build rules; with the default set to DEFAULT
+# (`yes' being less verbose, `no' or empty being verbose).
+AC_DEFUN([AM_SILENT_RULES],
+[AC_ARG_ENABLE([silent-rules],
+[  --enable-silent-rules          less verbose build output (undo: `make V=1')
+  --disable-silent-rules         verbose build output (undo: `make V=0')])
+case $enable_silent_rules in
+yes) AM_DEFAULT_VERBOSITY=0;;
+no)  AM_DEFAULT_VERBOSITY=1;;
+*)   AM_DEFAULT_VERBOSITY=m4_if([$1], [yes], [0], [1]);;
+esac
+AC_SUBST([AM_DEFAULT_VERBOSITY])dnl
+AM_BACKSLASH='\'
+AC_SUBST([AM_BACKSLASH])dnl
+_AM_SUBST_NOTMAKE([AM_BACKSLASH])dnl
+])
 
 # Copyright (C) 2001, 2003, 2005  Free Software Foundation, Inc.
 #
@@ -957,7 +1001,6 @@ m4_include([m4/alloca.m4])
 m4_include([m4/argmatch.m4])
 m4_include([m4/argp.m4])
 m4_include([m4/bison.m4])
-m4_include([m4/canonicalize-lgpl.m4])
 m4_include([m4/chdir-long.m4])
 m4_include([m4/chown.m4])
 m4_include([m4/clock_time.m4])
@@ -966,6 +1009,7 @@ m4_include([m4/close.m4])
 m4_include([m4/closeout.m4])
 m4_include([m4/codeset.m4])
 m4_include([m4/d-ino.m4])
+m4_include([m4/dirent-safer.m4])
 m4_include([m4/dirent_h.m4])
 m4_include([m4/dirfd.m4])
 m4_include([m4/dirname.m4])
@@ -976,12 +1020,13 @@ m4_include([m4/eealloc.m4])
 m4_include([m4/environ.m4])
 m4_include([m4/errno_h.m4])
 m4_include([m4/error.m4])
-m4_include([m4/exitfail.m4])
 m4_include([m4/extensions.m4])
 m4_include([m4/fchdir.m4])
 m4_include([m4/fclose.m4])
-m4_include([m4/fcntl-safer.m4])
+m4_include([m4/fcntl-o.m4])
+m4_include([m4/fcntl.m4])
 m4_include([m4/fcntl_h.m4])
+m4_include([m4/fdopendir.m4])
 m4_include([m4/fileblocks.m4])
 m4_include([m4/float_h.m4])
 m4_include([m4/fnmatch.m4])
@@ -991,8 +1036,8 @@ m4_include([m4/getcwd-abort-bug.m4])
 m4_include([m4/getcwd-path-max.m4])
 m4_include([m4/getcwd.m4])
 m4_include([m4/getdate.m4])
+m4_include([m4/getdtablesize.m4])
 m4_include([m4/getopt.m4])
-m4_include([m4/getpagesize.m4])
 m4_include([m4/gettext.m4])
 m4_include([m4/gettime.m4])
 m4_include([m4/gettimeofday.m4])
@@ -1029,15 +1074,14 @@ m4_include([m4/mbstate_t.m4])
 m4_include([m4/memchr.m4])
 m4_include([m4/mempcpy.m4])
 m4_include([m4/memrchr.m4])
+m4_include([m4/mkdir.m4])
 m4_include([m4/mktime.m4])
 m4_include([m4/mmap-anon.m4])
 m4_include([m4/mode_t.m4])
 m4_include([m4/multiarch.m4])
 m4_include([m4/nls.m4])
-m4_include([m4/onceonly.m4])
 m4_include([m4/open.m4])
 m4_include([m4/openat.m4])
-m4_include([m4/pathmax.m4])
 m4_include([m4/paxutils.m4])
 m4_include([m4/po.m4])
 m4_include([m4/printf.m4])
@@ -1045,7 +1089,8 @@ m4_include([m4/progtest.m4])
 m4_include([m4/quote.m4])
 m4_include([m4/quotearg.m4])
 m4_include([m4/rawmemchr.m4])
-m4_include([m4/readlink.m4])
+m4_include([m4/realloc.m4])
+m4_include([m4/rmdir.m4])
 m4_include([m4/rmt.m4])
 m4_include([m4/rtapelib.m4])
 m4_include([m4/safe-read.m4])
@@ -1056,8 +1101,11 @@ m4_include([m4/setenv.m4])
 m4_include([m4/size_max.m4])
 m4_include([m4/sleep.m4])
 m4_include([m4/ssize_t.m4])
+m4_include([m4/stat-time.m4])
+m4_include([m4/stat.m4])
 m4_include([m4/stdarg.m4])
 m4_include([m4/stdbool.m4])
+m4_include([m4/stddef_h.m4])
 m4_include([m4/stdint.m4])
 m4_include([m4/stdint_h.m4])
 m4_include([m4/stdio_h.m4])
@@ -1065,6 +1113,7 @@ m4_include([m4/stdlib_h.m4])
 m4_include([m4/stpcpy.m4])
 m4_include([m4/strcase.m4])
 m4_include([m4/strchrnul.m4])
+m4_include([m4/strdup.m4])
 m4_include([m4/strerror.m4])
 m4_include([m4/string_h.m4])
 m4_include([m4/strings_h.m4])
@@ -1081,6 +1130,7 @@ m4_include([m4/timespec.m4])
 m4_include([m4/tm_gmtoff.m4])
 m4_include([m4/unistd-safer.m4])
 m4_include([m4/unistd_h.m4])
+m4_include([m4/unlink.m4])
 m4_include([m4/unlocked-io.m4])
 m4_include([m4/utimbuf.m4])
 m4_include([m4/utimens.m4])
@@ -1088,9 +1138,10 @@ m4_include([m4/utimes.m4])
 m4_include([m4/vasnprintf.m4])
 m4_include([m4/version-etc.m4])
 m4_include([m4/vsnprintf.m4])
-m4_include([m4/wchar.m4])
+m4_include([m4/warn-on-use.m4])
+m4_include([m4/wchar_h.m4])
 m4_include([m4/wchar_t.m4])
-m4_include([m4/wctype.m4])
+m4_include([m4/wctype_h.m4])
 m4_include([m4/wint_t.m4])
 m4_include([m4/write.m4])
 m4_include([m4/xalloc.m4])

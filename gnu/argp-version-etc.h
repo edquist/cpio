@@ -1,8 +1,7 @@
 /* -*- buffer-read-only: t -*- vi: set ro: */
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
-/* Invoke open, but avoid some glitches.
-
-   Copyright (C) 2005, 2006, 2008-2009 Free Software Foundation, Inc.
+/* Version hook for Argp.
+   Copyright (C) 2009, 2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,32 +16,27 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-/* Written by Paul Eggert.  */
+#ifndef _ARGP_VERSION_ETC_H
+#define _ARGP_VERSION_ETC_H
 
-#include <config.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#include "fcntl-safer.h"
+/* Setup standard display of the version information for the `--version'
+   option.  NAME is the canonical program name, and AUTHORS is a NULL-
+   terminated array of author names. At least one author name must be
+   given.
 
-#include <fcntl.h>
-#include <stdarg.h>
-#include "unistd-safer.h"
+   If NAME is NULL, the package name (as given by the PACKAGE macro)
+   is asumed to be the name of the program.
 
-int
-open_safer (char const *file, int flags, ...)
-{
-  mode_t mode = 0;
+   This function is intended to be called before argp_parse().
+*/
+extern void argp_version_setup (const char *name, const char * const *authors);
 
-  if (flags & O_CREAT)
-    {
-      va_list ap;
-      va_start (ap, flags);
-
-      /* We have to use PROMOTED_MODE_T instead of mode_t, otherwise GCC 4
-	 creates crashing code when 'mode_t' is smaller than 'int'.  */
-      mode = va_arg (ap, PROMOTED_MODE_T);
-
-      va_end (ap);
-    }
-
-  return fd_safer (open (file, flags, mode));
+#ifdef __cplusplus
 }
+#endif
+
+#endif /* _ARGP_VERSION_ETC_H */

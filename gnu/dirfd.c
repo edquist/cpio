@@ -2,7 +2,7 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* dirfd.c -- return the file descriptor associated with an open DIR*
 
-   Copyright (C) 2001, 2006, 2008-2009 Free Software Foundation, Inc.
+   Copyright (C) 2001, 2006, 2008-2010 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
 #include <errno.h>
 
 int
-dirfd (DIR const *dir_p)
+dirfd (DIR *dir_p)
 {
   int fd = DIR_TO_FD (dir_p);
   if (fd == -1)

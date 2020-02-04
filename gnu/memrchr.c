@@ -2,8 +2,8 @@
 /* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* memrchr -- find the last occurrence of a byte in a memory block
 
-   Copyright (C) 1991, 1993, 1996, 1997, 1999, 2000, 2003, 2004, 2005,
-   2006, 2007, 2008 Free Software Foundation, Inc.
+   Copyright (C) 1991, 1993, 1996-1997, 1999-2000, 2003-2010 Free Software
+   Foundation, Inc.
 
    Based on strlen implementation by Torbjorn Granlund (tege@sics.se),
    with help from Dan Sahlin (dan@sics.se) and
@@ -86,15 +86,15 @@ __memrchr (void const *s, int c_in, size_t n)
       repeated_one |= repeated_one << 31 << 1;
       repeated_c |= repeated_c << 31 << 1;
       if (8 < sizeof (longword))
-	{
-	  size_t i;
+        {
+          size_t i;
 
-	  for (i = 64; i < sizeof (longword) * 8; i *= 2)
-	    {
-	      repeated_one |= repeated_one << i;
-	      repeated_c |= repeated_c << i;
-	    }
-	}
+          for (i = 64; i < sizeof (longword) * 8; i *= 2)
+            {
+              repeated_one |= repeated_one << i;
+              repeated_c |= repeated_c << i;
+            }
+        }
     }
 
   /* Instead of the traditional loop which tests each byte, we will test a
@@ -133,11 +133,11 @@ __memrchr (void const *s, int c_in, size_t n)
       longword longword1 = *--longword_ptr ^ repeated_c;
 
       if ((((longword1 - repeated_one) & ~longword1)
-	   & (repeated_one << 7)) != 0)
-	{
-	  longword_ptr++;
-	  break;
-	}
+           & (repeated_one << 7)) != 0)
+        {
+          longword_ptr++;
+          break;
+        }
       n -= sizeof (longword);
     }
 
@@ -153,7 +153,7 @@ __memrchr (void const *s, int c_in, size_t n)
   while (n-- > 0)
     {
       if (*--char_ptr == c)
-	return (void *) char_ptr;
+        return (void *) char_ptr;
     }
 
   return NULL;
