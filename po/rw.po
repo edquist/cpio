@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cpio 2.6\n"
 "Report-Msgid-Bugs-To: bug-cpio@gnu.org\n"
-"POT-Creation-Date: 2007-06-07 14:16+0300\n"
+"POT-Creation-Date: 2007-06-28 19:58+0300\n"
 "PO-Revision-Date: 2005-04-04 10:55-0700\n"
 "Last-Translator: Steven Michael Murphy <murf@e-tools.com>\n"
 "Language-Team: Kinyarwanda <translation-team-rw@lists.sourceforge.net>\n"
@@ -57,7 +57,7 @@ msgstr "%sOYA Byaremwe Cyangwa Verisiyo"
 msgid "cannot remove current %s"
 msgstr "Gukuraho... KIGEZWEHO"
 
-#: src/copyin.c:279 src/copyin.c:476 src/copyin.c:683 src/copypass.c:427
+#: src/copyin.c:279 src/copyin.c:476 src/copyin.c:683 src/copypass.c:433
 #, fuzzy, c-format
 msgid "cannot link %s to %s"
 msgstr "Ihuza Kuri"
@@ -112,10 +112,10 @@ msgstr "Iburira Umutwempangano Ihindurakerekezo Bayite Itondekanya"
 msgid "standard input is closed"
 msgstr "Bisanzwe Iyinjiza ni"
 
-#: src/copyin.c:1576 src/copyout.c:893 src/copypass.c:370
+#: src/copyin.c:1579 src/copyout.c:894 src/copypass.c:374
 #, c-format
-msgid "%d block\n"
-msgid_plural "%d blocks\n"
+msgid "%lu block\n"
+msgid_plural "%lu blocks\n"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -216,7 +216,7 @@ msgstr "%sOYA OYA a Ibisanzwe IDOSIYE"
 msgid "%s: symbolic link too long"
 msgstr "%s:Ihuza"
 
-#: src/copypass.c:422
+#: src/copypass.c:428
 #, fuzzy, c-format
 msgid "%s linked to %s"
 msgstr "%sKuri"
@@ -591,7 +591,7 @@ msgstr ""
 msgid ""
 "   GNU cpio is free software; you can redistribute it and/or modify\n"
 "   it under the terms of the GNU General Public License as published by\n"
-"   the Free Software Foundation; either version 2 of the License, or\n"
+"   the Free Software Foundation; either version 3 of the License, or\n"
 "   (at your option) any later version.\n"
 "\n"
 "   GNU cpio is distributed in the hope that it will be useful,\n"
@@ -608,107 +608,107 @@ msgstr ""
 "in i ATARIIGIHARWE i Cyangwa A kugirango Birenzeho Birambuye BYAKIRIWE a "
 "Gukoporora Bya i Na: NIBA OYA Kwandika Kuri i"
 
-#: src/main.c:333 src/main.c:350
+#: src/main.c:334 src/main.c:351
 #, fuzzy, c-format
 msgid "invalid block size"
 msgstr "Sibyo Funga Ingano"
 
-#: src/main.c:339 src/main.c:371
+#: src/main.c:340 src/main.c:372
 #, fuzzy, c-format
 msgid "Archive format multiply defined"
 msgstr "Imiterere Gukuba"
 
-#: src/main.c:389
+#: src/main.c:390
 #, fuzzy, c-format
 msgid ""
 "invalid archive format `%s'; valid formats are:\n"
 "crc newc odc bin ustar tar (all-caps also recognized)"
 msgstr "Sibyo Imiterere Byemewe Imiterere Byose Inyuguti nkuru"
 
-#: src/main.c:396 src/main.c:446 src/main.c:460
+#: src/main.c:397 src/main.c:447 src/main.c:461
 #, c-format
 msgid "Mode already defined"
 msgstr ""
 
-#: src/main.c:440
+#: src/main.c:441
 #, fuzzy, c-format
 msgid "--no-preserve-owner cannot be used with --owner"
 msgstr "--Oya Na:"
 
-#: src/main.c:483
+#: src/main.c:484
 #, fuzzy, c-format
 msgid "--owner cannot be used with --no-preserve-owner"
 msgstr "--Na: Oya"
 
-#: src/main.c:530
+#: src/main.c:531
 #, fuzzy, c-format
 msgid "Invalid value for --warning option: %s"
 msgstr "Agaciro kugirango Iburira Ihitamo"
 
-#: src/main.c:583
+#: src/main.c:584
 #, fuzzy
 msgid "[destination-directory]"
 msgstr "[Ishyika bushyinguro"
 
-#: src/main.c:602 src/main.c:618
+#: src/main.c:603 src/main.c:619
 #, fuzzy, c-format
 msgid ""
 "You must specify one of -oipt options.\n"
 "Try `%s --help' or `%s --usage' for more information.\n"
 msgstr "Bya Amahitamo Cyangwa kugirango Birenzeho Ibisobanuro"
 
-#: src/main.c:646
+#: src/main.c:647
 #, fuzzy, c-format
 msgid "Both -I and -F are used in copy-in mode"
 msgstr "Na in Gukoporora in Ubwoko"
 
-#: src/main.c:658 src/main.c:694
+#: src/main.c:659 src/main.c:695
 #, fuzzy, c-format
 msgid "Too many arguments"
 msgstr "ingingo"
 
-#: src/main.c:677
+#: src/main.c:678
 #, fuzzy, c-format
 msgid ""
 "--append is used but no archive file name is given (use -F or -O options)"
 msgstr "--Kongeraho... ni Oya IDOSIYE Izina: ni Gukoresha Cyangwa Amahitamo"
 
-#: src/main.c:683
+#: src/main.c:684
 #, fuzzy, c-format
 msgid "Both -O and -F are used in copy-out mode"
 msgstr "Na in Gukoporora Inyuma Ubwoko"
 
-#: src/main.c:696
+#: src/main.c:697
 #, fuzzy, c-format
 msgid "Not enough arguments"
 msgstr "ingingo"
 
-#: src/main.c:700
+#: src/main.c:701
 #, fuzzy, c-format
 msgid "Archive format is not specified in copy-pass mode (use --format option)"
 msgstr "Imiterere ni OYA in Gukoporora Ubwoko Gukoresha Imiterere Ihitamo"
 
-#: src/main.c:722
+#: src/main.c:723
 #, fuzzy, c-format
 msgid "-F can be used only with --create or --extract"
 msgstr "-Na: Kurema Cyangwa"
 
-#: src/main.c:725
+#: src/main.c:726
 #, fuzzy, c-format
 msgid "Cannot open %s"
 msgstr "Gukuraho... KIGEZWEHO"
 
-#: src/main.c:797
+#: src/main.c:798
 #, fuzzy, c-format
 msgid "error closing archive"
 msgstr "Ikosa"
 
-#: src/makepath.c:117 src/makepath.c:184
+#: src/makepath.c:96 src/makepath.c:155
 #, fuzzy, c-format
 msgid "cannot make directory `%s'"
 msgstr "Ubwoko bushyinguro"
 
-#: src/makepath.c:159 src/makepath.c:237
+#: src/makepath.c:131 src/makepath.c:181
 #, fuzzy, c-format
 msgid "`%s' exists but is not a directory"
 msgstr "`%s'ni OYA a bushyinguro"
@@ -812,31 +812,41 @@ msgstr "Idosiye Byahinduwe"
 msgid "virtual memory exhausted"
 msgstr "Kitaboneka Ububiko"
 
-#: src/util.c:654 src/util.c:660
+#: src/util.c:624
+#, fuzzy, c-format
+msgid "Creating intermediate directory `%s'"
+msgstr "Ubwoko bushyinguro"
+
+#: src/util.c:661 src/util.c:667
 #, fuzzy, c-format
 msgid "cannot seek on output"
 msgstr "ku Ibisohoka"
 
-#: src/util.c:832
+#: src/util.c:839
 #, fuzzy, c-format
 msgid "Found end of tape.  Load next tape and press RETURN. "
 msgstr "Impera Bya Komeza>> Na Kanda"
 
-#: src/util.c:834
+#: src/util.c:841
 #, fuzzy, c-format
 msgid "Found end of tape.  To continue, type device/file name when ready.\n"
 msgstr ""
 "Impera Bya urifuzagukomeza Ubwoko APAREYE IDOSIYE Izina: Ryari: Cyiteguye"
 
-#: src/util.c:857
+#: src/util.c:864
 #, fuzzy, c-format
 msgid "To continue, type device/file name when ready.\n"
 msgstr "urifuzagukomeza Ubwoko APAREYE IDOSIYE Izina: Ryari: Cyiteguye"
 
-#: src/util.c:882
+#: src/util.c:889
 #, fuzzy, c-format
 msgid "internal error: tape descriptor changed from %d to %d"
 msgstr "By'imbere Ikosa Byahinduwe Bivuye Kuri"
+
+#: src/util.c:1417
+#, c-format
+msgid "%s: Unexpected inconsistency when making directory"
+msgstr ""
 
 #: lib/getopt.c:531 lib/getopt.c:547
 #, fuzzy, c-format
@@ -1004,9 +1014,3 @@ msgstr ""
 #, fuzzy
 #~ msgid "error %d"
 #~ msgstr "IKOSA"
-
-#, fuzzy
-#~ msgid "%s: Read error at byte %s, reading %lu byte"
-#~ msgid_plural "%s: Read error at byte %s, reading %lu bytes"
-#~ msgstr[0] "Ikosa ku Bayite in IDOSIYE Wuzuza: Na:"
-#~ msgstr[1] "Ikosa ku Bayite in IDOSIYE Wuzuza: Na:"

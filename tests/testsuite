@@ -605,7 +605,7 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cpio'
 # List of the all the test groups.
-at_groups_all=' 1 2 3'
+at_groups_all=' 1 2 3 4'
 # As many question marks as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
@@ -614,6 +614,7 @@ at_format='?'
 at_help_all='1;version.at:19;cpio version;;
 2;inout.at:19;basic functionality: copyin/copyout;copyin copyout;
 3;symlink.at:22;symlink;symlink copyout;
+4;interdir.at:24;interdir;interdir copyin copypass;
 '
 
 at_prev=
@@ -837,7 +838,7 @@ fi
 # List of tests.
 if $at_list_p; then
   cat <<_ATEOF
-GNU cpio 2.8 test suite test groups:
+GNU cpio 2.9 test suite test groups:
 
  NUM: FILE-NAME:LINE     TEST-GROUP-NAME
       KEYWORDS
@@ -861,7 +862,7 @@ _ATEOF
   exit 0
 fi
 if $at_version_p; then
-  echo "$as_me (GNU cpio 2.8)"
+  echo "$as_me (GNU cpio 2.9)"
   cat <<\_ACEOF
 
 Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software
@@ -945,13 +946,13 @@ exec 5>>"$at_suite_log"
 # Banners and logs.
 cat <<\_ASBOX
 ## ------------------------ ##
-## GNU cpio 2.8 test suite. ##
+## GNU cpio 2.9 test suite. ##
 ## ------------------------ ##
 _ASBOX
 {
   cat <<\_ASBOX
 ## ------------------------ ##
-## GNU cpio 2.8 test suite. ##
+## GNU cpio 2.9 test suite. ##
 ## ------------------------ ##
 _ASBOX
   echo
@@ -1221,7 +1222,7 @@ fi
 
 at_failed=false
 $at_diff "$at_devnull" "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; echo "cpio (GNU cpio) 2.8
+echo >>"$at_stdout"; echo "cpio (GNU cpio) 2.9
 " | $at_diff - "$at_stdout" || at_failed=:
 case $at_status in
    77) echo 77 > "$at_status_file"; exit 77;;
@@ -1416,6 +1417,117 @@ case $at_status in
    77) echo 77 > "$at_status_file"; exit 77;;
    0) ;;
    *) echo "$at_srcdir/symlink.at:29: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+
+  echo 1 > "$at_status_file"
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >"$at_times_file"
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat "$at_status_file"`
+    ;;
+
+  4 ) # 4. interdir.at:24: interdir
+    at_setup_line='interdir.at:24'
+    at_desc='interdir'
+    $at_quiet $ECHO_N "  4: interdir                                     $ECHO_C"
+    at_xfail=no
+    echo "#                             -*- compilation -*-" >> "$at_group_log"
+    (
+      echo "4. interdir.at:24: testing ..."
+      $at_traceon
+
+
+
+cat >filelist <<'_ATEOF'
+dir
+dir/file
+_ATEOF
+
+
+$at_traceoff
+echo "$at_srcdir/interdir.at:31:
+umask 022
+mkdir dir
+chmod 700 dir
+genfile --file dir/file
+echo Copying the hierarchy
+cpio -pdvm en/to/tre < filelist 2>&1
+echo Results
+genfile --stat=name,mode.777 en
+genfile --stat=name,mode.777 en/to
+genfile --stat=name,mode.777 en/to/tre
+genfile --stat=name,mode.777 en/to/tre/dir
+genfile --stat=name,mode.777 en/to/tre/dir/file
+"
+echo interdir.at:31 >"$at_check_line_file"
+
+at_trace_this=
+if test -n "$at_traceon"; then
+    echo 'Not enabling shell tracing (command contains an embedded newline)'
+fi
+
+if test -n "$at_trace_this"; then
+    ( $at_traceon;
+umask 022
+mkdir dir
+chmod 700 dir
+genfile --file dir/file
+echo Copying the hierarchy
+cpio -pdvm en/to/tre < filelist 2>&1
+echo Results
+genfile --stat=name,mode.777 en
+genfile --stat=name,mode.777 en/to
+genfile --stat=name,mode.777 en/to/tre
+genfile --stat=name,mode.777 en/to/tre/dir
+genfile --stat=name,mode.777 en/to/tre/dir/file
+ ) >"$at_stdout" 2>"$at_stder1"
+    at_status=$?
+    grep '^ *+' "$at_stder1" >&2
+    grep -v '^ *+' "$at_stder1" >"$at_stderr"
+else
+    ( :;
+umask 022
+mkdir dir
+chmod 700 dir
+genfile --file dir/file
+echo Copying the hierarchy
+cpio -pdvm en/to/tre < filelist 2>&1
+echo Results
+genfile --stat=name,mode.777 en
+genfile --stat=name,mode.777 en/to
+genfile --stat=name,mode.777 en/to/tre
+genfile --stat=name,mode.777 en/to/tre/dir
+genfile --stat=name,mode.777 en/to/tre/dir/file
+ ) >"$at_stdout" 2>"$at_stderr"
+    at_status=$?
+fi
+
+at_failed=false
+$at_diff "$at_devnull" "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; echo "Copying the hierarchy
+en/to/tre/dir
+en/to/tre/dir/file
+0 blocks
+Results
+en 755
+en/to 755
+en/to/tre 755
+en/to/tre/dir 700
+en/to/tre/dir/file 644
+" | $at_diff - "$at_stdout" || at_failed=:
+case $at_status in
+   77) echo 77 > "$at_status_file"; exit 77;;
+   0) ;;
+   *) echo "$at_srcdir/interdir.at:31: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1724,7 +1836,7 @@ _ASBOX
   echo "Please send \`${at_testdir+${at_testdir}/}$as_me.log' and all information you think might help:"
   echo
   echo "   To: <bug-cpio@gnu.org>"
-  echo "   Subject: [GNU cpio 2.8] $as_me:$at_fail_list${at_fail_list:+ failed${at_xpass_list:+,}}$at_xpass_list${at_xpass_list:+ passed unexpectedly}"
+  echo "   Subject: [GNU cpio 2.9] $as_me:$at_fail_list${at_fail_list:+ failed${at_xpass_list:+,}}$at_xpass_list${at_xpass_list:+ passed unexpectedly}"
   echo
   if test $at_debug_p = false; then
     echo

@@ -49,7 +49,6 @@ AC_DEFUN([gl_INIT],
   gl_ltlibdeps=
   gl_source_base='.#bootmp/lib'
   gl_FUNC_ALLOCA
-  gl_ALLOCSA
   gl_ARGMATCH
   gl_ARGP
   gl_CANONICALIZE_LGPL
@@ -93,8 +92,10 @@ AC_DEFUN([gl_INIT],
   gl_INTTOSTR
   gl_INTTYPES_H
   gl_FUNC_LCHOWN
+  gl_UNISTD_MODULE_INDICATOR([lchown])
   gl_FUNC_LSTAT
   AC_FUNC_MALLOC
+  gl_MALLOCA
   gl_FUNC_MEMPCPY
   gl_STRING_MODULE_INDICATOR([mempcpy])
   gl_FUNC_MEMRCHR
@@ -205,9 +206,6 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/__fpending.h
   lib/alloca.c
   lib/alloca_.h
-  lib/allocsa.c
-  lib/allocsa.h
-  lib/allocsa.valgrind
   lib/argmatch.c
   lib/argmatch.h
   lib/argp-ba.c
@@ -282,10 +280,12 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/inttostr.h
   lib/inttypes_.h
   lib/lchown.c
-  lib/lchown.h
   lib/lstat.c
   lib/lstat.h
   lib/malloc.c
+  lib/malloca.c
+  lib/malloca.h
+  lib/malloca.valgrind
   lib/mempcpy.c
   lib/memrchr.c
   lib/mkdirat.c
@@ -371,7 +371,6 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/xstrndup.h
   m4/absolute-header.m4
   m4/alloca.m4
-  m4/allocsa.m4
   m4/argmatch.m4
   m4/argp.m4
   m4/bison.m4
@@ -413,10 +412,12 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/gnulib-common.m4
   m4/hash.m4
   m4/iconv.m4
+  m4/include_next.m4
   m4/inline.m4
   m4/intdiv0.m4
   m4/intl.m4
   m4/intldir.m4
+  m4/intlmacosx.m4
   m4/intmax.m4
   m4/intmax_t.m4
   m4/inttostr.m4
@@ -431,6 +432,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/lock.m4
   m4/longlong.m4
   m4/lstat.m4
+  m4/malloca.m4
   m4/mbrtowc.m4
   m4/mbstate_t.m4
   m4/mempcpy.m4

@@ -1,10 +1,10 @@
 /* copypass.c - cpio copy pass sub-function.
    Copyright (C) 1990, 1991, 1992, 2001, 2003, 2004,
-   2006 Free Software Foundation, Inc.
+   2006, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
+   the Free Software Foundation; either version 3, or (at your option)
    any later version.
 
    This program is distributed in the hope that it will be useful,
@@ -38,7 +38,7 @@ static void
 set_copypass_perms (int fd, const char *name, struct stat *st)
 {
   struct cpio_file_stat header;
-  header.c_name = name;
+  header.c_name = (char*)name;
   stat_to_cpio (&header, st);
   set_perms (fd, &header);
 }
@@ -64,7 +64,7 @@ process_copy_pass ()
   int cdf_char;
 #endif
 
-  umask (0);                    /* Reset umask to preserve modes of
+  newdir_umask = umask (0);     /* Reset umask to preserve modes of
 				   created files  */
 
   /* Initialize the copy pass.  */
@@ -364,10 +364,16 @@ process_copy_pass ()
 
   if (dot_flag)
     fputc ('\n', stderr);
+
+  apply_delayed_set_stat ();
+  
   if (!quiet_flag)
     {
-      res = (output_bytes + io_block_size - 1) / io_block_size;
-      fprintf (stderr, ngettext ("%d block\n", "%d blocks\n", res), res);
+      size_t blocks = (output_bytes + io_block_size - 1) / io_block_size;
+      fprintf (stderr,
+	       ngettext ("%lu block\n", "%lu blocks\n",
+			 (unsigned long) blocks),
+	       (unsigned long) blocks);
     }
 }
 

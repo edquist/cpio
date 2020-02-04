@@ -1,9 +1,10 @@
 /* extern.h - External declarations for cpio.  Requires system.h.
-   Copyright (C) 1990, 1991, 1992, 2001, 2006 Free Software Foundation, Inc.
+   Copyright (C) 1990, 1991, 1992, 2001, 2006, 
+   2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
+   the Free Software Foundation; either version 3, or (at your option)
    any later version.
 
    This program is distributed in the hope that it will be useful,
@@ -54,10 +55,12 @@ extern int quiet_flag;
 extern int only_verify_crc_flag;
 extern int no_abs_paths_flag;
 extern unsigned int warn_option;
+extern mode_t newdir_umask;
 
 /* Values for warn_option */
 #define CPIO_WARN_NONE     0
 #define CPIO_WARN_TRUNCATE 0x01
+#define CPIO_WARN_INTERDIR 0x02
 #define CPIO_WARN_ALL      (unsigned int)-1
 
 extern bool to_stdout_option;
@@ -80,13 +83,10 @@ extern int debug_flag;
 
 extern char *input_buffer, *output_buffer;
 extern char *in_buff, *out_buff;
-extern long input_buffer_size;
-extern long input_size, output_size;
-#ifdef __GNUC__
-extern long long input_bytes, output_bytes;
-#else
-extern long input_bytes, output_bytes;
-#endif
+extern size_t input_buffer_size;
+extern size_t input_size, output_size;
+extern off_t input_bytes, output_bytes;
+
 extern char *directory_name;
 extern char **save_patterns;
 extern int num_patterns;
@@ -130,20 +130,18 @@ char *dirname (char *path);
 void mode_string (unsigned int mode, char *str);
 
 /* idcache.c */
-#ifndef __MSDOS__
-char *getgroup ();
-char *getuser ();
-uid_t *getuidbyname ();
-gid_t *getgidbyname ();
-#endif
+char *getgroup (gid_t gid);
+char *getuser (uid_t uid);
+uid_t *getuidbyname (char *user);
+gid_t *getgidbyname (char *group);
 
 /* main.c */
 void process_args (int argc, char *argv[]);
 void initialize_buffers (void);
 
 /* makepath.c */
-int make_path (char *argpath, int mode, int parent_mode,
-	       uid_t owner, gid_t group, char *verbose_fmt_string);
+int make_path (char *argpath, uid_t owner, gid_t group,
+	       const char *verbose_fmt_string);
 
 /* tar.c */
 void write_out_tar_header (struct cpio_file_stat *file_hdr, int out_des);
@@ -154,10 +152,8 @@ int is_tar_header (char *buf);
 int is_tar_filename_too_long (char *name);
 
 /* userspec.c */
-#ifndef __MSDOS__
 char *parse_user_spec (char *name, uid_t *uid, gid_t *gid,
 		       char **username, char **groupname);
-#endif
 
 /* util.c */
 void tape_empty_output_buffer (int out_des);
@@ -182,12 +178,6 @@ int open_archive (char *file);
 void tape_offline (int tape_des);
 void get_next_reel (int tape_des);
 void set_new_media_message (char *message);
-#if defined(__MSDOS__) && !defined(__GNUC__)
-int chown (char *path, int owner, int group);
-#endif
-#ifdef __TURBOC__
-int utime (char *filename, struct utimbuf *utb);
-#endif
 #ifdef HPUX_CDF
 char *add_cdf_double_slashes (char *filename);
 #endif
@@ -219,3 +209,9 @@ uintmax_t from_ascii (char const *where, size_t digs, unsigned logbase);
 #define FROM_OCTAL(f) from_ascii (f, sizeof f, LG_8)
 #define FROM_HEX(f) from_ascii (f, sizeof f, LG_16)
 	    
+void delay_set_stat (char const *file_name, struct stat *st,
+		     mode_t invert_permissions);
+void repair_delayed_set_stat (char const *dir,
+			      struct stat *dir_stat_info);
+void apply_delayed_set_stat (void);
+     

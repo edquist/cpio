@@ -1,10 +1,10 @@
 /* util.c - Several utility routines for cpio.
    Copyright (C) 1990, 1991, 1992, 2001, 2004,
-   2006 Free Software Foundation, Inc.
+   2006, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
+   the Free Software Foundation; either version 3, or (at your option)
    any later version.
 
    This program is distributed in the hope that it will be useful,
@@ -618,7 +618,14 @@ create_all_directories (char *name)
     error (2, 0, _("virtual memory exhausted"));
 
   if (dir[0] != '.' || dir[1] != '\0')
-    make_path (dir, mode, 0700, -1, -1, (char *) NULL);
+    {
+      const char *fmt;
+      if (warn_option & CPIO_WARN_INTERDIR)
+	fmt = _("Creating intermediate directory `%s'");
+      else
+	fmt = NULL;
+      make_path (dir, -1, -1, fmt);
+    }
 
   free (dir);
 }
@@ -1339,4 +1346,92 @@ cpio_safer_name_suffix (char *name, bool link_target, bool absolute_names,
   if (p != name)
     memmove (name, p, (size_t)(strlen (p) + 1));
 }
+
+
+/* This is a simplified form of delayed set_stat used by GNU tar.
+   With the time, both forms will merge and pass to paxutils
+   
+   List of directories whose statuses we need to extract after we've
+   finished extracting their subsidiary files.  If you consider each
+   contiguous subsequence of elements of the form [D]?[^D]*, where [D]
+   represents an element where AFTER_LINKS is nonzero and [^D]
+   represents an element where AFTER_LINKS is zero, then the head
+   of the subsequence has the longest name, and each non-head element
+   in the prefix is an ancestor (in the directory hierarchy) of the
+   preceding element.  */
+
+struct delayed_set_stat
+  {
+    struct delayed_set_stat *next;
+    struct cpio_file_stat stat;
+    mode_t invert_permissions;
+  };
+
+static struct delayed_set_stat *delayed_set_stat_head;
+
+void
+delay_set_stat (char const *file_name, struct stat *st,
+		mode_t invert_permissions)
+{
+  size_t file_name_len = strlen (file_name);
+  struct delayed_set_stat *data =
+    xmalloc (sizeof (struct delayed_set_stat) + file_name_len + 1);
+  data->next = delayed_set_stat_head;
+  memset (&data->stat, 0, sizeof data->stat);
+  stat_to_cpio (&data->stat, st);
+  data->stat.c_name = (char*) (data + 1);
+  strcpy (data->stat.c_name, file_name);
+  data->invert_permissions = invert_permissions;
+  delayed_set_stat_head = data;
+}
+
+/* Update the delayed_set_stat info for an intermediate directory
+   created within the file name of DIR.  The intermediate directory turned
+   out to be the same as this directory, e.g. due to ".." or symbolic
+   links.  *DIR_STAT_INFO is the status of the directory.  */
+void
+repair_delayed_set_stat (char const *dir,
+			 struct stat *dir_stat_info)
+{
+  struct delayed_set_stat *data;
+  for (data = delayed_set_stat_head; data; data = data->next)
+    {
+      struct stat st;
+      if (stat (data->stat.c_name, &st) != 0)
+	{
+	  stat_error (data->stat.c_name);
+	  return;
+	}
+
+      if (st.st_dev == dir_stat_info->st_dev
+	  && st.st_ino == dir_stat_info->st_ino)
+	{
+	  stat_to_cpio (&data->stat, dir_stat_info);
+	  data->invert_permissions =
+	    ((dir_stat_info->st_mode ^ st.st_mode)
+	     & MODE_RWX & ~ newdir_umask);
+	  return;
+	}
+    }
+
+  ERROR ((0, 0, _("%s: Unexpected inconsistency when making directory"),
+	  quotearg_colon (dir)));
+}
+
+void
+apply_delayed_set_stat ()
+{
+  while (delayed_set_stat_head)
+    {
+      struct delayed_set_stat *data = delayed_set_stat_head;
+      if (data->invert_permissions)
+	{
+	  data->stat.c_mode ^= data->invert_permissions;
+	}
+      set_perms (-1, &data->stat);
+      delayed_set_stat_head = data->next;
+      free (data);
+    }
+}
+
 

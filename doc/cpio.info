@@ -1,11 +1,11 @@
-This is cpio.info, produced by makeinfo version 4.8 from cpio.texi.
+This is cpio.info, produced by makeinfo version 4.8.90 from cpio.texi.
 
 INFO-DIR-SECTION Archiving
 START-INFO-DIR-ENTRY
 * Cpio: (cpio).                 Copy-in-copy-out archiver to tape or disk.
 END-INFO-DIR-ENTRY
 
-   This manual documents GNU cpio (version 2.8, 7 June 2007).
+   This manual documents GNU cpio (version 2.9, 28 June 2007).
 
    Copyright (C) 1995, 2001, 2002, 2004 Free Software Foundation, Inc.
 
@@ -30,7 +30,7 @@ cpio
 GNU cpio is a tool for creating and extracting archives, or copying
 files from one place to another.  It handles a number of cpio formats as
 well as reading and writing tar files.  This is the first edition of the
-GNU cpio documentation and is consistent with 2.8.
+GNU cpio documentation and is consistent with 2.9.
 
 * Menu:
 
@@ -204,8 +204,8 @@ extracted.  *Note Options::.
      [--swap-halfwords] [--io-size=bytes] [--pattern-file=file]
      [--format=format] [--owner=[user][:.][group]]
      [--no-preserve-owner] [--message=message] [--help] [--version]
-     [--no-absolute-filenames] [--sparse] [-only-verify-crc] [-quiet]
-     [--rsh-command=command] [pattern...] [< archive]
+     [--no-absolute-filenames] [--sparse] [-only-verify-crc] [--to-stdout]
+     [-quiet] [--rsh-command=command] [pattern...] [< archive]
 
 
 File: cpio.info,  Node: Copy-pass mode,  Next: Options,  Prev: Copy-in mode,  Up: Invoking cpio
@@ -456,6 +456,10 @@ File: cpio.info,  Node: Options,  Prev: Copy-pass mode,  Up: Invoking cpio
 `--list'
      Print a table of contents of the input.
 
+`--to-stdout'
+     Extract files to standard output.  This option may be used in
+     copy-in mode.
+
 `-u'
 `--unconditional'
      Replace all files, without asking whether to replace existing
@@ -541,16 +545,16 @@ Concept Index
 
 
 Tag Table:
-Node: Top1008
-Node: Introduction1789
-Node: Tutorial2505
-Node: Invoking cpio6176
-Node: Copy-out mode6367
-Node: Copy-in mode7297
-Node: Copy-pass mode8682
-Node: Options9481
-Node: Media17343
-Node: Reports18322
-Node: Concept Index18953
+Node: Top1012
+Node: Introduction1793
+Node: Tutorial2509
+Node: Invoking cpio6180
+Node: Copy-out mode6371
+Node: Copy-in mode7301
+Node: Copy-pass mode8700
+Node: Options9499
+Node: Media17462
+Node: Reports18441
+Node: Concept Index19072
 
 End Tag Table

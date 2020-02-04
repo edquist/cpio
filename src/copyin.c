@@ -1,10 +1,10 @@
 /* copyin.c - extract or list a cpio archive
    Copyright (C) 1990,1991,1992,2001,2002,2003,2004,
-   2005, 2006 Free Software Foundation, Inc.
+   2005, 2006, 2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
+   the Free Software Foundation; either version 3, or (at your option)
    any later version.
 
    This program is distributed in the hope that it will be useful,
@@ -1361,7 +1361,7 @@ process_copy_in ()
   char skip_file;		/* Flag for use with patterns.  */
   int i;			/* Loop index variable.  */
 
-  umask (0);                    /* Reset umask to preserve modes of
+  newdir_umask = umask (0);     /* Reset umask to preserve modes of
 				   created files  */
   
   /* Initialize the copy in.  */
@@ -1562,6 +1562,8 @@ process_copy_in ()
   if (dot_flag)
     fputc ('\n', stderr);
 
+  apply_delayed_set_stat ();
+  
   if (append_flag)
     return;
 
@@ -1571,9 +1573,12 @@ process_copy_in ()
     }
   if (!quiet_flag)
     {
-      int blocks;
+      size_t blocks;
       blocks = (input_bytes + io_block_size - 1) / io_block_size;
-      fprintf (stderr, ngettext ("%d block\n", "%d blocks\n", blocks), blocks);
+      fprintf (stderr,
+	       ngettext ("%lu block\n", "%lu blocks\n",
+			 (unsigned long) blocks),
+	       (unsigned long) blocks);
     }
 }
 

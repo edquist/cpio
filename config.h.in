@@ -1,50 +1,5 @@
 /* config.h.in.  Generated from configure.ac by autoheader.  */
 
-/* Define this to an absolute name of <dirent.h>. */
-#undef ABSOLUTE_DIRENT_H
-
-/* Define this to an absolute name of <fcntl.h>. */
-#undef ABSOLUTE_FCNTL_H
-
-/* Define this to an absolute name of <float.h>. */
-#undef ABSOLUTE_FLOAT_H
-
-/* Define this to an absolute name of <inttypes.h>. */
-#undef ABSOLUTE_INTTYPES_H
-
-/* Define this to an absolute name of <stdint.h>. */
-#undef ABSOLUTE_STDINT_H
-
-/* Define this to an absolute name of <stdio.h>. */
-#undef ABSOLUTE_STDIO_H
-
-/* Define this to an absolute name of <stdlib.h>. */
-#undef ABSOLUTE_STDLIB_H
-
-/* Define this to an absolute name of <string.h>. */
-#undef ABSOLUTE_STRING_H
-
-/* Define this to an absolute name of <sysexits.h>. */
-#undef ABSOLUTE_SYSEXITS_H
-
-/* Define this to an absolute name of <sys/stat.h>. */
-#undef ABSOLUTE_SYS_STAT_H
-
-/* Define this to an absolute name of <sys/time.h>. */
-#undef ABSOLUTE_SYS_TIME_H
-
-/* Define this to an absolute name of <time.h>. */
-#undef ABSOLUTE_TIME_H
-
-/* Define this to an absolute name of <unistd.h>. */
-#undef ABSOLUTE_UNISTD_H
-
-/* Define this to an absolute name of <wchar.h>. */
-#undef ABSOLUTE_WCHAR_H
-
-/* Define this to an absolute name of <wctype.h>. */
-#undef ABSOLUTE_WCTYPE_H
-
 /* Define to the number of bits in type 'ptrdiff_t'. */
 #undef BITSIZEOF_PTRDIFF_T
 
@@ -270,10 +225,6 @@
    don't. */
 #undef HAVE_DECL_ISBLANK
 
-/* Define to 1 if you have the declaration of `lchown', and to 0 if you don't.
-   */
-#undef HAVE_DECL_LCHOWN
-
 /* Define to 1 if you have the declaration of `memrchr', and to 0 if you
    don't. */
 #undef HAVE_DECL_MEMRCHR
@@ -335,6 +286,10 @@
 /* Define to 1 if you have the declaration of `vsnprintf', and to 0 if you
    don't. */
 #undef HAVE_DECL_VSNPRINTF
+
+/* Define to 1 if you have the declaration of `_snprintf', and to 0 if you
+   don't. */
+#undef HAVE_DECL__SNPRINTF
 
 /* Define to 1 if you have the declaration of `__fpending', and to 0 if you
    don't. */
@@ -409,6 +364,9 @@
 /* Define if you have the iconv() function and it works. */
 #undef HAVE_ICONV
 
+/* Define if your compiler supports the #include_next directive. */
+#undef HAVE_INCLUDE_NEXT
+
 /* Define to 1 if the compiler supports one of the keywords 'inline',
    '__inline__', '__inline' and effectively inlines functions marked as such.
    */
@@ -426,6 +384,9 @@
 
 /* Define to 1 if you have the <io.h> header file. */
 #undef HAVE_IO_H
+
+/* Define to 1 if you have the `isblank' function. */
+#undef HAVE_ISBLANK
 
 /* Define to 1 if you have the `iswcntrl' function. */
 #undef HAVE_ISWCNTRL

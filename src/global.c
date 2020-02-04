@@ -1,9 +1,10 @@
 /* global.c - global variables and initial values for cpio.
-   Copyright (C) 1990, 1991, 1992, 2001, 2006 Free Software Foundation, Inc.
+   Copyright (C) 1990, 1991, 1992, 2001, 2006, 
+   2007 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
+   the Free Software Foundation; either version 3, or (at your option)
    any later version.
 
    This program is distributed in the hope that it will be useful,
@@ -79,6 +80,9 @@ int swapping_halfwords = false;
 /* If true, we are swapping bytes on the current file.  */
 int swapping_bytes = false;
 
+/* Umask for creating new directories */
+mode_t newdir_umask;
+
 /* If true, set ownership of all files to UID `set_owner'.  */
 int set_owner_flag = false;
 uid_t set_owner;
@@ -146,25 +150,15 @@ unsigned int crc;
 char *input_buffer, *output_buffer;
 
 /* The size of the input buffer.  */
-long input_buffer_size;
+size_t input_buffer_size;
 
 /* Current locations in `input_buffer' and `output_buffer'.  */
 char *in_buff, *out_buff;
 
 /* Current number of bytes stored at `input_buff' and `output_buff'.  */
-long input_size, output_size;
+size_t input_size, output_size;
 
-/* Total number of bytes read and written for all files.  
-   Now that many tape drives hold more than 4Gb we need more than 32
-   bits to hold input_bytes and output_bytes.  But it's not worth
-   the trouble of adding special multi-precision arithmetic if the 
-   compiler doesn't support 64 bit ints since input_bytes and
-   output_bytes are only used to print the number of blocks copied.  */
-#ifdef __GNUC__
-long long input_bytes, output_bytes;
-#else
-long input_bytes, output_bytes;
-#endif
+off_t input_bytes, output_bytes;
 
 /* Saving of argument values for later reference.  */
 char *directory_name = NULL;

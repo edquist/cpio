@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cpio 2.3.911\n"
 "Report-Msgid-Bugs-To: bug-cpio@gnu.org\n"
-"POT-Creation-Date: 2007-06-07 14:16+0300\n"
+"POT-Creation-Date: 2007-06-28 19:58+0300\n"
 "PO-Revision-Date: 1997-10-31 19:25+0900\n"
 "Last-Translator: Kim Seong-Jin <stmksjp@lgeds.lg.co.kr>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -48,7 +48,7 @@ msgstr ""
 msgid "cannot remove current %s"
 msgstr "$(CGv@g@G(B %s$(C@;(B($(C8&(B) $(C;hA&GR(B $(C<v(B $(C>x=@4O4Y(B"
 
-#: src/copyin.c:279 src/copyin.c:476 src/copyin.c:683 src/copypass.c:427
+#: src/copyin.c:279 src/copyin.c:476 src/copyin.c:683 src/copypass.c:433
 #, c-format
 msgid "cannot link %s to %s"
 msgstr "%s$(C@;(B($(C8&(B) %s$(C?!(B $(C85E)GR(B $(C<v(B $(C>x=@4O4Y(B"
@@ -109,10 +109,10 @@ msgstr ""
 msgid "standard input is closed"
 msgstr "$(CG%AX@T7B@L(B $(C4]G{=@4O4Y(B"
 
-#: src/copyin.c:1576 src/copyout.c:893 src/copypass.c:370
+#: src/copyin.c:1579 src/copyout.c:894 src/copypass.c:374
 #, fuzzy, c-format
-msgid "%d block\n"
-msgid_plural "%d blocks\n"
+msgid "%lu block\n"
+msgid_plural "%lu blocks\n"
 msgstr[0] "%d$(C:m70(B\n"
 msgstr[1] "%d$(C:m70(B\n"
 
@@ -215,7 +215,7 @@ msgstr ""
 msgid "%s: symbolic link too long"
 msgstr "%s: $(C3J9+(B $(C1d(B $(C=I:<8/(B $(C85E)(B"
 
-#: src/copypass.c:422
+#: src/copypass.c:428
 #, c-format
 msgid "%s linked to %s"
 msgstr "%s$(C@:(B($(C4B(B) %s$(C?!(B $(C85E)5J(B"
@@ -521,7 +521,7 @@ msgstr ""
 msgid ""
 "   GNU cpio is free software; you can redistribute it and/or modify\n"
 "   it under the terms of the GNU General Public License as published by\n"
-"   the Free Software Foundation; either version 2 of the License, or\n"
+"   the Free Software Foundation; either version 3 of the License, or\n"
 "   (at your option) any later version.\n"
 "\n"
 "   GNU cpio is distributed in the hope that it will be useful,\n"
@@ -535,17 +535,17 @@ msgid ""
 "\n"
 msgstr ""
 
-#: src/main.c:333 src/main.c:350
+#: src/main.c:334 src/main.c:351
 #, c-format
 msgid "invalid block size"
 msgstr "$(C:N@{@}GQ(B $(C:m70E)1b(B"
 
-#: src/main.c:339 src/main.c:371
+#: src/main.c:340 src/main.c:372
 #, c-format
 msgid "Archive format multiply defined"
 msgstr ""
 
-#: src/main.c:389
+#: src/main.c:390
 #, fuzzy, c-format
 msgid ""
 "invalid archive format `%s'; valid formats are:\n"
@@ -555,89 +555,89 @@ msgstr ""
 "=D@:(B:\n"
 "crc, newc, odc, bin, ustar, tar, hpodc, hpbin$(C@T4O4Y(B"
 
-#: src/main.c:396 src/main.c:446 src/main.c:460
+#: src/main.c:397 src/main.c:447 src/main.c:461
 #, c-format
 msgid "Mode already defined"
 msgstr ""
 
-#: src/main.c:440
+#: src/main.c:441
 #, c-format
 msgid "--no-preserve-owner cannot be used with --owner"
 msgstr ""
 
-#: src/main.c:483
+#: src/main.c:484
 #, c-format
 msgid "--owner cannot be used with --no-preserve-owner"
 msgstr ""
 
-#: src/main.c:530
+#: src/main.c:531
 #, c-format
 msgid "Invalid value for --warning option: %s"
 msgstr ""
 
-#: src/main.c:583
+#: src/main.c:584
 msgid "[destination-directory]"
 msgstr ""
 
-#: src/main.c:602 src/main.c:618
+#: src/main.c:603 src/main.c:619
 #, c-format
 msgid ""
 "You must specify one of -oipt options.\n"
 "Try `%s --help' or `%s --usage' for more information.\n"
 msgstr ""
 
-#: src/main.c:646
+#: src/main.c:647
 #, c-format
 msgid "Both -I and -F are used in copy-in mode"
 msgstr ""
 
-#: src/main.c:658 src/main.c:694
+#: src/main.c:659 src/main.c:695
 #, c-format
 msgid "Too many arguments"
 msgstr ""
 
-#: src/main.c:677
+#: src/main.c:678
 #, c-format
 msgid ""
 "--append is used but no archive file name is given (use -F or -O options)"
 msgstr ""
 
-#: src/main.c:683
+#: src/main.c:684
 #, c-format
 msgid "Both -O and -F are used in copy-out mode"
 msgstr ""
 
-#: src/main.c:696
+#: src/main.c:697
 #, c-format
 msgid "Not enough arguments"
 msgstr ""
 
-#: src/main.c:700
+#: src/main.c:701
 #, c-format
 msgid "Archive format is not specified in copy-pass mode (use --format option)"
 msgstr ""
 
-#: src/main.c:722
+#: src/main.c:723
 #, c-format
 msgid "-F can be used only with --create or --extract"
 msgstr ""
 
-#: src/main.c:725
+#: src/main.c:726
 #, fuzzy, c-format
 msgid "Cannot open %s"
 msgstr "$(C5p7:Ed8.(B %s$(C@;(B($(C8&(B) $(C?-(B $(C<v(B $(C>x=@4O4Y(B"
 
-#: src/main.c:797
+#: src/main.c:798
 #, c-format
 msgid "error closing archive"
 msgstr "$(C>FD+@L:j(B $(C4]1b(B $(C?@7y(B"
 
-#: src/makepath.c:117 src/makepath.c:184
+#: src/makepath.c:96 src/makepath.c:155
 #, c-format
 msgid "cannot make directory `%s'"
 msgstr "$(C5p7:Ed8.(B `%s'$(C@;(B($(C8&(B) $(C885i(B $(C<v(B $(C>x=@4O4Y(B"
 
-#: src/makepath.c:159 src/makepath.c:237
+#: src/makepath.c:131 src/makepath.c:181
 #, c-format
 msgid "`%s' exists but is not a directory"
 msgstr "`%s'$(C@L(B($(C0!(B) $(CA8@gGOAv88(B $(C5p7:Ed8.4B(B $(C>F4U4O4Y(B"
@@ -744,38 +744,48 @@ msgstr ""
 msgid "virtual memory exhausted"
 msgstr "$(C0!;s(B $(C8^8p8.0!(B $(C9Y4Z35=@4O4Y(B"
 
-#: src/util.c:654 src/util.c:660
+#: src/util.c:624
+#, fuzzy, c-format
+msgid "Creating intermediate directory `%s'"
+msgstr "$(C5p7:Ed8.(B `%s'$(C@;(B($(C8&(B) $(C885i(B $(C<v(B $(C>x=@4O4Y(B"
+
+#: src/util.c:661 src/util.c:667
 #, c-format
 msgid "cannot seek on output"
 msgstr "$(CCb7B?!(B $(C4kGX<-4B(B seek$(CGR(B $(C<v(B $(C>x=@4O4Y(B"
 
-#: src/util.c:832
+#: src/util.c:839
 #, c-format
 msgid "Found end of tape.  Load next tape and press RETURN. "
 msgstr ""
 "$(CEW@LGA@G(B $(C3!@T4O4Y(B. $(C4Y@=(B $(CEW@LGA8&(B $(C@{@gGQ(B $(CHD(B "
 "$(C8.EO@;(B $(C4)8#=J=C?@(B. "
 
-#: src/util.c:834
+#: src/util.c:841
 #, c-format
 msgid "Found end of tape.  To continue, type device/file name when ready.\n"
 msgstr ""
 "$(CEW@LGA@G(B $(C3!@T4O4Y(B. $(C0h<SGO7A8i(B, $(CAX:q5H(B $(C@eD!(B/$(CFD@O"
 "(B $(C@L8'@;(B $(C@T7BGO=J=C?@(B.\n"
 
-#: src/util.c:857
+#: src/util.c:864
 #, c-format
 msgid "To continue, type device/file name when ready.\n"
 msgstr ""
 "$(C0h<SGO7A8i(B, $(CAX:q5H(B $(C@eD!(B/$(CFD@O(B $(C@L8'@;(B $(C@T7BGO=J=C?@"
 "(B.\n"
 
-#: src/util.c:882
+#: src/util.c:889
 #, c-format
 msgid "internal error: tape descriptor changed from %d to %d"
 msgstr ""
 "$(C3;:N(B $(C?@7y(B: $(CEW@LGA(B $(C1b<z@Z0!(B %d$(C?!<-(B %d($(C@8(B)$(C7N"
 "(B $(C9Y2n>z=@4O4Y(B"
+
+#: src/util.c:1417
+#, c-format
+msgid "%s: Unexpected inconsistency when making directory"
+msgstr ""
 
 #: lib/getopt.c:531 lib/getopt.c:547
 #, c-format
@@ -944,16 +954,6 @@ msgstr ""
 #: lib/paxnames.c:147
 msgid "Substituting `.' for empty hard link target"
 msgstr ""
-
-#, fuzzy
-#~ msgid "%s: Read error at byte %s, reading %lu byte"
-#~ msgid_plural "%s: Read error at byte %s, reading %lu bytes"
-#~ msgstr[0] ""
-#~ "$(CFD@O(B %s$(C@G(B %ld$(C9xB0(B $(C9Y@LF.?!<-(B $(C@P1b(B $(C?@7y@T4O4Y"
-#~ "(B. $(C8x@P@:(B $(C:N:P@:(B 0$(C@87N(B $(C8^?s4O4Y(B"
-#~ msgstr[1] ""
-#~ "$(CFD@O(B %s$(C@G(B %ld$(C9xB0(B $(C9Y@LF.?!<-(B $(C@P1b(B $(C?@7y@T4O4Y"
-#~ "(B. $(C8x@P@:(B $(C:N:P@:(B 0$(C@87N(B $(C8^?s4O4Y(B"
 
 #~ msgid "Memory exhausted"
 #~ msgstr "$(C8^8p8.0!(B $(C9Y4Z35=@4O4Y(B"
