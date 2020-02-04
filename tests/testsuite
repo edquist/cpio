@@ -605,14 +605,15 @@ at_times_file=$at_suite_dir/at-times
 # List of the tested programs.
 at_tested='cpio'
 # List of the all the test groups.
-at_groups_all=' 1 2'
+at_groups_all=' 1 2 3'
 # As many question marks as there are digits in the last test group number.
 # Used to normalize the test group numbers so that `ls' lists them in
 # numerical order.
 at_format='?'
 # Description of all the test groups.
 at_help_all='1;version.at:19;cpio version;;
-2;inout.at:19;basic functionality: copyin/copyout;;
+2;inout.at:19;basic functionality: copyin/copyout;copyin copyout;
+3;symlink.at:22;symlink;symlink copyout;
 '
 
 at_prev=
@@ -836,7 +837,7 @@ fi
 # List of tests.
 if $at_list_p; then
   cat <<_ATEOF
-GNU cpio 2.7 test suite test groups:
+GNU cpio 2.8 test suite test groups:
 
  NUM: FILE-NAME:LINE     TEST-GROUP-NAME
       KEYWORDS
@@ -860,7 +861,7 @@ _ATEOF
   exit 0
 fi
 if $at_version_p; then
-  echo "$as_me (GNU cpio 2.7)"
+  echo "$as_me (GNU cpio 2.8)"
   cat <<\_ACEOF
 
 Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software
@@ -944,13 +945,13 @@ exec 5>>"$at_suite_log"
 # Banners and logs.
 cat <<\_ASBOX
 ## ------------------------ ##
-## GNU cpio 2.7 test suite. ##
+## GNU cpio 2.8 test suite. ##
 ## ------------------------ ##
 _ASBOX
 {
   cat <<\_ASBOX
 ## ------------------------ ##
-## GNU cpio 2.7 test suite. ##
+## GNU cpio 2.8 test suite. ##
 ## ------------------------ ##
 _ASBOX
   echo
@@ -1047,7 +1048,7 @@ IFS=$as_save_IFS
 
   if test -f "$as_dir/$at_program"; then
     {
-      echo "$at_srcdir/testsuite.at:24: $as_dir/$at_program --version"
+      echo "$at_srcdir/testsuite.at:26: $as_dir/$at_program --version"
       "$as_dir/$at_program" --version
       echo
     } >&5 2>&1
@@ -1200,8 +1201,8 @@ echo "$as_me: error: cannot create directory $as_dir" >&2;}
 
 
 $at_traceoff
-echo "$at_srcdir/version.at:31: cpio --version"
-echo version.at:31 >"$at_check_line_file"
+echo "$at_srcdir/version.at:21: cpio --version"
+echo version.at:21 >"$at_check_line_file"
 
 at_trace_this=
 if test -n "$at_traceon"; then
@@ -1220,12 +1221,12 @@ fi
 
 at_failed=false
 $at_diff "$at_devnull" "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; echo "cpio (GNU cpio) 2.7
+echo >>"$at_stdout"; echo "cpio (GNU cpio) 2.8
 " | $at_diff - "$at_stdout" || at_failed=:
 case $at_status in
    77) echo 77 > "$at_status_file"; exit 77;;
    0) ;;
-   *) echo "$at_srcdir/version.at:31: exit code was $at_status, expected 0"
+   *) echo "$at_srcdir/version.at:21: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1261,6 +1262,7 @@ $at_traceon
       $at_traceon
 
 
+
 cat >filelist <<'_ATEOF'
 a 18
 b	1024
@@ -1274,14 +1276,14 @@ _ATEOF
 
 
 $at_traceoff
-echo "$at_srcdir/inout.at:37:
+echo "$at_srcdir/inout.at:32:
 while read NAME LENGTH
 do
 	genfile --length \$LENGTH > \$NAME
 	echo \$NAME
 done < filelist |
  cpio --quiet -o > archive"
-echo inout.at:37 >"$at_check_line_file"
+echo inout.at:32 >"$at_check_line_file"
 
 at_trace_this=
 if test -n "$at_traceon"; then
@@ -1316,7 +1318,104 @@ $at_diff "$at_devnull" "$at_stdout" || at_failed=:
 case $at_status in
    77) echo 77 > "$at_status_file"; exit 77;;
    0) ;;
-   *) echo "$at_srcdir/inout.at:37: exit code was $at_status, expected 0"
+   *) echo "$at_srcdir/inout.at:32: exit code was $at_status, expected 0"
+      at_failed=:;;
+esac
+if $at_failed; then
+
+
+  echo 1 > "$at_status_file"
+  exit 1
+fi
+
+$at_traceon
+
+
+      $at_traceoff
+      $at_times_p && times >"$at_times_file"
+    ) 5>&1 2>&1 | eval $at_tee_pipe
+    at_status=`cat "$at_status_file"`
+    ;;
+
+  3 ) # 3. symlink.at:22: symlink
+    at_setup_line='symlink.at:22'
+    at_desc='symlink'
+    $at_quiet $ECHO_N "  3: symlink                                      $ECHO_C"
+    at_xfail=no
+    echo "#                             -*- compilation -*-" >> "$at_group_log"
+    (
+      echo "3. symlink.at:22: testing ..."
+      $at_traceon
+
+
+
+cat >filelist <<'_ATEOF'
+file
+symlink
+_ATEOF
+
+
+$at_traceoff
+echo "$at_srcdir/symlink.at:29:
+genfile --file file
+ln -s file symlink || exit 77
+echo Creating the archive
+cpio --quiet -o < filelist > archive
+echo Extracting the archive
+mkdir dir
+cd dir
+cpio --quiet -i < ../archive
+find . | sort
+"
+echo symlink.at:29 >"$at_check_line_file"
+
+at_trace_this=
+if test -n "$at_traceon"; then
+    echo 'Not enabling shell tracing (command contains an embedded newline)'
+fi
+
+if test -n "$at_trace_this"; then
+    ( $at_traceon;
+genfile --file file
+ln -s file symlink || exit 77
+echo Creating the archive
+cpio --quiet -o < filelist > archive
+echo Extracting the archive
+mkdir dir
+cd dir
+cpio --quiet -i < ../archive
+find . | sort
+ ) >"$at_stdout" 2>"$at_stder1"
+    at_status=$?
+    grep '^ *+' "$at_stder1" >&2
+    grep -v '^ *+' "$at_stder1" >"$at_stderr"
+else
+    ( :;
+genfile --file file
+ln -s file symlink || exit 77
+echo Creating the archive
+cpio --quiet -o < filelist > archive
+echo Extracting the archive
+mkdir dir
+cd dir
+cpio --quiet -i < ../archive
+find . | sort
+ ) >"$at_stdout" 2>"$at_stderr"
+    at_status=$?
+fi
+
+at_failed=false
+$at_diff "$at_devnull" "$at_stderr" || at_failed=:
+echo >>"$at_stdout"; echo "Creating the archive
+Extracting the archive
+.
+./file
+./symlink
+" | $at_diff - "$at_stdout" || at_failed=:
+case $at_status in
+   77) echo 77 > "$at_status_file"; exit 77;;
+   0) ;;
+   *) echo "$at_srcdir/symlink.at:29: exit code was $at_status, expected 0"
       at_failed=:;;
 esac
 if $at_failed; then
@@ -1625,7 +1724,7 @@ _ASBOX
   echo "Please send \`${at_testdir+${at_testdir}/}$as_me.log' and all information you think might help:"
   echo
   echo "   To: <bug-cpio@gnu.org>"
-  echo "   Subject: [GNU cpio 2.7] $as_me:$at_fail_list${at_fail_list:+ failed${at_xpass_list:+,}}$at_xpass_list${at_xpass_list:+ passed unexpectedly}"
+  echo "   Subject: [GNU cpio 2.8] $as_me:$at_fail_list${at_fail_list:+ failed${at_xpass_list:+,}}$at_xpass_list${at_xpass_list:+ passed unexpectedly}"
   echo
   if test $at_debug_p = false; then
     echo

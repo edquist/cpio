@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cpio 2.3.911\n"
 "Report-Msgid-Bugs-To: bug-cpio@gnu.org\n"
-"POT-Creation-Date: 2006-10-21 19:55+0300\n"
+"POT-Creation-Date: 2007-06-07 14:16+0300\n"
 "PO-Revision-Date: 1997-10-31 19:25+0900\n"
 "Last-Translator: Kim Seong-Jin <stmksjp@lgeds.lg.co.kr>\n"
 "Language-Team: Korean <ko@li.org>\n"
@@ -26,90 +26,90 @@ msgstr[1] "$(C0f0m(B: %ld$(C9Y@LF.8&(B $(C0G3J6Y>z=@4O4Y(B"
 msgid "rename %s -> "
 msgstr "$(C@L8'(B $(C9Y2Y1b(B %s -> "
 
-#: src/copyin.c:95 src/copyout.c:561
+#: src/copyin.c:95 src/copyout.c:562
 #, c-format
 msgid "%s: file name too long"
 msgstr "%s: $(C3J9+(B $(C1d(B $(CFD@O(B $(C@L8'(B"
 
-#: src/copyin.c:181 src/copyin.c:527 src/copyin.c:549 src/copyin.c:1519
+#: src/copyin.c:181 src/copyin.c:528 src/copyin.c:553 src/copyin.c:1524
 #, fuzzy, c-format
 msgid "%s: checksum error (0x%lx, should be 0x%lx)"
 msgstr "%s: $(CC<E)<6(B $(C?@7y(B (0x%x$(C@N5%(B, 0x%x$(C@L>n>_(B $(CGT(B)"
 
-#: src/copyin.c:208 src/copypass.c:128
+#: src/copyin.c:208 src/copypass.c:129
 #, c-format
 msgid "%s not created: newer or same age version exists"
 msgstr ""
 "%s $(C;}<:>H5J(B: $(C4u(B $(C;u7N?n(B $(C9v@|@L3*(B $(C5?@O(B $(C9v@|@L(B "
 "$(CA8@gGU4O4Y(B"
 
-#: src/copyin.c:218 src/copypass.c:136
+#: src/copyin.c:218 src/copypass.c:137
 #, c-format
 msgid "cannot remove current %s"
 msgstr "$(CGv@g@G(B %s$(C@;(B($(C8&(B) $(C;hA&GR(B $(C<v(B $(C>x=@4O4Y(B"
 
-#: src/copyin.c:279 src/copyin.c:475 src/copyin.c:681 src/copypass.c:420
+#: src/copyin.c:279 src/copyin.c:476 src/copyin.c:683 src/copypass.c:427
 #, c-format
 msgid "cannot link %s to %s"
 msgstr "%s$(C@;(B($(C8&(B) %s$(C?!(B $(C85E)GR(B $(C<v(B $(C>x=@4O4Y(B"
 
-#: src/copyin.c:508
+#: src/copyin.c:509
 #, c-format
 msgid "cannot swap halfwords of %s: odd number of halfwords"
 msgstr ""
 "%s$(C@G(B $(C9](B $(C?v5e8&(B $(C@Z8.9Y2^GR(B $(C<v(B $(C>x@=(B: $(CH&<v03@G"
 "(B $(C9](B $(C?v5e(B"
 
-#: src/copyin.c:516
+#: src/copyin.c:517
 #, c-format
 msgid "cannot swap bytes of %s: odd number of bytes"
 msgstr ""
 "$(CH&<v03(B $(C9Y@LF.?)<-(B %s$(C@G(B $(C9Y@LF.5i@;(B $(C@Z8.9Y2^GR(B $(C<v"
 "(B $(C>x=@4O4Y(B"
 
-#: src/copyin.c:640
+#: src/copyin.c:642
 #, fuzzy, c-format
 msgid "%s is not a directory"
 msgstr "`%s'$(C@L(B($(C0!(B) $(CA8@gGOAv88(B $(C5p7:Ed8.4B(B $(C>F4U4O4Y(B"
 
-#: src/copyin.c:752
+#: src/copyin.c:755
 #, fuzzy, c-format
 msgid "%s: Cannot symlink to %s"
 msgstr "%s$(C@;(B($(C8&(B) %s$(C?!(B $(C85E)GR(B $(C<v(B $(C>x=@4O4Y(B"
 
-#: src/copyin.c:806 src/copyout.c:841 src/copypass.c:349
+#: src/copyin.c:809 src/copyout.c:851 src/copypass.c:356
 #, c-format
 msgid "%s: unknown file type"
 msgstr "%s: $(C>K(B $(C<v(B $(C>x4B(B $(CFD@O(B $(C@/G|(B"
 
-#: src/copyin.c:989 src/copyin.c:996
+#: src/copyin.c:994 src/copyin.c:1001
 #, c-format
 msgid "Malformed number %.*s"
 msgstr ""
 
-#: src/copyin.c:1006
+#: src/copyin.c:1011
 #, c-format
 msgid "Archive value %.*s is out of range"
 msgstr ""
 
-#: src/copyin.c:1041
+#: src/copyin.c:1046
 #, fuzzy, c-format
 msgid "premature end of archive"
 msgstr "$(C6'@L8%(B $(C>FD+@L:j@G(B $(C3!(B"
 
-#: src/copyin.c:1261
+#: src/copyin.c:1266
 #, c-format
 msgid "warning: archive header has reverse byte-order"
 msgstr ""
 "$(C0f0m(B: $(C>FD+@L:j(B $(CGl4u?!(B $(C0E2Y7N(B $(C5H(B $(C9Y@LF.(B-$(C<x<-"
 "0!(B $(C@V=@4O4Y(B"
 
-#: src/copyin.c:1408
+#: src/copyin.c:1413
 #, fuzzy, c-format
 msgid "standard input is closed"
 msgstr "$(CG%AX@T7B@L(B $(C4]G{=@4O4Y(B"
 
-#: src/copyin.c:1571 src/copyout.c:882 src/copypass.c:363
+#: src/copyin.c:1576 src/copyout.c:893 src/copypass.c:370
 #, fuzzy, c-format
 msgid "%d block\n"
 msgid_plural "%d blocks\n"
@@ -121,101 +121,101 @@ msgstr[1] "%d$(C:m70(B\n"
 msgid "cannot read checksum for %s"
 msgstr "%s$(C@G(B $(CC<E)<6@;(B $(C@P@;(B $(C<v(B $(C>x=@4O4Y(B"
 
-#: src/copyout.c:299
+#: src/copyout.c:300
 #, c-format
 msgid "%s: field width not sufficient for storing %s"
 msgstr ""
 
-#: src/copyout.c:307
+#: src/copyout.c:308
 #, fuzzy, c-format
 msgid "%s: truncating %s"
 msgstr "%s: $(C>F@L3k5e(B $(C9xH#8&(B $(C@}4\\GU4O4Y(B"
 
-#: src/copyout.c:342 src/copyout.c:405 src/copyout.c:479
+#: src/copyout.c:343 src/copyout.c:406 src/copyout.c:480
 #, fuzzy
 msgid "inode number"
 msgstr "$(CFD@O(B $(C9xH#(B = %d\n"
 
-#: src/copyout.c:345 src/copyout.c:408 src/copyout.c:483
+#: src/copyout.c:346 src/copyout.c:409 src/copyout.c:484
 msgid "file mode"
 msgstr ""
 
-#: src/copyout.c:348 src/copyout.c:410 src/copyout.c:487
+#: src/copyout.c:349 src/copyout.c:411 src/copyout.c:488
 msgid "uid"
 msgstr ""
 
-#: src/copyout.c:351 src/copyout.c:412 src/copyout.c:491
+#: src/copyout.c:352 src/copyout.c:413 src/copyout.c:492
 msgid "gid"
 msgstr ""
 
-#: src/copyout.c:354 src/copyout.c:415 src/copyout.c:495
+#: src/copyout.c:355 src/copyout.c:416 src/copyout.c:496
 msgid "number of links"
 msgstr ""
 
-#: src/copyout.c:357 src/copyout.c:420
+#: src/copyout.c:358 src/copyout.c:421
 msgid "modification time"
 msgstr ""
 
-#: src/copyout.c:360 src/copyout.c:427 src/copyout.c:514
+#: src/copyout.c:361 src/copyout.c:428 src/copyout.c:515
 msgid "file size"
 msgstr ""
 
-#: src/copyout.c:364
+#: src/copyout.c:365
 msgid "device major number"
 msgstr ""
 
-#: src/copyout.c:368
+#: src/copyout.c:369
 msgid "device minor number"
 msgstr ""
 
-#: src/copyout.c:372
+#: src/copyout.c:373
 msgid "rdev major"
 msgstr ""
 
-#: src/copyout.c:376
+#: src/copyout.c:377
 msgid "rdev minor"
 msgstr ""
 
-#: src/copyout.c:380 src/copyout.c:423 src/copyout.c:504
+#: src/copyout.c:381 src/copyout.c:424 src/copyout.c:505
 msgid "name size"
 msgstr ""
 
-#: src/copyout.c:402
+#: src/copyout.c:403
 #, fuzzy
 msgid "device number"
 msgstr "$(CFD@O(B $(C9xH#(B = %d\n"
 
-#: src/copyout.c:417
+#: src/copyout.c:418
 msgid "rdev"
 msgstr ""
 
-#: src/copyout.c:475
+#: src/copyout.c:476
 #, c-format
 msgid "%s: truncating inode number"
 msgstr "%s: $(C>F@L3k5e(B $(C9xH#8&(B $(C@}4\\GU4O4Y(B"
 
-#: src/copyout.c:610
+#: src/copyout.c:620
 #, fuzzy, c-format
 msgid "standard output is closed"
 msgstr "$(CG%AXCb7B@L(B $(C4]G{=@4O4Y(B"
 
-#: src/copyout.c:631 src/copypass.c:85
+#: src/copyout.c:641 src/copypass.c:86
 #, c-format
 msgid "blank line ignored"
 msgstr "$(C0x9iG`@:(B $(C9+=C5K4O4Y(B"
 
-#: src/copyout.c:767
+#: src/copyout.c:776
 #, c-format
 msgid "%s not dumped: not a regular file"
 msgstr ""
 "%s$(C@L(B($(C0!(B) $(C1b7O5GAv(B $(C>J@=(B: $(CA$1T(B $(CFD@O@L(B $(C>F4T(B"
 
-#: src/copyout.c:817
+#: src/copyout.c:827
 #, c-format
 msgid "%s: symbolic link too long"
 msgstr "%s: $(C3J9+(B $(C1d(B $(C=I:<8/(B $(C85E)(B"
 
-#: src/copypass.c:415
+#: src/copypass.c:422
 #, c-format
 msgid "%s linked to %s"
 msgstr "%s$(C@:(B($(C4B(B) %s$(C?!(B $(C85E)5J(B"
@@ -591,48 +591,53 @@ msgstr ""
 msgid "Both -I and -F are used in copy-in mode"
 msgstr ""
 
-#: src/main.c:658 src/main.c:695
+#: src/main.c:658 src/main.c:694
 #, c-format
 msgid "Too many arguments"
 msgstr ""
 
-#: src/main.c:678
+#: src/main.c:677
 #, c-format
 msgid ""
 "--append is used but no archive file name is given (use -F or -O options)"
 msgstr ""
 
-#: src/main.c:684
+#: src/main.c:683
 #, c-format
 msgid "Both -O and -F are used in copy-out mode"
 msgstr ""
 
-#: src/main.c:699
+#: src/main.c:696
+#, c-format
+msgid "Not enough arguments"
+msgstr ""
+
+#: src/main.c:700
 #, c-format
 msgid "Archive format is not specified in copy-pass mode (use --format option)"
 msgstr ""
 
-#: src/main.c:721
+#: src/main.c:722
 #, c-format
 msgid "-F can be used only with --create or --extract"
 msgstr ""
 
-#: src/main.c:724
+#: src/main.c:725
 #, fuzzy, c-format
 msgid "Cannot open %s"
 msgstr "$(C5p7:Ed8.(B %s$(C@;(B($(C8&(B) $(C?-(B $(C<v(B $(C>x=@4O4Y(B"
 
-#: src/main.c:796
+#: src/main.c:797
 #, c-format
 msgid "error closing archive"
 msgstr "$(C>FD+@L:j(B $(C4]1b(B $(C?@7y(B"
 
-#: src/makepath.c:152 src/makepath.c:219
+#: src/makepath.c:117 src/makepath.c:184
 #, c-format
 msgid "cannot make directory `%s'"
 msgstr "$(C5p7:Ed8.(B `%s'$(C@;(B($(C8&(B) $(C885i(B $(C<v(B $(C>x=@4O4Y(B"
 
-#: src/makepath.c:194 src/makepath.c:272
+#: src/makepath.c:159 src/makepath.c:237
 #, c-format
 msgid "`%s' exists but is not a directory"
 msgstr "`%s'$(C@L(B($(C0!(B) $(CA8@gGOAv88(B $(C5p7:Ed8.4B(B $(C>F4U4O4Y(B"
@@ -689,22 +694,22 @@ msgstr ""
 msgid "invalid group"
 msgstr "$(C:N@{@}GQ(B $(C1W7l(B"
 
-#: src/util.c:91 src/util.c:94 src/util.c:141
+#: src/util.c:91 src/util.c:94 src/util.c:143
 #, c-format
 msgid "write error"
 msgstr "$(C>21b(B $(C?@7y(B"
 
-#: src/util.c:203 src/util.c:372
+#: src/util.c:205 src/util.c:374
 #, c-format
 msgid "read error"
 msgstr "$(C@P1b(B $(C?@7y(B"
 
-#: src/util.c:206
+#: src/util.c:208
 #, fuzzy, c-format
 msgid "premature end of file"
 msgstr "$(C6'@L8%(B $(CH-@O@G(B $(C3!(B"
 
-#: src/util.c:491 src/util.c:541
+#: src/util.c:493 src/util.c:543
 #, fuzzy, c-format
 msgid "File %s shrunk by %s byte, padding with zeros"
 msgid_plural "File %s shrunk by %s bytes, padding with zeros"
@@ -715,55 +720,57 @@ msgstr[1] ""
 "$(CFD@O(B %s$(C@;(B($(C8&(B) %ld$(C9Y@LF.(B $(CC`<R=CE00m(B, $(CAY>n5g(B "
 "$(C88E-(B 0$(C@87N(B $(C8^?v(B $(C3V=@4O4Y(B"
 
-#: src/util.c:497 src/util.c:547
+#: src/util.c:499 src/util.c:549
 #, fuzzy, c-format
 msgid "Read error at byte %lld in file %s, padding with zeros"
 msgstr ""
 "$(CFD@O(B %s$(C@G(B %ld$(C9xB0(B $(C9Y@LF.?!<-(B $(C@P1b(B $(C?@7y@T4O4Y(B. "
 "$(C8x@P@:(B $(C:N:P@:(B 0$(C@87N(B $(C8^?s4O4Y(B"
 
-#: src/util.c:581
+#: src/util.c:584
 #, c-format
-msgid "File %s grew, %ld new bytes not copied"
-msgstr ""
+msgid "File %s grew, %<PRIuMAX> new byte not copied"
+msgid_plural "File %s grew, %<PRIuMAX> new bytes not copied"
+msgstr[0] ""
+msgstr[1] ""
 
-#: src/util.c:585
+#: src/util.c:590
 #, c-format
 msgid "File %s was modified while being copied"
 msgstr ""
 
-#: src/util.c:613
+#: src/util.c:618
 #, c-format
 msgid "virtual memory exhausted"
 msgstr "$(C0!;s(B $(C8^8p8.0!(B $(C9Y4Z35=@4O4Y(B"
 
-#: src/util.c:649 src/util.c:655
+#: src/util.c:654 src/util.c:660
 #, c-format
 msgid "cannot seek on output"
 msgstr "$(CCb7B?!(B $(C4kGX<-4B(B seek$(CGR(B $(C<v(B $(C>x=@4O4Y(B"
 
-#: src/util.c:827
+#: src/util.c:832
 #, c-format
 msgid "Found end of tape.  Load next tape and press RETURN. "
 msgstr ""
 "$(CEW@LGA@G(B $(C3!@T4O4Y(B. $(C4Y@=(B $(CEW@LGA8&(B $(C@{@gGQ(B $(CHD(B "
 "$(C8.EO@;(B $(C4)8#=J=C?@(B. "
 
-#: src/util.c:829
+#: src/util.c:834
 #, c-format
 msgid "Found end of tape.  To continue, type device/file name when ready.\n"
 msgstr ""
 "$(CEW@LGA@G(B $(C3!@T4O4Y(B. $(C0h<SGO7A8i(B, $(CAX:q5H(B $(C@eD!(B/$(CFD@O"
 "(B $(C@L8'@;(B $(C@T7BGO=J=C?@(B.\n"
 
-#: src/util.c:852
+#: src/util.c:857
 #, c-format
 msgid "To continue, type device/file name when ready.\n"
 msgstr ""
 "$(C0h<SGO7A8i(B, $(CAX:q5H(B $(C@eD!(B/$(CFD@O(B $(C@L8'@;(B $(C@T7BGO=J=C?@"
 "(B.\n"
 
-#: src/util.c:877
+#: src/util.c:882
 #, c-format
 msgid "internal error: tape descriptor changed from %d to %d"
 msgstr ""
@@ -847,11 +854,6 @@ msgstr ""
 msgid "Cannot execute remote shell"
 msgstr "$(C?x0]=)@;(B $(C=GG`GR(B $(C<v(B $(C>x=@4O4Y(B"
 
-#: lib/strerror.c:45 lib/strerror.c:58
-#, c-format
-msgid "error %d"
-msgstr ""
-
 #. TRANSLATORS: %s after `Cannot' is a function name, e.g. `Cannot open'.
 #. Directly translating this to another language will not work, first because
 #. %s itself is not translated.
@@ -885,7 +887,7 @@ msgstr ""
 msgid "%s: Cannot hard link to %s"
 msgstr "%s$(C@;(B($(C8&(B) %s$(C?!(B $(C85E)GR(B $(C<v(B $(C>x=@4O4Y(B"
 
-#: lib/paxerror.c:179
+#: lib/paxerror.c:179 lib/paxerror.c:211
 #, fuzzy, c-format
 msgid "%s: Read error at byte %s, while reading %lu byte"
 msgid_plural "%s: Read error at byte %s, while reading %lu bytes"
@@ -902,17 +904,6 @@ msgid "%s: Warning: Read error at byte %s, while reading %lu byte"
 msgid_plural "%s: Warning: Read error at byte %s, while reading %lu bytes"
 msgstr[0] ""
 msgstr[1] ""
-
-#: lib/paxerror.c:211
-#, fuzzy, c-format
-msgid "%s: Read error at byte %s, reading %lu byte"
-msgid_plural "%s: Read error at byte %s, reading %lu bytes"
-msgstr[0] ""
-"$(CFD@O(B %s$(C@G(B %ld$(C9xB0(B $(C9Y@LF.?!<-(B $(C@P1b(B $(C?@7y@T4O4Y(B. "
-"$(C8x@P@:(B $(C:N:P@:(B 0$(C@87N(B $(C8^?s4O4Y(B"
-msgstr[1] ""
-"$(CFD@O(B %s$(C@G(B %ld$(C9xB0(B $(C9Y@LF.?!<-(B $(C@P1b(B $(C?@7y@T4O4Y(B. "
-"$(C8x@P@:(B $(C:N:P@:(B 0$(C@87N(B $(C8^?s4O4Y(B"
 
 #: lib/paxerror.c:259
 #, fuzzy, c-format
@@ -953,6 +944,16 @@ msgstr ""
 #: lib/paxnames.c:147
 msgid "Substituting `.' for empty hard link target"
 msgstr ""
+
+#, fuzzy
+#~ msgid "%s: Read error at byte %s, reading %lu byte"
+#~ msgid_plural "%s: Read error at byte %s, reading %lu bytes"
+#~ msgstr[0] ""
+#~ "$(CFD@O(B %s$(C@G(B %ld$(C9xB0(B $(C9Y@LF.?!<-(B $(C@P1b(B $(C?@7y@T4O4Y"
+#~ "(B. $(C8x@P@:(B $(C:N:P@:(B 0$(C@87N(B $(C8^?s4O4Y(B"
+#~ msgstr[1] ""
+#~ "$(CFD@O(B %s$(C@G(B %ld$(C9xB0(B $(C9Y@LF.?!<-(B $(C@P1b(B $(C?@7y@T4O4Y"
+#~ "(B. $(C8x@P@:(B $(C:N:P@:(B 0$(C@87N(B $(C8^?s4O4Y(B"
 
 #~ msgid "Memory exhausted"
 #~ msgstr "$(C8^8p8.0!(B $(C9Y4Z35=@4O4Y(B"

@@ -1,5 +1,7 @@
-/* strdup.c -- return a newly allocated copy of a string
-   Copyright (C) 1990 Free Software Foundation, Inc.
+/* Copyright (C) 1991, 1996, 1997, 1998, 2002, 2003, 2004, 2006, 2007 Free
+   Software Foundation, Inc.
+
+   This file is part of the GNU C Library.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -11,34 +13,43 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public
-   License along with this program; if not, write to the Free
-   Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-   Boston, MA 02110-1301 USA.  */
+   You should have received a copy of the GNU General Public License along
+   with this program; if not, write to the Free Software Foundation,
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
+#ifndef _LIBC
+# include <config.h>
 #endif
 
-#ifdef STDC_HEADERS
+/* Get specification.  */
 #include <string.h>
+
 #include <stdlib.h>
-#else
-char *malloc ();
-char *strcpy ();
+
+#undef __strdup
+#ifdef _LIBC
+# undef strdup
 #endif
 
-/* Return a newly allocated copy of STR,
-   or 0 if out of memory. */
+#ifndef weak_alias
+# define __strdup strdup
+#endif
 
+/* Duplicate S, returning an identical malloc'd string.  */
 char *
-strdup (str)
-     const char *str;
+__strdup (const char *s)
 {
-  char *newstr;
+  size_t len = strlen (s) + 1;
+  void *new = malloc (len);
 
-  newstr = (char *) malloc (strlen (str) + 1);
-  if (newstr)
-    strcpy (newstr, str);
-  return newstr;
+  if (new == NULL)
+    return NULL;
+
+  return (char *) memcpy (new, s, len);
 }
+#ifdef libc_hidden_def
+libc_hidden_def (__strdup)
+#endif
+#ifdef weak_alias
+weak_alias (__strdup, strdup)
+#endif

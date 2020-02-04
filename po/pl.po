@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cpio 2.6.90\n"
 "Report-Msgid-Bugs-To: bug-cpio@gnu.org\n"
-"POT-Creation-Date: 2006-10-21 19:55+0300\n"
+"POT-Creation-Date: 2007-06-07 14:16+0300\n"
 "PO-Revision-Date: 2006-10-12 19:34+0200\n"
 "Last-Translator: Jakub Bogusz <qboosh@pld-linux.org>\n"
 "Language-Team: Polish <translation-team-pl@lists.sourceforge.net>\n"
@@ -31,82 +31,82 @@ msgstr[2] "uwaga: pominiêto %ld bajtów ¶mieci"
 msgid "rename %s -> "
 msgstr "przemianowanie %s -> "
 
-#: src/copyin.c:95 src/copyout.c:561
+#: src/copyin.c:95 src/copyout.c:562
 #, c-format
 msgid "%s: file name too long"
 msgstr "%s: za d³uga nazwa pliku"
 
-#: src/copyin.c:181 src/copyin.c:527 src/copyin.c:549 src/copyin.c:1519
+#: src/copyin.c:181 src/copyin.c:528 src/copyin.c:553 src/copyin.c:1524
 #, c-format
 msgid "%s: checksum error (0x%lx, should be 0x%lx)"
 msgstr "%s: b³êdna suma kontrolna (0x%lx, powinno byæ 0x%lx)"
 
-#: src/copyin.c:208 src/copypass.c:128
+#: src/copyin.c:208 src/copypass.c:129
 #, c-format
 msgid "%s not created: newer or same age version exists"
 msgstr "%s nie zosta³ stworzony: istnieje nowsza lub wspó³czesna wersja"
 
-#: src/copyin.c:218 src/copypass.c:136
+#: src/copyin.c:218 src/copypass.c:137
 #, c-format
 msgid "cannot remove current %s"
 msgstr "nie mogê usun±æ obecnego %s"
 
-#: src/copyin.c:279 src/copyin.c:475 src/copyin.c:681 src/copypass.c:420
+#: src/copyin.c:279 src/copyin.c:476 src/copyin.c:683 src/copypass.c:427
 #, c-format
 msgid "cannot link %s to %s"
 msgstr "nie mogê dowi±zaæ %s do %s"
 
-#: src/copyin.c:508
+#: src/copyin.c:509
 #, c-format
 msgid "cannot swap halfwords of %s: odd number of halfwords"
 msgstr "nie mogê zamieniæ pó³s³ów z %s: nieparzysta liczba pó³s³ów"
 
-#: src/copyin.c:516
+#: src/copyin.c:517
 #, c-format
 msgid "cannot swap bytes of %s: odd number of bytes"
 msgstr "nie mogê zamieniæ bajtów z %s: nieparzysta liczba bajtów"
 
-#: src/copyin.c:640
+#: src/copyin.c:642
 #, c-format
 msgid "%s is not a directory"
 msgstr "%s nie jest katalogiem"
 
-#: src/copyin.c:752
+#: src/copyin.c:755
 #, c-format
 msgid "%s: Cannot symlink to %s"
 msgstr "%s: Nie mo¿na dowi±zaæ do %s"
 
-#: src/copyin.c:806 src/copyout.c:841 src/copypass.c:349
+#: src/copyin.c:809 src/copyout.c:851 src/copypass.c:356
 #, c-format
 msgid "%s: unknown file type"
 msgstr "%s: nieznany typ pliku"
 
-#: src/copyin.c:989 src/copyin.c:996
+#: src/copyin.c:994 src/copyin.c:1001
 #, c-format
 msgid "Malformed number %.*s"
 msgstr "B³êdnie podana liczba %.*s"
 
-#: src/copyin.c:1006
+#: src/copyin.c:1011
 #, c-format
 msgid "Archive value %.*s is out of range"
 msgstr "Warto¶æ archiwum %.*s jest spoza zakresu"
 
-#: src/copyin.c:1041
+#: src/copyin.c:1046
 #, c-format
 msgid "premature end of archive"
 msgstr "niespodziewany koniec archiwum"
 
-#: src/copyin.c:1261
+#: src/copyin.c:1266
 #, c-format
 msgid "warning: archive header has reverse byte-order"
 msgstr "uwaga: nag³ówek archiwum ma odwrócony porz±dek bajtów"
 
-#: src/copyin.c:1408
+#: src/copyin.c:1413
 #, c-format
 msgid "standard input is closed"
 msgstr "standardowe wej¶cie (stdin) jest zamkniête"
 
-#: src/copyin.c:1571 src/copyout.c:882 src/copypass.c:363
+#: src/copyin.c:1576 src/copyout.c:893 src/copypass.c:370
 #, c-format
 msgid "%d block\n"
 msgid_plural "%d blocks\n"
@@ -119,98 +119,98 @@ msgstr[2] "%d bloków\n"
 msgid "cannot read checksum for %s"
 msgstr "nie mogê odczytaæ sumy kontrolnej dla %s"
 
-#: src/copyout.c:299
+#: src/copyout.c:300
 #, c-format
 msgid "%s: field width not sufficient for storing %s"
 msgstr "%s: szeroko¶æ pola niewystarczaj±ca do zapisania %s"
 
-#: src/copyout.c:307
+#: src/copyout.c:308
 #, c-format
 msgid "%s: truncating %s"
 msgstr "%s: ucinam %s"
 
-#: src/copyout.c:342 src/copyout.c:405 src/copyout.c:479
+#: src/copyout.c:343 src/copyout.c:406 src/copyout.c:480
 msgid "inode number"
 msgstr "numer i-wêz³a"
 
-#: src/copyout.c:345 src/copyout.c:408 src/copyout.c:483
+#: src/copyout.c:346 src/copyout.c:409 src/copyout.c:484
 msgid "file mode"
 msgstr "uprawnienia pliku"
 
-#: src/copyout.c:348 src/copyout.c:410 src/copyout.c:487
+#: src/copyout.c:349 src/copyout.c:411 src/copyout.c:488
 msgid "uid"
 msgstr "uid"
 
-#: src/copyout.c:351 src/copyout.c:412 src/copyout.c:491
+#: src/copyout.c:352 src/copyout.c:413 src/copyout.c:492
 msgid "gid"
 msgstr "gid"
 
-#: src/copyout.c:354 src/copyout.c:415 src/copyout.c:495
+#: src/copyout.c:355 src/copyout.c:416 src/copyout.c:496
 msgid "number of links"
 msgstr "liczba dowi±zañ"
 
-#: src/copyout.c:357 src/copyout.c:420
+#: src/copyout.c:358 src/copyout.c:421
 msgid "modification time"
 msgstr "czas modyfikacji"
 
-#: src/copyout.c:360 src/copyout.c:427 src/copyout.c:514
+#: src/copyout.c:361 src/copyout.c:428 src/copyout.c:515
 msgid "file size"
 msgstr "rozmiar pliku"
 
-#: src/copyout.c:364
+#: src/copyout.c:365
 msgid "device major number"
 msgstr "g³ówny numer urz±dzenia"
 
-#: src/copyout.c:368
+#: src/copyout.c:369
 msgid "device minor number"
 msgstr "poboczny numer urz±dzenia"
 
-#: src/copyout.c:372
+#: src/copyout.c:373
 msgid "rdev major"
 msgstr "g³ówny numer rdev"
 
-#: src/copyout.c:376
+#: src/copyout.c:377
 msgid "rdev minor"
 msgstr "poboczny numer rdev"
 
-#: src/copyout.c:380 src/copyout.c:423 src/copyout.c:504
+#: src/copyout.c:381 src/copyout.c:424 src/copyout.c:505
 msgid "name size"
 msgstr "rozmiar nazwy"
 
-#: src/copyout.c:402
+#: src/copyout.c:403
 msgid "device number"
 msgstr "numer urz±dzenia"
 
-#: src/copyout.c:417
+#: src/copyout.c:418
 msgid "rdev"
 msgstr "numer rdev"
 
-#: src/copyout.c:475
+#: src/copyout.c:476
 #, c-format
 msgid "%s: truncating inode number"
 msgstr "%s: zerujê numer i-wêz³a"
 
-#: src/copyout.c:610
+#: src/copyout.c:620
 #, c-format
 msgid "standard output is closed"
 msgstr "standardowe wyj¶cie (stdout) jest zamkniête"
 
-#: src/copyout.c:631 src/copypass.c:85
+#: src/copyout.c:641 src/copypass.c:86
 #, c-format
 msgid "blank line ignored"
 msgstr "pusta linia zignorowana"
 
-#: src/copyout.c:767
+#: src/copyout.c:776
 #, c-format
 msgid "%s not dumped: not a regular file"
 msgstr "%s nie zosta³ zrzucony: nie jest zwyk³ym plikiem"
 
-#: src/copyout.c:817
+#: src/copyout.c:827
 #, c-format
 msgid "%s: symbolic link too long"
 msgstr "%s: za d³ugie dowi±zanie symboliczne"
 
-#: src/copypass.c:415
+#: src/copypass.c:422
 #, c-format
 msgid "%s linked to %s"
 msgstr "%s dowi±zany do %s"
@@ -633,12 +633,12 @@ msgstr ""
 msgid "Both -I and -F are used in copy-in mode"
 msgstr "U¿yto jednocze¶nie -I i -F w trybie copy-in"
 
-#: src/main.c:658 src/main.c:695
+#: src/main.c:658 src/main.c:694
 #, c-format
 msgid "Too many arguments"
 msgstr "Za du¿o argumentów"
 
-#: src/main.c:678
+#: src/main.c:677
 #, c-format
 msgid ""
 "--append is used but no archive file name is given (use -F or -O options)"
@@ -646,37 +646,42 @@ msgstr ""
 "U¿yto --append, ale nie podano nazwy pliku archiwum (nale¿y u¿yæ opcji -F "
 "lub -O)"
 
-#: src/main.c:684
+#: src/main.c:683
 #, c-format
 msgid "Both -O and -F are used in copy-out mode"
 msgstr "U¿yto jednocze¶nie -O i -F w trybie copy-out"
 
-#: src/main.c:699
+#: src/main.c:696
+#, fuzzy, c-format
+msgid "Not enough arguments"
+msgstr "Za du¿o argumentów"
+
+#: src/main.c:700
 #, c-format
 msgid "Archive format is not specified in copy-pass mode (use --format option)"
 msgstr "Nie podano formatu archiwum w trybie copy-pass"
 
-#: src/main.c:721
+#: src/main.c:722
 #, c-format
 msgid "-F can be used only with --create or --extract"
 msgstr "-F mo¿e byæ u¿yte tylko wraz z --create lub --extract"
 
-#: src/main.c:724
+#: src/main.c:725
 #, c-format
 msgid "Cannot open %s"
 msgstr "Nie mo¿na otworzyæ %s"
 
-#: src/main.c:796
+#: src/main.c:797
 #, c-format
 msgid "error closing archive"
 msgstr "b³±d podczas zamykania archiwum"
 
-#: src/makepath.c:152 src/makepath.c:219
+#: src/makepath.c:117 src/makepath.c:184
 #, c-format
 msgid "cannot make directory `%s'"
 msgstr "nie mo¿na utworzyæ katalogu `%s'"
 
-#: src/makepath.c:194 src/makepath.c:272
+#: src/makepath.c:159 src/makepath.c:237
 #, c-format
 msgid "`%s' exists but is not a directory"
 msgstr "`%s' istnieje, ale nie jest katalogiem"
@@ -733,22 +738,22 @@ msgstr "nie mogê uzyskaæ grupy liczbowego UID-u"
 msgid "invalid group"
 msgstr "z³a grupa"
 
-#: src/util.c:91 src/util.c:94 src/util.c:141
+#: src/util.c:91 src/util.c:94 src/util.c:143
 #, c-format
 msgid "write error"
 msgstr "b³±d zapisu"
 
-#: src/util.c:203 src/util.c:372
+#: src/util.c:205 src/util.c:374
 #, c-format
 msgid "read error"
 msgstr "b³±d odczytu"
 
-#: src/util.c:206
+#: src/util.c:208
 #, c-format
 msgid "premature end of file"
 msgstr "niespodziewany koniec pliku"
 
-#: src/util.c:491 src/util.c:541
+#: src/util.c:493 src/util.c:543
 #, c-format
 msgid "File %s shrunk by %s byte, padding with zeros"
 msgid_plural "File %s shrunk by %s bytes, padding with zeros"
@@ -756,47 +761,50 @@ msgstr[0] "Plik %s zmniejszony o %s bajt, uzupe³niam zerami"
 msgstr[1] "Plik %s zmniejszony o %s bajty, uzupe³niam zerami"
 msgstr[2] "Plik %s zmniejszony o %s bajtów, uzupe³niam zerami"
 
-#: src/util.c:497 src/util.c:547
+#: src/util.c:499 src/util.c:549
 #, c-format
 msgid "Read error at byte %lld in file %s, padding with zeros"
 msgstr "B³±d odczytu na pozycji %lld w pliku %s, uzupe³niam zerami"
 
-#: src/util.c:581
-#, c-format
-msgid "File %s grew, %ld new bytes not copied"
-msgstr "Plik %s powiêkszy³ siê, %ld nowych bajtów nie skopiowanych"
+#: src/util.c:584
+#, fuzzy, c-format
+msgid "File %s grew, %<PRIuMAX> new byte not copied"
+msgid_plural "File %s grew, %<PRIuMAX> new bytes not copied"
+msgstr[0] "Plik %s powiêkszy³ siê, %ld nowych bajtów nie skopiowanych"
+msgstr[1] "Plik %s powiêkszy³ siê, %ld nowych bajtów nie skopiowanych"
+msgstr[2] "Plik %s powiêkszy³ siê, %ld nowych bajtów nie skopiowanych"
 
-#: src/util.c:585
+#: src/util.c:590
 #, c-format
 msgid "File %s was modified while being copied"
 msgstr "Plik %s zosta³ zmodyfikowany w trakcie kopiowania"
 
-#: src/util.c:613
+#: src/util.c:618
 #, c-format
 msgid "virtual memory exhausted"
 msgstr "brak pamiêci wirtualnej"
 
-#: src/util.c:649 src/util.c:655
+#: src/util.c:654 src/util.c:660
 #, c-format
 msgid "cannot seek on output"
 msgstr "nie mo¿na przesun±æ wska¼nika na wyj¶ciu"
 
-#: src/util.c:827
+#: src/util.c:832
 #, c-format
 msgid "Found end of tape.  Load next tape and press RETURN. "
 msgstr "Koniec ta¶my. Nale¿y za³adowaæ nastêpn± i wcisn±æ RETURN. "
 
-#: src/util.c:829
+#: src/util.c:834
 #, c-format
 msgid "Found end of tape.  To continue, type device/file name when ready.\n"
 msgstr "Koniec ta¶my. Aby kontynuowaæ nale¿y wpisaæ nazwê urz±dzenia/pliku.\n"
 
-#: src/util.c:852
+#: src/util.c:857
 #, c-format
 msgid "To continue, type device/file name when ready.\n"
 msgstr "Aby kontynuowaæ nale¿y wpisaæ nazwê urz±dzenia/pliku.\n"
 
-#: src/util.c:877
+#: src/util.c:882
 #, c-format
 msgid "internal error: tape descriptor changed from %d to %d"
 msgstr "b³±d wewnêtrzny: deskryptor ta¶my zmieni³ siê z %d na %d"
@@ -876,11 +884,6 @@ msgstr "standardowe wyj¶cie"
 msgid "Cannot execute remote shell"
 msgstr "Nie mo¿na uruchomiæ zdalnej pow³oki"
 
-#: lib/strerror.c:45 lib/strerror.c:58
-#, c-format
-msgid "error %d"
-msgstr "b³±d %d"
-
 #. TRANSLATORS: %s after `Cannot' is a function name, e.g. `Cannot open'.
 #. Directly translating this to another language will not work, first because
 #. %s itself is not translated.
@@ -914,7 +917,7 @@ msgstr "%s: Nie mo¿na zmieniæ w³a¶ciciela na uid %lu, gid %lu"
 msgid "%s: Cannot hard link to %s"
 msgstr "%s: Nie mo¿na utworzyæ dowi±zania zwyk³ego do %s"
 
-#: lib/paxerror.c:179
+#: lib/paxerror.c:179 lib/paxerror.c:211
 #, c-format
 msgid "%s: Read error at byte %s, while reading %lu byte"
 msgid_plural "%s: Read error at byte %s, while reading %lu bytes"
@@ -929,14 +932,6 @@ msgid_plural "%s: Warning: Read error at byte %s, while reading %lu bytes"
 msgstr[0] "%s: Uwaga: B³±d odczytu na bajcie %s podczas odczytu %lu bajtu"
 msgstr[1] "%s: Uwaga: B³±d odczytu na bajcie %s podczas odczytu %lu bajtów"
 msgstr[2] "%s: Uwaga: B³±d odczytu na bajcie %s podczas odczytu %lu bajtów"
-
-#: lib/paxerror.c:211
-#, c-format
-msgid "%s: Read error at byte %s, reading %lu byte"
-msgid_plural "%s: Read error at byte %s, reading %lu bytes"
-msgstr[0] "%s: B³±d odczytu na bajcie %s, odczyt %lu bajtu"
-msgstr[1] "%s: B³±d odczytu na bajcie %s, odczyt %lu bajtów"
-msgstr[2] "%s: B³±d odczytu na bajcie %s, odczyt %lu bajtów"
 
 #: lib/paxerror.c:259
 #, c-format
@@ -980,3 +975,12 @@ msgstr "Podstawienie `.' zamiast pustej nazwy pliku"
 msgid "Substituting `.' for empty hard link target"
 msgstr ""
 "Podstawienie `.' zamiast pustej nazwy wskazywanej przez dowi±zanie zwyk³e"
+
+#~ msgid "error %d"
+#~ msgstr "b³±d %d"
+
+#~ msgid "%s: Read error at byte %s, reading %lu byte"
+#~ msgid_plural "%s: Read error at byte %s, reading %lu bytes"
+#~ msgstr[0] "%s: B³±d odczytu na bajcie %s, odczyt %lu bajtu"
+#~ msgstr[1] "%s: B³±d odczytu na bajcie %s, odczyt %lu bajtów"
+#~ msgstr[2] "%s: B³±d odczytu na bajcie %s, odczyt %lu bajtów"
