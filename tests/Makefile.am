@@ -1,6 +1,6 @@
 # Makefile for GNU cpio regression tests.
 
-# Copyright (C) 2004, 2007, 2008, 2009, 2010 Free Software Foundation,
+# Copyright (C) 2004, 2007-2010, 2014-2015 Free Software Foundation,
 # Inc.
 
 ## This program is free software; you can redistribute it and/or modify
@@ -52,6 +52,9 @@ TESTSUITE_AT = \
  setstat04.at\
  setstat05.at\
  symlink.at\
+ symlink-bad-length.at\
+ symlink-long.at\
+ symlink-to-stdout.at\
  version.at
 
 TESTSUITE = $(srcdir)/testsuite
@@ -84,8 +87,9 @@ check_PROGRAMS = genfile
 genfile_SOURCES = genfile.c argcv.c argcv.h
 
 localedir = $(datadir)/locale
-INCLUDES = -I$(top_srcdir)/gnu -I../gnu -I$(top_srcdir)/lib
-AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\"
+AM_CPPFLAGS = \
+ -I$(top_srcdir)/gnu -I../gnu -I$(top_srcdir)/lib\
+ -DLOCALEDIR=\"$(localedir)\"
 
 LDADD=../gnu/libgnu.a @LIB_CLOCK_GETTIME@ @INTLLIBS@
 

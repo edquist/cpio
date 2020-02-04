@@ -3,61 +3,64 @@
 # This file is distributed under the same license as the cpio package.
 # Const Kaplinsky <const@ce.cctpu.edu.ru>, 1998.
 # Pavel Maryanov <acid_jack@ukr.net>, 2005, 2008.
+# Pavel Maryanov <acid@jack.kiev.ua>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: cpio 2.9.91\n"
+"Project-Id-Version: cpio 2.11\n"
 "Report-Msgid-Bugs-To: bug-cpio@gnu.org\n"
-"POT-Creation-Date: 2010-03-10 15:04+0200\n"
-"PO-Revision-Date: 2008-07-20 19:33+0200\n"
-"Last-Translator: Pavel Maryanov <acid_jack@ukr.net>\n"
+"POT-Creation-Date: 2015-09-12 14:33+0300\n"
+"PO-Revision-Date: 2014-04-07 15:52+0200\n"
+"Last-Translator: Pavel Maryanov <acid@jack.kiev.ua>\n"
 "Language-Team: Russian <gnu@mx.ru>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Poedit 1.6.4\n"
 
-#: gnu/argmatch.c:135
+#: gnu/argmatch.c:133
 #, c-format
 msgid "invalid argument %s for %s"
 msgstr "недопустимый аргумент %s для %s"
 
-#: gnu/argmatch.c:136
+#: gnu/argmatch.c:134
 #, c-format
 msgid "ambiguous argument %s for %s"
 msgstr "неопределённый аргумент %s для %s"
 
-#: gnu/argmatch.c:155
-#, c-format
+#: gnu/argmatch.c:153
 msgid "Valid arguments are:"
 msgstr "Допустимые аргументы:"
 
-#: gnu/argp-help.c:149
+#: gnu/argp-help.c:148
 #, c-format
 msgid "ARGP_HELP_FMT: %s value is less than or equal to %s"
 msgstr "ARGP_HELP_FMT: значение %s меньше или равно %s"
 
-#: gnu/argp-help.c:222
+#: gnu/argp-help.c:221
 #, c-format
 msgid "%.*s: ARGP_HELP_FMT parameter requires a value"
 msgstr "%.*s: для параметра ARGP_HELP_FMT требуется значение"
 
-#: gnu/argp-help.c:228
+#: gnu/argp-help.c:227
 #, c-format
 msgid "%.*s: ARGP_HELP_FMT parameter must be positive"
 msgstr "%.*s: параметр ARGP_HELP_FMT должен быть положительным"
 
-#: gnu/argp-help.c:237
+#: gnu/argp-help.c:236
 #, c-format
 msgid "%.*s: Unknown ARGP_HELP_FMT parameter"
 msgstr "%.*s: неизвестный параметр ARGP_HELP_FMT"
 
-#: gnu/argp-help.c:249
+#: gnu/argp-help.c:248
 #, c-format
 msgid "Garbage in ARGP_HELP_FMT: %s"
 msgstr "Мусор в ARGP_HELP_FMT: %s"
 
-#: gnu/argp-help.c:1246
+#: gnu/argp-help.c:1248
 msgid ""
 "Mandatory or optional arguments to long options are also mandatory or "
 "optional for any corresponding short options."
@@ -66,191 +69,201 @@ msgstr ""
 "являются обязательными или необязательными для любых соответствующих "
 "коротких параметров."
 
-#: gnu/argp-help.c:1639
+#: gnu/argp-help.c:1645
 msgid "Usage:"
 msgstr "Использование:"
 
-#: gnu/argp-help.c:1643
+#: gnu/argp-help.c:1649
 msgid "  or: "
 msgstr "  или "
 
-#: gnu/argp-help.c:1655
+#: gnu/argp-help.c:1661
 msgid " [OPTION...]"
 msgstr " [ПАРАМЕТР...]"
 
-#: gnu/argp-help.c:1682
-#, c-format
-msgid "Try `%s --help' or `%s --usage' for more information.\n"
+#: gnu/argp-help.c:1688
+#, fuzzy, c-format
+msgid "Try '%s --help' or '%s --usage' for more information.\n"
 msgstr ""
 "Попробуйте указать `%s --help' или `%s --usage', чтобы получить "
 "дополнительную информацию.\n"
 
-#: gnu/argp-help.c:1710
+#: gnu/argp-help.c:1716
 #, c-format
 msgid "Report bugs to %s.\n"
 msgstr "Об ошибках сообщайте по адресу %s.\n"
 
-#: gnu/argp-help.c:1929 gnu/error.c:155
+#: gnu/argp-help.c:1935 gnu/error.c:191
 msgid "Unknown system error"
 msgstr "Неизвестная системная ошибка"
 
-#: gnu/argp-parse.c:83
+#: gnu/argp-parse.c:81
 msgid "give this help list"
 msgstr "вывести эту справку"
 
-#: gnu/argp-parse.c:84
+#: gnu/argp-parse.c:82
 msgid "give a short usage message"
 msgstr "вывести краткое сообщение об использовании"
 
-#: gnu/argp-parse.c:85 tests/genfile.c:131
+#: gnu/argp-parse.c:83 tests/genfile.c:131
 msgid "NAME"
 msgstr "НАЗВАНИЕ"
 
-#: gnu/argp-parse.c:85
+#: gnu/argp-parse.c:83
 msgid "set the program name"
 msgstr "установить название программы"
 
-#: gnu/argp-parse.c:86
+#: gnu/argp-parse.c:84
 msgid "SECS"
 msgstr "SECS"
 
-#: gnu/argp-parse.c:87
+#: gnu/argp-parse.c:85
 msgid "hang for SECS seconds (default 3600)"
 msgstr "задержка на SECS секунд (по умолчанию 3600 с)"
 
-#: gnu/argp-parse.c:144
+#: gnu/argp-parse.c:142
 msgid "print program version"
 msgstr "вывести версию программы"
 
-#: gnu/argp-parse.c:160
-#, c-format
+#: gnu/argp-parse.c:159
 msgid "(PROGRAM ERROR) No version known!?"
 msgstr "(ОШИБКА ПРОГРАММЫ) Неизвестная версия программы?!"
 
-#: gnu/argp-parse.c:613
+#: gnu/argp-parse.c:612
 #, c-format
 msgid "%s: Too many arguments\n"
 msgstr "%s: слишком много аргументов\n"
 
-#: gnu/argp-parse.c:756
+#: gnu/argp-parse.c:755
 msgid "(PROGRAM ERROR) Option should have been recognized!?"
 msgstr "(ОШИБКА ПРОГРАММЫ) Параметр должен был быть распознан?!"
 
-#: gnu/closeout.c:114 src/util.c:93 src/util.c:96 src/util.c:145
+#: gnu/closeout.c:112 src/util.c:93 src/util.c:96 src/util.c:146
 #, c-format
 msgid "write error"
 msgstr "ошибка записи"
 
-#: gnu/getopt.c:531 gnu/getopt.c:547
+#: gnu/getopt.c:575 gnu/getopt.c:604
 #, fuzzy, c-format
+msgid "%s: option '%s' is ambiguous; possibilities:"
+msgstr "%s: параметр '%s' неоднозначен\n"
+
+#: gnu/getopt.c:619
+#, c-format
 msgid "%s: option '%s' is ambiguous\n"
-msgstr "%s: параметр `%s' неоднозначен\n"
+msgstr "%s: параметр '%s' неоднозначен\n"
 
-#: gnu/getopt.c:580 gnu/getopt.c:584
-#, fuzzy, c-format
+#: gnu/getopt.c:654 gnu/getopt.c:658
+#, c-format
 msgid "%s: option '--%s' doesn't allow an argument\n"
-msgstr "%s: для параметра `--%s' нельзя указать аргумент\n"
+msgstr "%s: для параметра '--%s' нельзя указать аргумент\n"
 
-#: gnu/getopt.c:593 gnu/getopt.c:598
-#, fuzzy, c-format
+#: gnu/getopt.c:667 gnu/getopt.c:672
+#, c-format
 msgid "%s: option '%c%s' doesn't allow an argument\n"
-msgstr "%s: для параметра `%c%s' нельзя указать аргумент\n"
+msgstr "%s: для параметра '%c%s' нельзя указать аргумент\n"
 
-#: gnu/getopt.c:641 gnu/getopt.c:660 gnu/getopt.c:963 gnu/getopt.c:982
+#: gnu/getopt.c:715 gnu/getopt.c:734
 #, fuzzy, c-format
-msgid "%s: option '%s' requires an argument\n"
-msgstr "%s: для параметра `%s' необходимо указать аргумент\n"
+msgid "%s: option '--%s' requires an argument\n"
+msgstr "%s: для параметра '%s' необходимо указать аргумент\n"
 
-#: gnu/getopt.c:698 gnu/getopt.c:701
-#, fuzzy, c-format
+#: gnu/getopt.c:772 gnu/getopt.c:775
+#, c-format
 msgid "%s: unrecognized option '--%s'\n"
-msgstr "%s: нераспознанный параметр `--%s'\n"
+msgstr "%s: нераспознанный параметр '--%s'\n"
 
-#: gnu/getopt.c:709 gnu/getopt.c:712
-#, fuzzy, c-format
+#: gnu/getopt.c:783 gnu/getopt.c:786
+#, c-format
 msgid "%s: unrecognized option '%c%s'\n"
-msgstr "%s: нераспознанный параметр `%c%s'\n"
+msgstr "%s: нераспознанный параметр '%c%s'\n"
 
-#: gnu/getopt.c:761 gnu/getopt.c:764
-#, fuzzy, c-format
+#: gnu/getopt.c:835 gnu/getopt.c:838
+#, c-format
 msgid "%s: invalid option -- '%c'\n"
-msgstr "%s: недопустимый параметр -- %c\n"
+msgstr "%s: недопустимый параметр -- '%c'\n"
 
-#: gnu/getopt.c:814 gnu/getopt.c:831 gnu/getopt.c:1034 gnu/getopt.c:1052
-#, fuzzy, c-format
+#: gnu/getopt.c:891 gnu/getopt.c:908 gnu/getopt.c:1118 gnu/getopt.c:1136
+#, c-format
 msgid "%s: option requires an argument -- '%c'\n"
-msgstr "%s: для параметра необходимо указать аргумент -- %c\n"
+msgstr "%s: для параметра необходимо указать аргумент -- '%c'\n"
 
-#: gnu/getopt.c:884 gnu/getopt.c:900
-#, fuzzy, c-format
+#: gnu/getopt.c:964 gnu/getopt.c:980
+#, c-format
 msgid "%s: option '-W %s' is ambiguous\n"
-msgstr "%s: параметр `-W %s' неоднозначен\n"
+msgstr "%s: параметр '-W %s' неоднозначен\n"
 
-#: gnu/getopt.c:924 gnu/getopt.c:942
-#, fuzzy, c-format
+#: gnu/getopt.c:1004 gnu/getopt.c:1022
+#, c-format
 msgid "%s: option '-W %s' doesn't allow an argument\n"
-msgstr "%s: для параметра `-W %s' нельзя указать аргумент\n"
+msgstr "%s: для параметра '-W %s' нельзя указать аргумент\n"
 
-#: gnu/obstack.c:425 gnu/obstack.c:427 gnu/xalloc-die.c:36
+#: gnu/getopt.c:1043 gnu/getopt.c:1061
+#, fuzzy, c-format
+msgid "%s: option '-W %s' requires an argument\n"
+msgstr "%s: для параметра '%s' необходимо указать аргумент\n"
+
+#: gnu/obstack.c:338 gnu/obstack.c:340 gnu/xalloc-die.c:34
 msgid "memory exhausted"
 msgstr "память исчерпана"
 
-#: gnu/openat-die.c:36
+#: gnu/openat-die.c:38
 #, c-format
 msgid "unable to record current working directory"
 msgstr "не удаётся выполнить запись в рабочий каталог"
 
-#: gnu/openat-die.c:54
+#: gnu/openat-die.c:57
 #, c-format
 msgid "failed to return to initial working directory"
 msgstr "не удалось вернуться в исходный рабочий каталог"
 
 #. TRANSLATORS:
 #. Get translations for open and closing quotation marks.
-#.
 #. The message catalog should translate "`" to a left
 #. quotation mark suitable for the locale, and similarly for
-#. "'".  If the catalog has no translation,
-#. locale_quoting_style quotes `like this', and
-#. clocale_quoting_style quotes "like this".
+#. "'".  For example, a French Unicode local should translate
+#. these to U+00AB (LEFT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), and U+00BB (RIGHT-POINTING DOUBLE ANGLE
+#. QUOTATION MARK), respectively.
 #.
-#. For example, an American English Unicode locale should
-#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
-#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
-#. MARK).  A British English Unicode locale should instead
-#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK)
-#. and U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
+#. If the catalog has no translation, we will try to
+#. use Unicode U+2018 (LEFT SINGLE QUOTATION MARK) and
+#. Unicode U+2019 (RIGHT SINGLE QUOTATION MARK).  If the
+#. current locale is not Unicode, locale_quoting_style
+#. will quote 'like this', and clocale_quoting_style will
+#. quote "like this".  You should always include translations
+#. for "`" and "'" even if U+2018 and U+2019 are appropriate
+#. for your locale.
 #.
 #. If you don't know what to put here, please see
-#. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
+#. <http://en.wikipedia.org/wiki/Quotation_marks_in_other_languages>
 #. and use glyphs suitable for your language.
-#: gnu/quotearg.c:274
+#: gnu/quotearg.c:312
 msgid "`"
 msgstr "`"
 
-#: gnu/quotearg.c:275
+#: gnu/quotearg.c:313
 msgid "'"
 msgstr "'"
 
-#: gnu/version-etc.c:76
+#: gnu/version-etc.c:74
 #, c-format
 msgid "Packaged by %s (%s)\n"
-msgstr ""
+msgstr "Автор пакета: %s (%s)\n"
 
-#: gnu/version-etc.c:79
+#: gnu/version-etc.c:77
 #, c-format
 msgid "Packaged by %s\n"
-msgstr ""
+msgstr "Автор пакета: %s\n"
 
 #. TRANSLATORS: Translate "(C)" to the copyright symbol
 #. (C-in-a-circle), if this symbol is available in the user's
 #. locale.  Otherwise, do not translate "(C)"; leave it as-is.
-#: gnu/version-etc.c:86
+#: gnu/version-etc.c:84
 msgid "(C)"
 msgstr "(C)"
 
-#: gnu/version-etc.c:88
-#, fuzzy
+#: gnu/version-etc.c:86
 msgid ""
 "\n"
 "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
@@ -264,23 +277,23 @@ msgstr ""
 "gpl.html>\n"
 "Это свободное программное обеспечение: его можно свободно изменять и "
 "распространять.\n"
-"Ничего НЕ ГАРАНТИРУЕТСЯ в степени, допускаемой законом.\n"
+"Ничего НЕ ГАРАНТИРУЕТСЯ в пределах, допускаемых законом.\n"
 "\n"
 
 #. TRANSLATORS: %s denotes an author name.
-#: gnu/version-etc.c:104
+#: gnu/version-etc.c:102
 #, c-format
 msgid "Written by %s.\n"
 msgstr "Автор: %s.\n"
 
 #. TRANSLATORS: Each %s denotes an author name.
-#: gnu/version-etc.c:108
+#: gnu/version-etc.c:106
 #, c-format
 msgid "Written by %s and %s.\n"
 msgstr "Авторы: %s и %s.\n"
 
 #. TRANSLATORS: Each %s denotes an author name.
-#: gnu/version-etc.c:112
+#: gnu/version-etc.c:110
 #, c-format
 msgid "Written by %s, %s, and %s.\n"
 msgstr "Авторы: %s, %s и %s.\n"
@@ -288,7 +301,7 @@ msgstr "Авторы: %s, %s и %s.\n"
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:119
+#: gnu/version-etc.c:117
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -300,7 +313,7 @@ msgstr ""
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:126
+#: gnu/version-etc.c:124
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -312,7 +325,7 @@ msgstr ""
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:133
+#: gnu/version-etc.c:131
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -324,7 +337,7 @@ msgstr ""
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:141
+#: gnu/version-etc.c:139
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -336,7 +349,7 @@ msgstr ""
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:149
+#: gnu/version-etc.c:147
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -350,7 +363,7 @@ msgstr ""
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:158
+#: gnu/version-etc.c:156
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -364,7 +377,7 @@ msgstr ""
 #. TRANSLATORS: Each %s denotes an author name.
 #. You can use line breaks, estimating that each author name occupies
 #. ca. 16 screen columns and that a screen line has ca. 80 columns.
-#: gnu/version-etc.c:169
+#: gnu/version-etc.c:167
 #, c-format
 msgid ""
 "Written by %s, %s, %s,\n"
@@ -379,37 +392,39 @@ msgstr ""
 #. for this package.  Please add _another line_ saying
 #. "Report translation bugs to <...>\n" with the address for translation
 #. bugs (typically your translation team's web or email address).
-#: gnu/version-etc.c:247
-#, fuzzy, c-format
+#: gnu/version-etc.c:245
+#, c-format
 msgid ""
 "\n"
 "Report bugs to: %s\n"
-msgstr "Об ошибках сообщайте по адресу %s.\n"
+msgstr ""
+"\n"
+"Об ошибках сообщайте по адресу %s.\n"
 
-#: gnu/version-etc.c:249
-#, fuzzy, c-format
+#: gnu/version-etc.c:247
+#, c-format
 msgid "Report %s bugs to: %s\n"
-msgstr "Об ошибках сообщайте по адресу %s.\n"
+msgstr "Об ошибках %s сообщайте по адресу: %s\n"
+
+#: gnu/version-etc.c:251
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr "Домашняя страница %s: <%s>\n"
 
 #: gnu/version-etc.c:253
 #, c-format
-msgid "%s home page: <%s>\n"
-msgstr ""
-
-#: gnu/version-etc.c:255
-#, c-format
 msgid "%s home page: <http://www.gnu.org/software/%s/>\n"
-msgstr ""
+msgstr "Домашняя страница %s: <http://www.gnu.org/software/%s/>\n"
 
-#: gnu/version-etc.c:258
+#: gnu/version-etc.c:256
 msgid "General help using GNU software: <http://www.gnu.org/gethelp/>\n"
-msgstr ""
+msgstr "Общая справка по использованию ПО GNU: <http://www.gnu.org/gethelp/>\n"
 
 #. TRANSLATORS: %s after `Cannot' is a function name, e.g. `Cannot open'.
 #. Directly translating this to another language will not work, first because
 #. %s itself is not translated.
 #. Translate it as `%s: Function %s failed'.
-#: lib/error.c:58 lib/error.c:71
+#: lib/error.c:60 lib/error.c:73
 #, c-format
 msgid "%s: Cannot %s"
 msgstr "%s: не удаётся %s"
@@ -418,77 +433,80 @@ msgstr "%s: не удаётся %s"
 #. Directly translating this to another language will not work, first because
 #. %s itself is not translated.
 #. Translate it as `%s: Function %s failed'.
-#: lib/error.c:84
+#: lib/error.c:86
 #, c-format
 msgid "%s: Warning: Cannot %s"
 msgstr "%s: предупреждение: не удаётся %s"
 
-#: lib/error.c:93
+#: lib/error.c:95
 #, c-format
 msgid "%s: Cannot change mode to %s"
 msgstr "%s: не удаётся сменить режим на %s"
 
-#: lib/error.c:101
+#: lib/error.c:103
 #, c-format
 msgid "%s: Cannot change ownership to uid %lu, gid %lu"
 msgstr "%s: не удаётся сменить владельца (uid %lu, gid %lu)"
 
-#: lib/error.c:127
+#: lib/error.c:129
 #, c-format
 msgid "%s: Cannot hard link to %s"
 msgstr "%s: не удаётся создать жёсткую ссылку %s"
 
-#: lib/error.c:179 lib/error.c:211
+#: lib/error.c:181 lib/error.c:213
 #, c-format
 msgid "%s: Read error at byte %s, while reading %lu byte"
 msgid_plural "%s: Read error at byte %s, while reading %lu bytes"
-msgstr[0] "%s: ошибка чтения в позиции %s при чтении %lu байт"
+msgstr[0] "%s: ошибка чтения в позиции %s при чтении %lu байта"
 msgstr[1] "%s: ошибка чтения в позиции %s при чтении %lu байт"
+msgstr[2] "%s: ошибка чтения в позиции %s при чтении %lu байт"
 
-#: lib/error.c:192
+#: lib/error.c:194
 #, c-format
 msgid "%s: Warning: Read error at byte %s, while reading %lu byte"
 msgid_plural "%s: Warning: Read error at byte %s, while reading %lu bytes"
 msgstr[0] "%s: предупреждение: ошибка чтения в байте %s при чтении %lu байта"
 msgstr[1] "%s: предупреждение: ошибка чтения в байте %s при чтении %lu байт"
+msgstr[2] "%s: предупреждение: ошибка чтения в байте %s при чтении %lu байт"
 
-#: lib/error.c:259
+#: lib/error.c:261
 #, c-format
 msgid "%s: Cannot seek to %s"
 msgstr "%s: не удаётся найти %s"
 
-#: lib/error.c:275
+#: lib/error.c:277
 #, c-format
 msgid "%s: Warning: Cannot seek to %s"
 msgstr "%s: предупреждение: не удаётся найти %s"
 
-#: lib/error.c:284
+#: lib/error.c:286
 #, c-format
 msgid "%s: Cannot create symlink to %s"
 msgstr "%s: не удаётся создать символьную ссылку на %s"
 
-#: lib/error.c:349
+#: lib/error.c:351
 #, c-format
 msgid "%s: Wrote only %lu of %lu byte"
 msgid_plural "%s: Wrote only %lu of %lu bytes"
 msgstr[0] "%s: записано только %lu байт из %lu байта"
 msgstr[1] "%s: записано только %lu байт из %lu байт"
+msgstr[2] "%s: записано только %lu байт из %lu байт"
 
-#: lib/names.c:155
+#: lib/names.c:140
 #, c-format
 msgid "Removing leading `%s' from member names"
 msgstr "Из имён членов удаляются начальные `%s'"
 
-#: lib/names.c:156
+#: lib/names.c:141
 #, c-format
 msgid "Removing leading `%s' from hard link targets"
 msgstr "Из целей жёстких ссылок удаляются начальные `%s'"
 
-#: lib/names.c:169
+#: lib/names.c:154
 msgid "Substituting `.' for empty member name"
 msgstr "`.' заменяются на пустые имена членов"
 
-#: lib/names.c:170
+#: lib/names.c:155
 msgid "Substituting `.' for empty hard link target"
 msgstr "`.' заменяются на пустые цели жёстких ссылок"
 
@@ -510,91 +528,91 @@ msgstr "stdout"
 #: lib/rtapelib.c:429
 #, c-format
 msgid "Cannot connect to %s: resolve failed"
-msgstr ""
+msgstr "Не удаётся подключиться к %s: ошибка разрешения имени"
 
-#: lib/rtapelib.c:515
+#: lib/rtapelib.c:502
+#, fuzzy, c-format
+msgid "Cannot redirect files for remote shell"
+msgstr "Не удаётся запустить удалённый командный процессор"
+
+#: lib/rtapelib.c:516
 #, c-format
 msgid "Cannot execute remote shell"
 msgstr "Не удаётся запустить удалённый командный процессор"
 
-#: rmt/rmt.c:413
+#: rmt/rmt.c:432
 msgid "Seek direction out of range"
 msgstr "Направление поиска за пределами диапазона"
 
-#: rmt/rmt.c:419
+#: rmt/rmt.c:438
 msgid "Invalid seek direction"
-msgstr ""
+msgstr "Недопустимое направление поиска"
 
-#: rmt/rmt.c:427
-#, fuzzy
+#: rmt/rmt.c:446
 msgid "Invalid seek offset"
-msgstr "Недопустимый размер: %s"
+msgstr "Недопустимое смещение поиска"
 
-#: rmt/rmt.c:433
+#: rmt/rmt.c:452
 msgid "Seek offset out of range"
 msgstr "Смещение поиска за пределами диапазона"
 
-#: rmt/rmt.c:474 rmt/rmt.c:525 rmt/rmt.c:589
+#: rmt/rmt.c:493 rmt/rmt.c:544 rmt/rmt.c:608
 msgid "Invalid byte count"
-msgstr ""
+msgstr "Недопустимое число байт"
 
-#: rmt/rmt.c:480 rmt/rmt.c:531 rmt/rmt.c:595 rmt/rmt.c:606
-#, fuzzy
+#: rmt/rmt.c:499 rmt/rmt.c:550 rmt/rmt.c:614 rmt/rmt.c:625
 msgid "Byte count out of range"
-msgstr "Смещение поиска за пределами диапазона"
+msgstr "Число байт за пределами диапазона"
 
-#: rmt/rmt.c:539
-#, fuzzy
+#: rmt/rmt.c:558
 msgid "Premature eof"
-msgstr "rmtd: преждевременный конец файла\n"
+msgstr "Преждевременный конец файла"
 
-#: rmt/rmt.c:582
-#, fuzzy
+#: rmt/rmt.c:601
 msgid "Invalid operation code"
-msgstr "Основной режим работы:"
+msgstr "Недопустимый код операции"
 
-#: rmt/rmt.c:617 rmt/rmt.c:661
+#: rmt/rmt.c:636 rmt/rmt.c:680
 msgid "Operation not supported"
-msgstr ""
+msgstr "Операция не поддерживается"
 
-#: rmt/rmt.c:645
-#, fuzzy
+#: rmt/rmt.c:664
 msgid "Unexpected arguments"
-msgstr "Недостаточно аргументов"
+msgstr "Неожиданные аргументы"
 
-#: rmt/rmt.c:670
+#: rmt/rmt.c:689
 msgid "Manipulate a tape drive, accepting commands from a remote process"
-msgstr ""
+msgstr "Работа с ленточным накопителем, приём команд из удаленного процесса"
 
-#: rmt/rmt.c:677 src/main.c:123 tests/genfile.c:167
+#: rmt/rmt.c:696 src/main.c:130 tests/genfile.c:167
 msgid "NUMBER"
-msgstr "Количество"
+msgstr "ЧИСЛО"
 
-#: rmt/rmt.c:678
+#: rmt/rmt.c:697
 msgid "set debug level"
-msgstr ""
+msgstr "задать уровень отладки"
 
-#: rmt/rmt.c:679 src/main.c:151 src/main.c:157 tests/genfile.c:133
+#: rmt/rmt.c:698 src/main.c:167 src/main.c:173 tests/genfile.c:133
 #: tests/genfile.c:181 tests/genfile.c:185 tests/genfile.c:188
 #: tests/genfile.c:194
 msgid "FILE"
 msgstr "Работа с файлами"
 
-#: rmt/rmt.c:680
+#: rmt/rmt.c:699
 msgid "set debug output file name"
-msgstr ""
+msgstr "задать имя файла для вывода отладочных данных"
 
-#: rmt/rmt.c:696 rmt/rmt.c:764
-#, fuzzy, c-format
+#: rmt/rmt.c:715 rmt/rmt.c:783
+#, c-format
 msgid "cannot open %s"
-msgstr "не удается открыть `%s'"
+msgstr "не удаётся открыть %s"
 
-#: rmt/rmt.c:761 tests/genfile.c:885 tests/genfile.c:902
+#: rmt/rmt.c:780 tests/genfile.c:953 tests/genfile.c:970
 #, c-format
 msgid "too many arguments"
 msgstr "слишком много аргументов"
 
-#: rmt/rmt.c:803
+#: rmt/rmt.c:822
 msgid "Garbage command"
 msgstr "Команда сбора мусора"
 
@@ -603,192 +621,199 @@ msgstr "Команда сбора мусора"
 msgid "warning: skipped %ld byte of junk"
 msgid_plural "warning: skipped %ld bytes of junk"
 msgstr[0] "предупреждение: пропущен мусор объёмом %ld байт"
-msgstr[1] "предупреждение: пропущен мусор объёмом %ld байт"
+msgstr[1] "предупреждение: пропущен мусор объёмом %ld байта"
+msgstr[2] "предупреждение: пропущен мусор объёмом %ld байт"
 
 #: src/copyin.c:66
 #, c-format
 msgid "rename %s -> "
 msgstr "переименование %s ->  "
 
-#: src/copyin.c:95 src/copyout.c:562
+#: src/copyin.c:95 src/copyout.c:552
 #, c-format
 msgid "%s: file name too long"
 msgstr "%s: слишком длинное имя файла"
 
-#: src/copyin.c:181 src/copyin.c:528 src/copyin.c:553 src/copyin.c:1442
+#: src/copyin.c:135
 #, c-format
-msgid "%s: checksum error (0x%lx, should be 0x%lx)"
+msgid "%s: stored filename length is out of range"
+msgstr ""
+
+#: src/copyin.c:196 src/copyin.c:543 src/copyin.c:558 src/copyin.c:1453
+#, fuzzy, c-format
+msgid "%s: checksum error (0x%x, should be 0x%x)"
 msgstr "%s: ошибка контрольной суммы (0x%lx, должно быть 0x%lx)"
 
-#: src/copyin.c:208 src/copypass.c:129
+#: src/copyin.c:223 src/copypass.c:146
 #, c-format
 msgid "%s not created: newer or same age version exists"
 msgstr "%s не создан: существует версия новее или того же возраста"
 
-#: src/copyin.c:218 src/copypass.c:137
+#: src/copyin.c:233 src/copypass.c:154
 #, c-format
 msgid "cannot remove current %s"
 msgstr "не удается удалить текущий %s"
 
-#: src/copyin.c:279 src/copyin.c:476 src/copyin.c:601 src/copypass.c:394
+#: src/copyin.c:294 src/copyin.c:491 src/copyin.c:606 src/copypass.c:402
 #, c-format
 msgid "cannot link %s to %s"
 msgstr "невозможно создать ссылку %s на %s"
 
-#: src/copyin.c:509
+#: src/copyin.c:524
 #, c-format
 msgid "cannot swap halfwords of %s: odd number of halfwords"
 msgstr "невозможно поменять местами полуслова %s: нечетное число полуслов"
 
-#: src/copyin.c:517
+#: src/copyin.c:532
 #, c-format
 msgid "cannot swap bytes of %s: odd number of bytes"
 msgstr "невозможно поменять местами байты %s: нечетное число байтов"
 
-#: src/copyin.c:673
+#: src/copyin.c:682
 #, c-format
 msgid "%s: Cannot symlink to %s"
 msgstr "%s: Не удаётся создать символьную ссылку на %s"
 
-#: src/copyin.c:727 src/copyout.c:850 src/copypass.c:317
+#: src/copyin.c:736 src/copyout.c:842 src/copypass.c:325
 #, c-format
 msgid "%s: unknown file type"
 msgstr "%s: неизвестный тип файла"
 
-#: src/copyin.c:912 src/copyin.c:919
+#: src/copyin.c:921 src/copyin.c:928
 #, c-format
 msgid "Malformed number %.*s"
 msgstr "Неверно сформированное число %.*s"
 
-#: src/copyin.c:929
+#: src/copyin.c:938
 #, c-format
 msgid "Archive value %.*s is out of range"
 msgstr "Значение архива %.*s за пределами диапазона"
 
-#: src/copyin.c:964
+#: src/copyin.c:973
 #, c-format
 msgid "premature end of archive"
 msgstr "преждевременный конец архива"
 
-#: src/copyin.c:1184
+#: src/copyin.c:1193
 #, c-format
 msgid "warning: archive header has reverse byte-order"
 msgstr "предупреждение: в заголовке архива принят обратный порядок байтов"
 
-#: src/copyin.c:1331
+#: src/copyin.c:1340
 #, c-format
 msgid "standard input is closed"
 msgstr "стандартный ввод закрыт"
 
-#: src/copyin.c:1497 src/copyout.c:893 src/copypass.c:335
+#: src/copyin.c:1508 src/copyout.c:885 src/copypass.c:343
 #, c-format
 msgid "%lu block\n"
 msgid_plural "%lu blocks\n"
 msgstr[0] "%lu блок\n"
-msgstr[1] "%lu блоков\n"
+msgstr[1] "%lu блока\n"
+msgstr[2] "%lu блоков\n"
 
 #: src/copyout.c:51 src/copyout.c:60
 #, c-format
 msgid "cannot read checksum for %s"
 msgstr "невозможно прочитать контрольную сумму для %s"
 
-#: src/copyout.c:300
+#: src/copyout.c:290
 #, c-format
 msgid "%s: field width not sufficient for storing %s"
 msgstr "%s: недостаточная ширина поля для сохранения %s"
 
-#: src/copyout.c:308
+#: src/copyout.c:298
 #, c-format
 msgid "%s: truncating %s"
 msgstr "%s: обрезается %s"
 
-#: src/copyout.c:343 src/copyout.c:406 src/copyout.c:480
+#: src/copyout.c:333 src/copyout.c:396 src/copyout.c:470
 msgid "inode number"
 msgstr "номер inode"
 
-#: src/copyout.c:346 src/copyout.c:409 src/copyout.c:484
+#: src/copyout.c:336 src/copyout.c:399 src/copyout.c:474
 msgid "file mode"
 msgstr "файловый режим"
 
-#: src/copyout.c:349 src/copyout.c:411 src/copyout.c:488
+#: src/copyout.c:339 src/copyout.c:401 src/copyout.c:478
 msgid "uid"
 msgstr "uid"
 
-#: src/copyout.c:352 src/copyout.c:413 src/copyout.c:492
+#: src/copyout.c:342 src/copyout.c:403 src/copyout.c:482
 msgid "gid"
 msgstr "gid"
 
-#: src/copyout.c:355 src/copyout.c:416 src/copyout.c:496
+#: src/copyout.c:345 src/copyout.c:406 src/copyout.c:486
 msgid "number of links"
 msgstr "число ссылок"
 
-#: src/copyout.c:358 src/copyout.c:421
+#: src/copyout.c:348 src/copyout.c:411
 msgid "modification time"
 msgstr "время изменения"
 
-#: src/copyout.c:361 src/copyout.c:428 src/copyout.c:515
+#: src/copyout.c:351 src/copyout.c:418 src/copyout.c:505
 msgid "file size"
 msgstr "размер файла"
 
-#: src/copyout.c:365
+#: src/copyout.c:355
 msgid "device major number"
 msgstr "старшее число устройства"
 
-#: src/copyout.c:369
+#: src/copyout.c:359
 msgid "device minor number"
 msgstr "младшее число устройства"
 
-#: src/copyout.c:373
+#: src/copyout.c:363
 msgid "rdev major"
 msgstr "старший rdev"
 
-#: src/copyout.c:377
+#: src/copyout.c:367
 msgid "rdev minor"
 msgstr "младший rdev"
 
-#: src/copyout.c:381 src/copyout.c:424 src/copyout.c:505
+#: src/copyout.c:371 src/copyout.c:414 src/copyout.c:495
 msgid "name size"
 msgstr "размер названия"
 
-#: src/copyout.c:403
+#: src/copyout.c:393
 msgid "device number"
 msgstr "номер устройства"
 
-#: src/copyout.c:418
+#: src/copyout.c:408
 msgid "rdev"
 msgstr "rdev"
 
-#: src/copyout.c:476
+#: src/copyout.c:466
 #, c-format
 msgid "%s: truncating inode number"
 msgstr "%s: обрезается номер inode"
 
-#: src/copyout.c:619
+#: src/copyout.c:609
 #, c-format
 msgid "standard output is closed"
 msgstr "стандартный вывод закрыт"
 
-#: src/copyout.c:640 src/copypass.c:86
+#: src/copyout.c:632 src/copypass.c:103
 #, c-format
 msgid "blank line ignored"
 msgstr "пустая строка проигнорирована"
 
-#: src/copyout.c:775
+#: src/copyout.c:767
 #, c-format
 msgid "%s not dumped: not a regular file"
 msgstr "%s не сброшен: не является обычным файлом"
 
-#: src/copyout.c:826
+#: src/copyout.c:818
 #, c-format
 msgid "%s: symbolic link too long"
 msgstr "%s: символическая ссылка слишком длинная"
 
-#: src/copypass.c:389
+#: src/copypass.c:397
 #, c-format
 msgid "%s linked to %s"
 msgstr "создана ссылка %s, указывающая на %s"
 
-#: src/main.c:73
+#: src/main.c:77
 msgid ""
 "GNU `cpio' copies files to and from archives\n"
 "\n"
@@ -810,126 +835,96 @@ msgstr ""
 "  # Копирование файлов, перечисленных в списке_имён, в каталог_назначения\n"
 "  cpio -p каталог_назначения < список_имён\n"
 
-#: src/main.c:87
+#: src/main.c:93
 #, c-format
 msgid "%s is meaningless with %s"
 msgstr "%s не имеет смысла с %s"
 
-#: src/main.c:93
+#: src/main.c:99
 msgid "Main operation mode:"
 msgstr "Основной режим работы:"
 
-#: src/main.c:95
+#: src/main.c:101
 msgid "Create the archive (run in copy-out mode)"
 msgstr "Создание архива (работа в режиме copy-out)"
 
-#: src/main.c:97
+#: src/main.c:103
 msgid "Extract files from an archive (run in copy-in mode)"
 msgstr "Извлечение файлов из архива (работа в режиме copy-in)"
 
-#: src/main.c:99
+#: src/main.c:105
 msgid "Run in copy-pass mode"
 msgstr "Работа в режиме copy-pass"
 
-#: src/main.c:101
+#: src/main.c:107
 msgid "Print a table of contents of the input"
 msgstr "Вывод таблицы с содержимым входных данных"
 
-#: src/main.c:107
+#: src/main.c:113
 msgid "Operation modifiers valid in any mode:"
 msgstr "Модификаторы, действующие в любом режиме:"
 
-#: src/main.c:109 src/main.c:176 src/main.c:205
-msgid "[[USER@]HOST:]FILE-NAME"
-msgstr "[[ПОЛЬЗОВАТЕЛЬ@]ХОСТ:]ИМЯ_ФАЙЛА"
-
-#: src/main.c:110
-msgid ""
-"Use this FILE-NAME instead of standard input or output. Optional USER and "
-"HOST specify the user and host names in case of a remote archive"
+#: src/main.c:115
+msgid "DIR"
 msgstr ""
-"Использование ИМЕНИ_ФАЙЛА вместо стандартного ввода или вывода. При работе с "
-"удалённым архивом необязательные ПОЛЬЗОВАТЕЛЬ и ХОСТ определяют имена "
-"пользователя и хоста"
 
-#: src/main.c:112
+#: src/main.c:116
+msgid "Change to directory DIR"
+msgstr ""
+
+#: src/main.c:119
 msgid "Archive file is local, even if its name contains colons"
 msgstr "Файл архива является локальным, даже если его имя содержит двоеточие"
 
-#: src/main.c:113 tests/genfile.c:154
+#: src/main.c:120 tests/genfile.c:154
 msgid "FORMAT"
 msgstr "Форматировать"
 
-#: src/main.c:114
+#: src/main.c:121
 msgid "Use given archive FORMAT"
 msgstr "Использование для архива указанного ФОРМАТА"
 
-#: src/main.c:116
+#: src/main.c:123
 msgid "Set the I/O block size to 5120 bytes"
 msgstr "Установка размера блока ввода/вывода в 5120 байт"
 
-#: src/main.c:117
+#: src/main.c:124
 msgid "BLOCK-SIZE"
 msgstr "РАЗМЕР-БЛОКА"
 
-#: src/main.c:118
+#: src/main.c:125
 msgid "Set the I/O block size to BLOCK-SIZE * 512 bytes"
 msgstr "Установка размера блока ввода/вывода в РАЗМЕР-БЛОКА * 512 байт"
 
-#: src/main.c:120
+#: src/main.c:127
 msgid "Use the old portable (ASCII) archive format"
 msgstr "Использование для архива старого машиннонезависимого формата (ASCII)"
 
-#: src/main.c:122
+#: src/main.c:129
 msgid "Print a \".\" for each file processed"
 msgstr "Вывод \".\" для каждого обработанного файла"
 
-#: src/main.c:124
+#: src/main.c:131
 msgid "Set the I/O block size to the given NUMBER of bytes"
 msgstr "Установка размера блока ввода/вывода в ЧИСЛО байт"
 
-#: src/main.c:125 tests/genfile.c:170
-msgid "STRING"
-msgstr "СТРОКА"
-
-#: src/main.c:126
-msgid "Print STRING when the end of a volume of the backup media is reached"
-msgstr "Вывод СТРОКИ, когда на резервном носителе достигнут конец тома"
-
-#: src/main.c:129
-msgid "Only copy files that do not match any of the given patterns"
-msgstr ""
-"Копирование только тех файлов, которые не совпадают с указанными шаблонами"
-
-#: src/main.c:131
-msgid "In the verbose table of contents listing, show numeric UID and GID"
-msgstr "Вывод числового UID и GID в таблице с подробным содержимым"
-
-#: src/main.c:133 src/mt.c:182 tests/genfile.c:191
-msgid "COMMAND"
-msgstr "КОМАНДА"
-
-#: src/main.c:134
-msgid "Use remote COMMAND instead of rsh"
-msgstr "Использование удалённой КОМАНДЫ вместо rsh"
-
-#: src/main.c:136
+#: src/main.c:133
 msgid "Do not print the number of blocks copied"
 msgstr "Не выводить количество скопированных блоков"
 
-#: src/main.c:138
+#: src/main.c:135
 msgid "Verbosely list the files processed"
 msgstr "Вывести подробный список обработанных файлов"
 
-#: src/main.c:141
+#: src/main.c:138
 msgid "Enable debugging info"
 msgstr "Включить отладочную информацию"
 
-#: src/main.c:143
+#: src/main.c:140
 msgid "FLAG"
 msgstr "ФЛАГ"
 
-#: src/main.c:144
+#: src/main.c:141
 msgid ""
 "Control warning display. Currently FLAG is one of 'none', 'truncate', 'all'. "
 "Multiple options accumulate."
@@ -937,18 +932,73 @@ msgstr ""
 "Управление выводом предупреждений. В настоящее время ФЛАГом может быть "
 "'none', 'truncate' или 'all'.  Многократные параметры аккумулируются."
 
+#: src/main.c:142
+msgid "[USER][:.][GROUP]"
+msgstr "[ПОЛЬЗОВАТЕЛЬ][:.][ГРУППА]"
+
+#: src/main.c:143
+msgid ""
+"Set the ownership of all files created to the specified USER and/or GROUP"
+msgstr ""
+"Назначение прав владения, определённых через ПОЛЬЗОВАТЕЛЬ и/или ГРУППА, для "
+"всех созданных файлов"
+
+#: src/main.c:148
+#, fuzzy
+msgid "Operation modifiers valid in copy-in and copy-out modes"
+msgstr "Модификаторы, действительные в режимах copy-in и copy-out:"
+
+#: src/main.c:149 src/main.c:184 src/main.c:194
+msgid "[[USER@]HOST:]FILE-NAME"
+msgstr "[[ПОЛЬЗОВАТЕЛЬ@]УЗЕЛ:]ИМЯ_ФАЙЛА"
+
 #: src/main.c:150
+msgid ""
+"Use this FILE-NAME instead of standard input or output. Optional USER and "
+"HOST specify the user and host names in case of a remote archive"
+msgstr ""
+"Использование ИМЕНИ_ФАЙЛА вместо стандартного ввода или вывода. При работе с "
+"удалённым архивом необязательные ПОЛЬЗОВАТЕЛЬ и УЗЕЛ определяют имена "
+"пользователя и узла"
+
+#: src/main.c:151 tests/genfile.c:170
+msgid "STRING"
+msgstr "СТРОКА"
+
+#: src/main.c:152
+msgid "Print STRING when the end of a volume of the backup media is reached"
+msgstr "Вывод СТРОКИ, когда на резервном носителе достигнут конец тома"
+
+#: src/main.c:154 src/mt.c:182 tests/genfile.c:191
+msgid "COMMAND"
+msgstr "КОМАНДА"
+
+#: src/main.c:155
+#, fuzzy
+msgid "Use COMMAND instead of rsh"
+msgstr "Использование удалённой КОМАНДЫ вместо rsh"
+
+#: src/main.c:161
 msgid "Operation modifiers valid only in copy-in mode:"
 msgstr "Модификаторы, действующие только в режиме copy-in:"
 
-#: src/main.c:152
+#: src/main.c:163
+msgid "Only copy files that do not match any of the given patterns"
+msgstr ""
+"Копирование только тех файлов, которые не совпадают с указанными шаблонами"
+
+#: src/main.c:165
+msgid "In the verbose table of contents listing, show numeric UID and GID"
+msgstr "Вывод числового UID и GID в таблице с подробным содержимым"
+
+#: src/main.c:168
 msgid ""
 "Read additional patterns specifying filenames to extract or list from FILE"
 msgstr ""
 "Чтение из ФАЙЛА дополнительных шаблонов, определяющих имена извлекаемых "
 "файлов, или списка"
 
-#: src/main.c:154
+#: src/main.c:170
 msgid ""
 "When reading a CRC format archive, only verify the CRC's of each file in the "
 "archive, don't actually extract the files"
@@ -956,77 +1006,29 @@ msgstr ""
 "При чтении архива в формате CRC только проверять CRC-суммы всех файлов, а не "
 "извлекать их"
 
-#: src/main.c:156
+#: src/main.c:172
 msgid "Interactively rename files"
 msgstr "Интерактивное переименование файлов"
 
-#: src/main.c:160
+#: src/main.c:176
 msgid ""
 "Swap both halfwords of words and bytes of halfwords in the data. Equivalent "
 "to -sS"
 msgstr "Менять местами полуслова и байты полуслов в данных. Эквивалент -sS"
 
-#: src/main.c:162
+#: src/main.c:178
 msgid "Swap the bytes of each halfword in the files"
 msgstr "Менять местами байты всех полуслов в файлах"
 
-#: src/main.c:164
+#: src/main.c:180
 msgid "Swap the halfwords of each word (4 bytes) in the files"
 msgstr "Менять местами полуслова всех слов (4 байта) в файлах"
 
-#: src/main.c:167
+#: src/main.c:183
 msgid "Extract files to standard output"
 msgstr "Извлечение файлов на стандартный вывод"
 
-#: src/main.c:173
-msgid "Operation modifiers valid only in copy-out mode:"
-msgstr "Модификаторы, действующие только в режиме copy-out:"
-
-#: src/main.c:175
-msgid "Append to an existing archive."
-msgstr "Добавление к существующему архиву."
-
-#: src/main.c:177
-msgid ""
-"Archive filename to use instead of standard output. Optional USER and HOST "
-"specify the user and host names in case of a remote archive"
-msgstr ""
-"Имя файла архива для использования вместо стандартного вывода При работе с "
-"удалённым архивом необязательные ПОЛЬЗОВАТЕЛЬ и ХОСТ определяют имена "
-"пользователя и хоста"
-
-#: src/main.c:183
-msgid "Operation modifiers valid only in copy-pass mode:"
-msgstr "Модификаторы, действующие только в режиме copy-pass:"
-
 #: src/main.c:185
-msgid "Link files instead of copying them, when  possible"
-msgstr "Создание ссылок на файлы вместо их копирования, когда это возможно"
-
-#: src/main.c:192
-msgid "Operation modifiers valid in copy-in and copy-out modes:"
-msgstr "Модификаторы, действительные в режимах copy-in и copy-out:"
-
-#: src/main.c:194
-msgid "Do not strip file system prefix components from the file names"
-msgstr "Не удалять из имён файлов префиксы файловой системы"
-
-#: src/main.c:197
-msgid "Create all files relative to the current directory"
-msgstr "Создание всех файлов относительно текущего каталога"
-
-#: src/main.c:202
-msgid "Operation modifiers valid in copy-out and copy-pass modes:"
-msgstr "Модификаторы, действительные в режимах copy-out и copy-pass:"
-
-#: src/main.c:204
-msgid ""
-"A list of filenames is terminated by a null character instead of a newline"
-msgstr ""
-"Список имён файлов, оканчивающихся пустым символом вместо символа новой "
-"строки"
-
-#: src/main.c:206
 msgid ""
 "Archive filename to use instead of standard input. Optional USER and HOST "
 "specify the user and host names in case of a remote archive"
@@ -1035,7 +1037,70 @@ msgstr ""
 "удалённым архивом необязательные ПОЛЬЗОВАТЕЛЬ и ХОСТ определяют имена "
 "пользователя и хоста"
 
+#: src/main.c:191
+msgid "Operation modifiers valid only in copy-out mode:"
+msgstr "Модификаторы, действующие только в режиме copy-out:"
+
+#: src/main.c:193
+msgid "Append to an existing archive."
+msgstr "Добавление к существующему архиву."
+
+#: src/main.c:195
+msgid ""
+"Archive filename to use instead of standard output. Optional USER and HOST "
+"specify the user and host names in case of a remote archive"
+msgstr ""
+"Имя файла архива для использования вместо стандартного вывода При работе с "
+"удалённым архивом необязательные ПОЛЬЗОВАТЕЛЬ и ХОСТ определяют имена "
+"пользователя и хоста"
+
+#: src/main.c:197
+#, fuzzy
+msgid "Renumber inodes"
+msgstr "число ссылок"
+
+#: src/main.c:199
+#, fuzzy
+msgid "Don't store device numbers"
+msgstr "номер устройства"
+
+#: src/main.c:201
+msgid "Create device-independent (reproducible) archives"
+msgstr ""
+
 #: src/main.c:208
+msgid "Operation modifiers valid only in copy-pass mode:"
+msgstr "Модификаторы, действующие только в режиме copy-pass:"
+
+#: src/main.c:210
+msgid "Link files instead of copying them, when  possible"
+msgstr "Создание ссылок на файлы вместо их копирования, когда это возможно"
+
+#: src/main.c:217
+msgid "Operation modifiers valid in copy-in and copy-out modes:"
+msgstr "Модификаторы, действительные в режимах copy-in и copy-out:"
+
+#: src/main.c:219
+msgid "Do not strip file system prefix components from the file names"
+msgstr "Не удалять из имён файлов префиксы файловой системы"
+
+#: src/main.c:222
+msgid "Create all files relative to the current directory"
+msgstr "Создание всех файлов относительно текущего каталога"
+
+#: src/main.c:227
+msgid "Operation modifiers valid in copy-out and copy-pass modes:"
+msgstr "Модификаторы, действительные в режимах copy-out и copy-pass:"
+
+#: src/main.c:229
+#, fuzzy
+msgid ""
+"Filenames in the list are delimited by null characters instead of newlines"
+msgstr ""
+"Список имён файлов, оканчивающихся пустым символом вместо символа новой "
+"строки"
+
+#: src/main.c:231
 msgid ""
 "Dereference  symbolic  links  (copy  the files that they point to instead of "
 "copying the links)."
@@ -1043,57 +1108,44 @@ msgstr ""
 "Разыменовывание символических ссылок (копирование файлов, на которые они "
 "указывают, вместо копирования самих ссылок)"
 
-#: src/main.c:209
-msgid "[USER][:.][GROUP]"
-msgstr "[ПОЛЬЗОВАТЕЛЬ][:.][ГРУППА]"
-
-#: src/main.c:210
-msgid ""
-"Set the ownership of all files created to the specified USER and/or GROUP"
-msgstr ""
-"Назначение прав владения, определённых через ПОЛЬЗОВАТЕЛЬ и/или ГРУППА, для "
-"всех созданных файлов"
-
-#: src/main.c:212
+#: src/main.c:233
 msgid "Reset the access times of files after reading them"
 msgstr "Сброс времени доступа к файлам после их считывания"
 
-#: src/main.c:218
+#: src/main.c:239
 msgid "Operation modifiers valid in copy-in and copy-pass modes:"
 msgstr "Модификаторы, действительные в режимах copy-in и copy-pass:"
 
-#: src/main.c:220
+#: src/main.c:241
 msgid "Retain previous file modification times when creating files"
 msgstr "Запоминание предыдущего времени изменения файлов при создании файлов"
 
-#: src/main.c:222
+#: src/main.c:243
 msgid "Create leading directories where needed"
 msgstr "Создание при необходимости начальных каталогов"
 
-#: src/main.c:224
+#: src/main.c:245
 msgid "Do not change the ownership of the files"
 msgstr "Не изменять права владения файлов"
 
-#: src/main.c:226
+#: src/main.c:247
 msgid "Replace all files unconditionally"
 msgstr "Безусловная замена всех файлов"
 
-#: src/main.c:228
+#: src/main.c:249
 msgid "Write files with large blocks of zeros as sparse files"
 msgstr ""
 "Запись файлов с большими блоками из нулей в качестве разрежённых файлов"
 
-#: src/main.c:304 src/main.c:321
-#, c-format
+#: src/main.c:325 src/main.c:342
 msgid "invalid block size"
 msgstr "недопустимый размер блока"
 
-#: src/main.c:310 src/main.c:342
-#, c-format
+#: src/main.c:331 src/main.c:367
 msgid "Archive format multiply defined"
 msgstr "Формат архива определён несколько раз"
 
-#: src/main.c:360
+#: src/main.c:385
 #, c-format
 msgid ""
 "invalid archive format `%s'; valid formats are:\n"
@@ -1102,125 +1154,114 @@ msgstr ""
 "недопустимый формат архива `%s'; допустимые форматы:\n"
 "crc newc odc bin ustar tar (all-caps также распознаётся)"
 
-#: src/main.c:367 src/main.c:417 src/main.c:431
-#, c-format
+#: src/main.c:392 src/main.c:437 src/main.c:451
 msgid "Mode already defined"
 msgstr "Режим уже определён"
 
-#: src/main.c:411
-#, c-format
+#: src/main.c:431
 msgid "--no-preserve-owner cannot be used with --owner"
 msgstr "--no-preserve-owner нельзя использовать с --owner"
 
-#: src/main.c:454
-#, c-format
+#: src/main.c:486
 msgid "--owner cannot be used with --no-preserve-owner"
 msgstr "--owner нельзя использовать с --no-preserve-owner"
 
-#: src/main.c:501
+#: src/main.c:533
 #, c-format
 msgid "Invalid value for --warning option: %s"
 msgstr "Неверное значение для опции --warning: %s"
 
-#: src/main.c:531
+#: src/main.c:563
 msgid "[destination-directory]"
 msgstr "[каталог_назначения]"
 
-#: src/main.c:561
+#: src/main.c:601
 #, c-format
 msgid ""
 "You must specify one of -oipt options.\n"
 "Try `%s --help' or `%s --usage' for more information.\n"
 msgstr ""
-"Необходимо указать один из апарметров -oipt.\n"
+"Необходимо указать один из параметров -oipt.\n"
 "Попробуйте указать `%s --help' или `%s --usage',\n"
 "чтобы получить дополнительную информацию.\n"
 
-#: src/main.c:589
-#, c-format
+#: src/main.c:632
 msgid "Both -I and -F are used in copy-in mode"
 msgstr "И -I, и -F используются в режиме copy-in"
 
-#: src/main.c:601 src/main.c:637
-#, c-format
+#: src/main.c:644 src/main.c:684
 msgid "Too many arguments"
 msgstr "Слишком много аргументо"
 
-#: src/main.c:620
-#, c-format
+#: src/main.c:663
 msgid ""
 "--append is used but no archive file name is given (use -F or -O options)"
 msgstr ""
 "используется --append, но не указано имя файла архива (используйте параметры "
 "-F или -O)"
 
-#: src/main.c:626
-#, c-format
+#: src/main.c:670
 msgid "Both -O and -F are used in copy-out mode"
 msgstr "И -O, и -F используются в режиме copy-out"
 
-#: src/main.c:639
-#, c-format
+#: src/main.c:686
 msgid "Not enough arguments"
 msgstr "Недостаточно аргументов"
 
-#: src/main.c:643
-#, c-format
+#: src/main.c:690
 msgid "Archive format is not specified in copy-pass mode (use --format option)"
 msgstr ""
 "Не указан формат архива в режиме copy-pass (используйте опцию --format)"
 
-#: src/main.c:665
+#: src/main.c:716
 #, c-format
 msgid "-F can be used only with --create or --extract"
 msgstr "-F может использоваться только с --create или --extract"
 
-#: src/main.c:668
+#: src/main.c:719
 #, c-format
 msgid "Cannot open %s"
-msgstr "Не удается открыть %s"
+msgstr "Не удаётся открыть %s"
 
-#: src/main.c:740
+#: src/main.c:791
 #, c-format
 msgid "error closing archive"
 msgstr "ошибка при закрытии архива"
 
-#: src/makepath.c:96 src/makepath.c:155
+#: src/makepath.c:97 src/makepath.c:156
 #, c-format
 msgid "cannot make directory `%s'"
-msgstr "невозможно создать каталог `%s'"
+msgstr "не удаётся создать каталог `%s'"
 
-#: src/makepath.c:131 src/makepath.c:181
+#: src/makepath.c:132 src/makepath.c:182
 #, c-format
 msgid "`%s' exists but is not a directory"
 msgstr "`%s' существует, но не является каталогом"
 
 #: src/mt.c:166
 msgid "control magnetic tape drive operation"
-msgstr ""
+msgstr "управление работой с накопителем на магнитной ленте"
 
 #: src/mt.c:180
 msgid "DEVICE"
-msgstr ""
+msgstr "УСТРОЙСТВО"
 
 #: src/mt.c:181
 msgid "use device as the file name of the tape drive to operate on"
-msgstr ""
+msgstr "использовать устройство как имя файла накопителя на магнитной ленте"
 
 #: src/mt.c:183
-#, fuzzy
 msgid "use remote COMMAND instead of rsh"
-msgstr "Использование удалённой КОМАНДЫ вместо rsh"
+msgstr "использовать удалённую КОМАНДУ вместо rsh"
 
 #: src/mt.c:204
-#, fuzzy
 msgid "operation"
-msgstr "Основной режим работы:"
+msgstr "операция"
 
 #: src/mt.c:212
-#, fuzzy, c-format
+#, c-format
 msgid "invalid count value"
-msgstr "неверный пользователь"
+msgstr "недопустимое значение счётчика"
 
 #: src/mt.c:231
 #, c-format
@@ -1229,7 +1270,7 @@ msgstr "не указано ленточное устройство"
 
 #: src/mt.c:254
 msgid "operation [count]"
-msgstr ""
+msgstr "операция [число]"
 
 #: src/mt.c:271
 #, c-format
@@ -1256,34 +1297,40 @@ msgstr "%s: сбой rmtclose"
 msgid "invalid header: checksum error"
 msgstr "неверный заголовок: ошибка контрольной суммы"
 
-#: src/userspec.c:116
+#: src/userspec.c:122
 msgid "invalid user"
 msgstr "неверный пользователь"
 
-#: src/userspec.c:122
+#: src/userspec.c:128
 msgid "cannot get the login group of a numeric UID"
-msgstr "невозможно определить группу регистрации по числовому UID"
+msgstr "не удаётся определить группу регистрации по числовому UID"
 
-#: src/userspec.c:162
+#: src/userspec.c:175
 msgid "invalid group"
-msgstr "неверная группа"
+msgstr "недопустимая группа"
 
-#: src/util.c:207 src/util.c:376
+#: src/util.c:148
+#, c-format
+msgid "write error: partial write"
+msgstr ""
+
+#: src/util.c:210 src/util.c:376
 #, c-format
 msgid "read error"
-msgstr "Ошибка чтени"
+msgstr "ошибка чтения"
 
-#: src/util.c:210
+#: src/util.c:212
 #, c-format
 msgid "premature end of file"
-msgstr "Преждевременный конец файла"
+msgstr "преждевременный конец файла"
 
 #: src/util.c:495 src/util.c:545
 #, c-format
 msgid "File %s shrunk by %s byte, padding with zeros"
 msgid_plural "File %s shrunk by %s bytes, padding with zeros"
 msgstr[0] "Файл %s укорочен на %s байт, заполняется нулями"
-msgstr[1] "Файл %s укорочен на %s байт с заполнением нулями"
+msgstr[1] "Файл %s укорочен на %s байта, заполняется нулями"
+msgstr[2] "Файл %s укорочен на %s байт, заполняется нулями"
 
 #: src/util.c:501 src/util.c:551
 #, c-format
@@ -1295,7 +1342,8 @@ msgstr "Ошибка чтения в позиции %lld в файле %s, за�
 msgid "File %s grew, %<PRIuMAX> new byte not copied"
 msgid_plural "File %s grew, %<PRIuMAX> new bytes not copied"
 msgstr[0] "Файл %s увеличился, %<PRIuMAX> новых байт не скопировано"
-msgstr[1] "Файл %s увеличился, не скопировано %<PRIuMAX> новых байт"
+msgstr[1] "Файл %s увеличился, %<PRIuMAX> новых байта не скопированы"
+msgstr[2] "Файл %s увеличился, %<PRIuMAX> новых байт не скопировано"
 
 #: src/util.c:592
 #, c-format
@@ -1317,32 +1365,42 @@ msgstr "Создаётся промежуточный каталог `%s'"
 msgid "cannot seek on output"
 msgstr "позиционирование в выходном потоке невозможно"
 
-#: src/util.c:841
+#: src/util.c:888
 #, c-format
 msgid "Found end of tape.  Load next tape and press RETURN. "
 msgstr ""
 "Обнаружен конец ленты.  Заправьте новую ленту и нажмите клавишу ENTER. "
 
-#: src/util.c:843
+#: src/util.c:890
 #, c-format
 msgid "Found end of tape.  To continue, type device/file name when ready.\n"
 msgstr ""
 "Обнаружен конец ленты.  Для подолжения введите имя устройства или файла.\n"
 
-#: src/util.c:866
+#: src/util.c:913
 #, c-format
 msgid "To continue, type device/file name when ready.\n"
 msgstr "Для подолжения введите имя устройства или файла.\n"
 
-#: src/util.c:891
+#: src/util.c:938
 #, c-format
 msgid "internal error: tape descriptor changed from %d to %d"
 msgstr "внутренняя ошибка: дескриптор ленты изменен с %d на %d"
 
-#: src/util.c:1610
+#: src/util.c:1644
 #, c-format
 msgid "%s is not a directory"
 msgstr "%s не является каталогом"
+
+#: src/util.c:1664
+#, fuzzy, c-format
+msgid "Creating directory `%s'"
+msgstr "Создаётся промежуточный каталог `%s'"
+
+#: src/util.c:1671
+#, fuzzy, c-format
+msgid "cannot change to directory `%s'"
+msgstr "не удаётся создать каталог `%s'"
 
 #: tests/genfile.c:112
 msgid ""
@@ -1417,18 +1475,16 @@ msgid "Synchronous execution options:"
 msgstr "Параметры синхронного выполнения:"
 
 #: tests/genfile.c:164
-#, fuzzy
 msgid "OPTION"
-msgstr " [ПАРАМЕТР...]"
+msgstr "ПАРАМЕТР"
 
 #: tests/genfile.c:165
-#, fuzzy
 msgid ""
 "Execute ARGS. Useful with --checkpoint and one of --cut, --append, --touch, "
 "--unlink"
 msgstr ""
-"Выполнить указанную КОМАНДУ. Полезно с параметром --checkpoint и одним из --"
-"cut, --append, --touch"
+"Выполнить АРГУМЕНТЫ. Полезно с параметром --checkpoint и одним из --cut, --"
+"append, --touch, --unlink"
 
 #: tests/genfile.c:168
 msgid "Perform given action (see below) upon reaching checkpoint NUMBER"
@@ -1476,7 +1532,7 @@ msgstr "Выполнить КОМАНДУ"
 
 #: tests/genfile.c:195
 msgid "Unlink FILE"
-msgstr ""
+msgstr "Разорвать связь с ФАЙЛОМ"
 
 #: tests/genfile.c:245
 #, c-format
@@ -1493,7 +1549,7 @@ msgstr "Число за пределами допустимого диапазо
 msgid "Negative size: %s"
 msgstr "Отрицательный размер: %s"
 
-#: tests/genfile.c:266 tests/genfile.c:568
+#: tests/genfile.c:266 tests/genfile.c:630
 #, c-format
 msgid "stat(%s) failed"
 msgstr "ошибка команды stat(%s)"
@@ -1501,12 +1557,12 @@ msgstr "ошибка команды stat(%s)"
 #: tests/genfile.c:269
 #, c-format
 msgid "requested file length %lu, actual %lu"
-msgstr ""
+msgstr "запрошенная длина файла — %lu, фактическая — %lu"
 
 #: tests/genfile.c:273
 #, c-format
 msgid "created file is not sparse"
-msgstr ""
+msgstr "созданный файл не является разрежённым"
 
 #: tests/genfile.c:362
 #, c-format
@@ -1522,8 +1578,8 @@ msgstr "Неизвестный формат даты"
 msgid "[ARGS...]"
 msgstr "[АРГУМЕНТЫ...]"
 
-#: tests/genfile.c:429 tests/genfile.c:469 tests/genfile.c:522
-#: tests/genfile.c:672 tests/genfile.c:686
+#: tests/genfile.c:429 tests/genfile.c:469 tests/genfile.c:571
+#: tests/genfile.c:734 tests/genfile.c:748
 #, c-format
 msgid "cannot open `%s'"
 msgstr "не удается открыть `%s'"
@@ -1537,64 +1593,74 @@ msgstr "не удаётся выполнить поиск"
 msgid "file name contains null character"
 msgstr "имя файла не должно содержать пустые символы"
 
-#: tests/genfile.c:517
+#: tests/genfile.c:566
 #, c-format
 msgid "cannot generate sparse files on standard output, use --file option"
 msgstr ""
 "не удалось вывести разрежённые файлы на стандартный вывод, используйте "
 "параметр --file"
 
-#: tests/genfile.c:595
+#: tests/genfile.c:657
 #, c-format
 msgid "incorrect mask (near `%s')"
 msgstr "неправильная маска (возле `%s')"
 
-#: tests/genfile.c:601 tests/genfile.c:634
+#: tests/genfile.c:663 tests/genfile.c:696
 #, c-format
 msgid "Unknown field `%s'"
 msgstr "Неизвестное поле `%s'"
 
-#: tests/genfile.c:661
+#: tests/genfile.c:723
 #, c-format
 msgid "cannot set time on `%s'"
 msgstr "не удаётся установить время `%s'"
 
-#: tests/genfile.c:700
+#: tests/genfile.c:753
 #, fuzzy, c-format
-msgid "cannot unlink `%s'"
-msgstr "не удается открыть `%s'"
+msgid "cannot truncate `%s'"
+msgstr "не удается разорвать связь `%s'"
 
-#: tests/genfile.c:826
+#: tests/genfile.c:762
+#, fuzzy, c-format
+msgid "command failed: %s"
+msgstr "Команда завершилась неудачей со статусом %d\n"
+
+#: tests/genfile.c:767
+#, c-format
+msgid "cannot unlink `%s'"
+msgstr "не удается разорвать связь `%s'"
+
+#: tests/genfile.c:894
 #, c-format
 msgid "Command exited successfully\n"
 msgstr "Команда успешно выполнена\n"
 
-#: tests/genfile.c:828
+#: tests/genfile.c:896
 #, c-format
 msgid "Command failed with status %d\n"
 msgstr "Команда завершилась неудачей со статусом %d\n"
 
-#: tests/genfile.c:832
+#: tests/genfile.c:900
 #, c-format
 msgid "Command terminated on signal %d\n"
 msgstr "Команда прервана по сигналу %d\n"
 
-#: tests/genfile.c:834
+#: tests/genfile.c:902
 #, c-format
 msgid "Command stopped on signal %d\n"
 msgstr "Команда остановлена по сигналу %d\n"
 
-#: tests/genfile.c:837
+#: tests/genfile.c:905
 #, c-format
 msgid "Command dumped core\n"
 msgstr "Команда сбросила дамп\n"
 
-#: tests/genfile.c:840
+#: tests/genfile.c:908
 #, c-format
 msgid "Command terminated\n"
 msgstr "Выполнение команды завершено\n"
 
-#: tests/genfile.c:872
+#: tests/genfile.c:940
 #, c-format
 msgid "--stat requires file names"
 msgstr "для параметра --stat требуются имена файлов"

@@ -1,6 +1,6 @@
 /* util.c - Several utility routines for cpio.
-   Copyright (C) 1990, 1991, 1992, 2001, 2004, 2006, 2007, 2010 Free
-   Software Foundation, Inc.
+   Copyright (C) 1990-1992, 2001, 2004, 2006-2007, 2010-2011, 2014-2015
+   Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -90,17 +90,17 @@ tape_empty_output_buffer (int out_des)
 	  rest_bytes_written = rmtwrite (out_des, output_buffer,
 					 rest_output_size);
 	  if (rest_bytes_written != rest_output_size)
-	    error (1, errno, _("write error"));
+	    error (PAXEXIT_FAILURE, errno, _("write error"));
 	}
       else
-	error (1, errno, _("write error"));
+	error (PAXEXIT_FAILURE, errno, _("write error"));
     }
   output_bytes += output_size;
   out_buff = output_buffer;
   output_size = 0;
 }
 
-static int sparse_write (int fildes, char *buf, unsigned int nbyte);
+static ssize_t sparse_write (int fildes, char *buf, size_t nbyte, bool flush);
 
 /* Write `output_size' bytes of `output_buffer' to file
    descriptor OUT_DES and reset `output_size' and `out_buff'.
@@ -113,9 +113,9 @@ static int sparse_write (int fildes, char *buf, unsigned int nbyte);
    insure this.  */
 
 void
-disk_empty_output_buffer (int out_des)
+disk_empty_output_buffer (int out_des, bool flush)
 {
-  int bytes_written;
+  ssize_t bytes_written;
 
   if (swapping_halfwords || swapping_bytes)
     {
@@ -136,13 +136,16 @@ disk_empty_output_buffer (int out_des)
     }
 
   if (sparse_flag)
-    bytes_written = sparse_write (out_des, output_buffer, output_size);
+    bytes_written = sparse_write (out_des, output_buffer, output_size, flush);
   else
     bytes_written = write (out_des, output_buffer, output_size);
 
   if (bytes_written != output_size)
     {
-      error (1, errno, _("write error"));
+      if (bytes_written == -1)
+	error (PAXEXIT_FAILURE, errno, _("write error"));
+      else
+	error (PAXEXIT_FAILURE, 0, _("write error: partial write"));
     }
   output_bytes += output_size;
   out_buff = output_buffer;
@@ -203,13 +206,10 @@ tape_fill_input_buffer (int in_des, int num_bytes)
       get_next_reel (in_des);
       input_size = rmtread (in_des, input_buffer, num_bytes);
     }
-  if (input_size < 0)
-    error (1, errno, _("read error"));
+  if (input_size == SAFE_READ_ERROR)
+    error (PAXEXIT_FAILURE, errno, _("read error"));
   if (input_size == 0)
-    {
-      error (0, 0, _("premature end of file"));
-      exit (1);
-    }
+    error (PAXEXIT_FAILURE, 0, _("premature end of file"));
   input_bytes += input_size;
 }
 
@@ -224,7 +224,7 @@ disk_fill_input_buffer (int in_des, off_t num_bytes)
   in_buff = input_buffer;
   num_bytes = (num_bytes < DISK_IO_BLOCK_SIZE) ? num_bytes : DISK_IO_BLOCK_SIZE;
   input_size = read (in_des, input_buffer, num_bytes);
-  if (input_size < 0) 
+  if (input_size == SAFE_READ_ERROR)
     {
       input_size = 0;
       return (-1);
@@ -275,7 +275,7 @@ disk_buffered_write (char *in_buf, int out_des, off_t num_bytes)
     {
       space_left = DISK_IO_BLOCK_SIZE - output_size;
       if (space_left == 0)
-	disk_empty_output_buffer (out_des);
+	disk_empty_output_buffer (out_des, false);
       else
 	{
 	  if (bytes_left < space_left)
@@ -373,7 +373,7 @@ tape_buffered_peek (char *peek_buf, int in_des, int num_bytes)
 	    break;
 	}
       if (tmp_input_size < 0)
-	error (1, errno, _("read error"));
+	error (PAXEXIT_FAILURE, errno, _("read error"));
       input_bytes += tmp_input_size;
       input_size += tmp_input_size;
     }
@@ -484,9 +484,9 @@ copy_files_disk_to_tape (int in_des, int out_des, off_t num_bytes,
   while (num_bytes > 0)
     {
       if (input_size == 0)
-	if (rc = disk_fill_input_buffer (in_des,
-					 num_bytes < DISK_IO_BLOCK_SIZE ?
-					 num_bytes : DISK_IO_BLOCK_SIZE))
+	if ((rc = disk_fill_input_buffer (in_des,
+					  num_bytes < DISK_IO_BLOCK_SIZE ?
+					  num_bytes : DISK_IO_BLOCK_SIZE)))
 	  {
 	    if (rc > 0)
 	      {
@@ -536,7 +536,7 @@ copy_files_disk_to_disk (int in_des, int out_des, off_t num_bytes,
   while (num_bytes > 0)
     {
       if (input_size == 0)
-	if (rc = disk_fill_input_buffer (in_des, num_bytes))
+	if ((rc = disk_fill_input_buffer (in_des, num_bytes)))
 	  {
 	    if (rc > 0)
 	      {
@@ -617,7 +617,7 @@ create_all_directories (char *name)
 #endif
   
   if (dir == NULL)
-    error (2, 0, _("virtual memory exhausted"));
+    error (PAXEXIT_FAILURE, 0, _("virtual memory exhausted"));
 
   if (dir[0] != '.' || dir[1] != '\0')
     {
@@ -660,13 +660,13 @@ prepare_append (int out_file_des)
   start_of_block = start_of_header - useful_bytes_in_block;
 
   if (lseek (out_file_des, start_of_block, SEEK_SET) < 0)
-    error (1, errno, _("cannot seek on output"));
+    error (PAXEXIT_FAILURE, errno, _("cannot seek on output"));
   if (useful_bytes_in_block > 0)
     {
       tmp_buf = (char *) xmalloc (useful_bytes_in_block);
       read (out_file_des, tmp_buf, useful_bytes_in_block);
       if (lseek (out_file_des, start_of_block, SEEK_SET) < 0)
-	error (1, errno, _("cannot seek on output"));
+	error (PAXEXIT_FAILURE, errno, _("cannot seek on output"));
       /* fix juo -- is this copy_tape_buf_out?  or copy_disk? */
       tape_buffered_write (tmp_buf, out_file_des, useful_bytes_in_block);
       free (tmp_buf);
@@ -689,6 +689,7 @@ struct inode_val
   ino_t inode;
   unsigned long major_num;
   unsigned long minor_num;
+  ino_t trans_inode;
   char *file_name;
 };
 
@@ -712,8 +713,8 @@ inode_val_compare (const void *val1, const void *val2)
          && ival1->minor_num == ival2->minor_num;
 }
 
-char *
-find_inode_file (ino_t node_num, unsigned long major_num,
+static struct inode_val *
+find_inode_val (ino_t node_num, unsigned long major_num,
 		 unsigned long minor_num)
 {
   struct inode_val sample;
@@ -725,32 +726,78 @@ find_inode_file (ino_t node_num, unsigned long major_num,
   sample.inode = node_num;
   sample.major_num = major_num;
   sample.minor_num = minor_num;
-  ival = hash_lookup (hash_table, &sample);
+  return hash_lookup (hash_table, &sample);
+}
+
+char *
+find_inode_file (ino_t node_num, unsigned long major_num,
+		 unsigned long minor_num)
+{
+  struct inode_val *ival = find_inode_val (node_num, major_num, minor_num);
   return ival ? ival->file_name : NULL;
 }
 
 /* Associate FILE_NAME with the inode NODE_NUM.  (Insert into hash table.)  */
 
-void
+static ino_t next_inode;
+
+struct inode_val *
 add_inode (ino_t node_num, char *file_name, unsigned long major_num,
 	   unsigned long minor_num)
 {
   struct inode_val *temp;
-  struct inode_val *e;
+  struct inode_val *e = NULL;
   
   /* Create new inode record.  */
   temp = (struct inode_val *) xmalloc (sizeof (struct inode_val));
   temp->inode = node_num;
   temp->major_num = major_num;
   temp->minor_num = minor_num;
-  temp->file_name = xstrdup (file_name);
+  temp->file_name = file_name ? xstrdup (file_name) : NULL;
+
+  if (renumber_inodes_option)
+    temp->trans_inode = next_inode++;
+  else
+    temp->trans_inode = temp->inode;
 
   if (!((hash_table
 	 || (hash_table = hash_initialize (0, 0, inode_val_hasher,
 					   inode_val_compare, 0)))
 	&& (e = hash_insert (hash_table, temp))))
     xalloc_die ();
-  /* FIXME: e is not used */
+  return e;
+}
+
+static ino_t
+get_inode_and_dev (struct cpio_file_stat *hdr, struct stat *st)
+{
+  if (renumber_inodes_option)
+    {
+      if (st->st_nlink > 1)
+	{
+	  struct inode_val *ival = find_inode_val (st->st_ino,
+						   major (st->st_dev),
+						   minor (st->st_dev));
+	  if (!ival)
+	    ival = add_inode (st->st_ino, NULL,
+			      major (st->st_dev), minor (st->st_dev));
+	  hdr->c_ino = ival->trans_inode;
+	}
+      else
+	hdr->c_ino = next_inode++;
+    }
+  else
+    hdr->c_ino = st->st_ino;
+  if (ignore_devno_option)
+    {
+      hdr->c_dev_maj = 0;
+      hdr->c_dev_min = 0;
+    }
+  else
+    {
+      hdr->c_dev_maj = major (st->st_dev);
+      hdr->c_dev_min = minor (st->st_dev);
+    }
 }
 
 
@@ -820,10 +867,10 @@ get_next_reel (int tape_des)
   /* Open files for interactive communication.  */
   tty_in = fopen (TTY_NAME, "r");
   if (tty_in == NULL)
-    error (2, errno, TTY_NAME);
+    error (PAXEXIT_FAILURE, errno, TTY_NAME);
   tty_out = fopen (TTY_NAME, "w");
   if (tty_out == NULL)
-    error (2, errno, TTY_NAME);
+    error (PAXEXIT_FAILURE, errno, TTY_NAME);
 
   old_tape_des = tape_des;
   tape_offline (tape_des);
@@ -869,7 +916,7 @@ get_next_reel (int tape_des)
 
 	  str_res = ds_fgets (tty_in, &new_name);
 	  if (str_res == NULL || str_res[0] == '\0')
-	    exit (1);
+	    exit (PAXEXIT_FAILURE);
 	  next_archive_name = str_res;
 
 	  tape_des = open_archive (next_archive_name);
@@ -888,7 +935,7 @@ get_next_reel (int tape_des)
      the archive.  */
 
   if (tape_des != old_tape_des)
-    error (1, 0, _("internal error: tape descriptor changed from %d to %d"),
+    error (PAXEXIT_FAILURE, 0, _("internal error: tape descriptor changed from %d to %d"),
 	   old_tape_des, tape_des);
 
   free (new_name.ds_string);
@@ -1111,107 +1158,95 @@ buf_all_zeros (char *buf, int bufsize)
   return 1;
 }
 
-int delayed_seek_count = 0;
+/* Write NBYTE bytes from BUF to file descriptor FILDES, trying to
+   create holes instead of writing blockfuls of zeros.
+   
+   Return the number of bytes written (including bytes in zero
+   regions) on success, -1 on error.
 
-/* Write NBYTE bytes from BUF to remote tape connection FILDES.
-   Return the number of bytes written on success, -1 on error.  */
+   If FLUSH is set, make sure the trailing zero region is flushed
+   on disk.
+*/
 
-static int
-sparse_write (int fildes, char *buf, unsigned int nbyte)
+static ssize_t
+sparse_write (int fildes, char *buf, size_t nbytes, bool flush)
 {
-  int complete_block_count;
-  int leftover_bytes_count;
-  int seek_count;
-  int write_count;
-  char *cur_write_start;
-  int lseek_rc;
-  int write_rc;
-  int i;
-  enum { begin, in_zeros, not_in_zeros } state;
+  size_t nwritten = 0;
+  ssize_t n;
+  char *start_ptr = buf;
 
-  complete_block_count = nbyte / DISKBLOCKSIZE;
-  leftover_bytes_count = nbyte % DISKBLOCKSIZE;
+  static off_t delayed_seek_count = 0;
+  off_t seek_count = 0;
 
-  if (delayed_seek_count != 0)
-    state = in_zeros;
-  else
-    state = begin;
-
-  seek_count = delayed_seek_count;
-
-  for (i = 0; i < complete_block_count; ++i)
+  enum { begin, in_zeros, not_in_zeros } state =
+			   delayed_seek_count ? in_zeros : begin;
+  
+  while (nbytes)
     {
-      switch (state)
+      size_t rest = nbytes;
+
+      if (rest < DISKBLOCKSIZE)
+	/* Force write */
+	state = not_in_zeros;
+      else
 	{
-	  case begin :
-	    if (buf_all_zeros (buf, DISKBLOCKSIZE))
-	      {
-		seek_count = DISKBLOCKSIZE;
-		state = in_zeros;
-	      }
-	    else
-	      {
-		cur_write_start = buf;
-		write_count = DISKBLOCKSIZE;
-		state = not_in_zeros;
-	      }
-	    buf += DISKBLOCKSIZE;
-	    break;
-	    
-	  case in_zeros :
-	    if (buf_all_zeros (buf, DISKBLOCKSIZE))
-	      {
-		seek_count += DISKBLOCKSIZE;
-	      }
-	    else
-	      {
-		lseek (fildes, seek_count, SEEK_CUR);
-		cur_write_start = buf;
-		write_count = DISKBLOCKSIZE;
-		state = not_in_zeros;
-	      }
-	    buf += DISKBLOCKSIZE;
-	    break;
-	    
-	  case not_in_zeros :
-	    if (buf_all_zeros (buf, DISKBLOCKSIZE))
-	      {
-		write_rc = write (fildes, cur_write_start, write_count);
-		seek_count = DISKBLOCKSIZE;
-		state = in_zeros;
-	      }
-	    else
-	      {
-		write_count += DISKBLOCKSIZE;
-	      }
-	    buf += DISKBLOCKSIZE;
-	    break;
+	  if (buf_all_zeros (buf, rest))
+	    {
+	      if (state == not_in_zeros)
+		{
+		  ssize_t bytes = buf - start_ptr + rest;
+		  
+		  n = write (fildes, start_ptr, bytes);
+		  if (n == -1)
+		    return -1;
+		  nwritten += n;
+		  if (n < bytes)
+		    return nwritten + seek_count;
+		  start_ptr = NULL;
+		}
+	      else
+		seek_count += rest;
+	      state = in_zeros;
+	    }
+	  else
+	    {
+	      seek_count += delayed_seek_count;
+	      if (lseek (fildes, seek_count, SEEK_CUR) == -1)
+		return -1;
+	      delayed_seek_count = seek_count = 0;
+	      state = not_in_zeros;
+	      start_ptr = buf;
+	    }
 	}
+      buf += rest;
+      nbytes -= rest;
     }
 
-  switch (state)
+  if (state != in_zeros)
     {
-      case begin :
-      case in_zeros :
-	delayed_seek_count = seek_count;
-	break;
-	
-      case not_in_zeros :
-	write_rc = write (fildes, cur_write_start, write_count);
-	delayed_seek_count = 0;
-	break;
-    }
+      seek_count += delayed_seek_count;
+      if (seek_count && lseek (fildes, seek_count, SEEK_CUR) == -1)
+	return -1;
+      delayed_seek_count = seek_count = 0;
 
-  if (leftover_bytes_count != 0)
-    {
-      if (delayed_seek_count != 0)
-	{
-	  lseek_rc = lseek (fildes, delayed_seek_count, SEEK_CUR);
-	  delayed_seek_count = 0;
-	}
-      write_rc = write (fildes, buf, leftover_bytes_count);
+      n = write (fildes, start_ptr, buf - start_ptr);
+      if (n == -1)
+	return n;
+      nwritten += n;
     }
-  return nbyte;
+  delayed_seek_count += seek_count;
+
+  if (flush && delayed_seek_count)
+    {
+      if (lseek (fildes, delayed_seek_count - 1, SEEK_CUR) == -1)
+	return -1;
+      n = write (fildes, "", 1);
+      if (n != 1)
+	return n;
+      delayed_seek_count = 0;
+    }      
+  
+  return nwritten + seek_count;
 }
 
 #define CPIO_UID(uid) (set_owner_flag ? set_owner : (uid))
@@ -1220,9 +1255,8 @@ sparse_write (int fildes, char *buf, unsigned int nbyte)
 void
 stat_to_cpio (struct cpio_file_stat *hdr, struct stat *st)
 {
-  hdr->c_dev_maj = major (st->st_dev);
-  hdr->c_dev_min = minor (st->st_dev);
-  hdr->c_ino = st->st_ino;
+  get_inode_and_dev (hdr, st);
+
   /* For POSIX systems that don't define the S_IF macros,
      we can't assume that S_ISfoo means the standard Unix
      S_IFfoo bit(s) are set.  So do it manually, with a
@@ -1372,7 +1406,7 @@ set_file_times (int fd,
 
   /* Silently ignore EROFS because reading the file won't have upset its 
      timestamp if it's on a read-only filesystem. */
-  if (gl_futimens (fd, name, ts) < 0 && errno != EROFS)
+  if (fdutimens (fd, name, ts) < 0 && errno != EROFS)
     utime_error (name);
 }
 
@@ -1618,3 +1652,39 @@ cpio_create_dir (struct cpio_file_stat *file_hdr, int existing_dir)
   return 0;
 }
 
+void
+change_dir ()
+{
+  if (change_directory_option && chdir (change_directory_option))
+    {
+      if (errno == ENOENT && create_dir_flag)
+	{
+	  if (make_path (change_directory_option, -1, -1,
+			 (warn_option & CPIO_WARN_INTERDIR) ?
+			 _("Creating directory `%s'") : NULL))
+	    exit (PAXEXIT_FAILURE);
+
+	  if (chdir (change_directory_option) == 0)
+	    return;
+	}
+      error (PAXEXIT_FAILURE, errno,
+	     _("cannot change to directory `%s'"), change_directory_option);
+    }
+}
+
+/* Return true if the archive format ARF stores inode numbers */
+int
+arf_stores_inode_p (enum archive_format arf)
+{
+  switch (arf)
+    {
+    case arf_tar:
+    case arf_ustar:
+      return 0;
+
+    default:
+      break;
+    }
+  return 1;
+}
+  

@@ -1,5 +1,5 @@
 /* copypass.c - cpio copy pass sub-function.
-   Copyright (C) 1990, 1991, 1992, 2001, 2003, 2004, 2006, 2007, 2010
+   Copyright (C) 1990-1992, 2001, 2003-2004, 2006-2007, 2010, 2014-2015
    Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -27,6 +27,7 @@
 #include "dstring.h"
 #include "extern.h"
 #include "paxlib.h"
+#include "xgetcwd.h"
 
 #ifndef HAVE_LCHOWN
 # define lchown chown
@@ -51,7 +52,7 @@ process_copy_pass ()
 {
   dynamic_string input_name;	/* Name of file from stdin.  */
   dynamic_string output_name;	/* Name of new file.  */
-  int dirname_len;		/* Length of `directory_name'.  */
+  size_t dirname_len;		/* Length of `directory_name'.  */
   int res;			/* Result of functions.  */
   char *slash;			/* For moving past slashes in input name.  */
   struct stat in_file_stat;	/* Stat record for input file.  */
@@ -68,13 +69,29 @@ process_copy_pass ()
 				   created files  */
 
   /* Initialize the copy pass.  */
-  dirname_len = strlen (directory_name);
   ds_init (&input_name, 128);
-  ds_init (&output_name, dirname_len + 2);
-  strcpy (output_name.ds_string, directory_name);
+  
+  dirname_len = strlen (directory_name);
+  if (change_directory_option && !ISSLASH (directory_name[0]))
+    {
+      char *pwd = xgetcwd ();
+
+      dirname_len += strlen (pwd) + 1;
+      ds_init (&output_name, dirname_len + 2);
+      strcpy (output_name.ds_string, pwd);
+      strcat (output_name.ds_string, "/");
+      strcat (output_name.ds_string, directory_name);
+    }
+  else
+    {
+      ds_init (&output_name, dirname_len + 2);
+      strcpy (output_name.ds_string, directory_name);
+    }
   output_name.ds_string[dirname_len] = '/';
   output_is_seekable = true;
 
+  change_dir ();
+  
   /* Copy files with names read from stdin.  */
   while (ds_fgetstr (stdin, &input_name, name_end) != NULL)
     {
@@ -183,17 +200,8 @@ process_copy_pass ()
 		}
 
 	      copy_files_disk_to_disk (in_file_des, out_file_des, in_file_stat.st_size, input_name.ds_string);
-	      disk_empty_output_buffer (out_file_des);
-	      /* Debian hack to fix a bug in the --sparse option.
-                 This bug has been reported to
-                 "bug-gnu-utils@prep.ai.mit.edu".  (96/7/10) -BEM */
-	      if (delayed_seek_count > 0)
-		{
-		  lseek (out_file_des, delayed_seek_count-1, SEEK_CUR);
-		  write (out_file_des, "", 1);
-		  delayed_seek_count = 0;
-		}
-
+	      disk_empty_output_buffer (out_file_des, true);
+	      
 	      set_copypass_perms (out_file_des,
 				  output_name.ds_string, &in_file_stat);
 

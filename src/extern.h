@@ -1,5 +1,5 @@
 /* extern.h - External declarations for cpio.  Requires system.h.
-   Copyright (C) 1990, 1991, 1992, 2001, 2006, 2007, 2009, 2010 Free
+   Copyright (C) 1990-1992, 2001, 2006-2007, 2009-2010, 2014-2015 Free
    Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -56,6 +56,8 @@ extern int only_verify_crc_flag;
 extern int no_abs_paths_flag;
 extern unsigned int warn_option;
 extern mode_t newdir_umask;
+extern int renumber_inodes_option;
+extern int ignore_devno_option;
 
 /* Values for warn_option */
 #define CPIO_WARN_NONE     0
@@ -75,8 +77,7 @@ extern char *new_media_message_after_number;
 extern int archive_des;
 extern char *archive_name;
 extern char *rsh_command_option;
-extern unsigned long crc;
-extern int delayed_seek_count;
+extern uint32_t crc;
 #ifdef DEBUG_CPIO
 extern int debug_flag;
 #endif
@@ -97,6 +98,7 @@ extern char input_is_seekable;
 extern char output_is_seekable;
 extern int (*xstat) ();
 extern void (*copy_function) ();
+extern char *change_directory_option;
 
 
 /* copyin.c */
@@ -156,7 +158,7 @@ char *parse_user_spec (char *name, uid_t *uid, gid_t *gid,
 
 /* util.c */
 void tape_empty_output_buffer (int out_des);
-void disk_empty_output_buffer (int out_des);
+void disk_empty_output_buffer (int out_des, bool flush);
 void swahw_array (char *ptr, int count);
 void tape_buffered_write (char *in_buf, int out_des, off_t num_bytes);
 void tape_buffered_read (char *in_buf, int in_des, off_t num_bytes);
@@ -171,8 +173,8 @@ void create_all_directories (char *name);
 void prepare_append (int out_file_des);
 char *find_inode_file (ino_t node_num,
 		       unsigned long major_num, unsigned long minor_num);
-void add_inode (ino_t node_num, char *file_name,
-	        unsigned long major_num, unsigned long minor_num);
+struct inode_val *add_inode (ino_t node_num, char *file_name,
+			     unsigned long major_num, unsigned long minor_num);
 int open_archive (char *file);
 void tape_offline (int tape_des);
 void get_next_reel (int tape_des);
@@ -200,6 +202,7 @@ void cpio_to_stat (struct stat *st, struct cpio_file_stat *hdr);
 void cpio_safer_name_suffix (char *name, bool link_target,
 			     bool absolute_names, bool strip_leading_dots);
 int cpio_create_dir (struct cpio_file_stat *file_hdr, int existing_dir);
+void change_dir (void);
 
 /* FIXME: These two defines should be defined in paxutils */
 #define LG_8  3
@@ -217,3 +220,5 @@ void delay_set_stat (char const *file_name, struct stat *st,
 int repair_delayed_set_stat (struct cpio_file_stat *file_hdr);
 void apply_delayed_set_stat (void);
      
+int arf_stores_inode_p (enum archive_format arf);
+

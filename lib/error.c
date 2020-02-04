@@ -21,6 +21,8 @@
 #include <quote.h>
 #include <quotearg.h>
 
+void (*error_hook) (void);
+
 /* Decode MODE from its binary form in a stat structure, and encode it
    into a 9-byte string STRING, terminated with a NUL.  */
 
@@ -350,12 +352,6 @@ write_error_details (char const *name, size_t status, size_t size)
 		      "%s: Wrote only %lu of %lu bytes",
 		      size),
 	    name, (unsigned long int) status, (unsigned long int) size));
-}
-
-void
-write_fatal (char const *name)
-{
-  call_arg_fatal ("write", name);
 }
 
 void

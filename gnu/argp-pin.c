@@ -1,7 +1,5 @@
-/* -*- buffer-read-only: t -*- vi: set ro: */
-/* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* Full and short program names for argp module
-   Copyright (C) 2005, 2009, 2010 Free Software Foundation, Inc.
+   Copyright (C) 2005, 2009-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,4 +24,3 @@ char *program_invocation_short_name = 0;
 #ifndef HAVE_PROGRAM_INVOCATION_NAME
 char *program_invocation_name = 0;
 #endif
-

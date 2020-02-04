@@ -1,3 +1,243 @@
+2015-09-12  Sergey Poznyakoff  <gray@gnu.org>
+
+	Version 2.12
+
+	Update docs, use gettext 0.19.6
+
+2015-09-01  Sergey Poznyakoff  <gray@gnu.org>
+
+	Fix generation of manual directory
+	* doc/Makefile.am: Change 'manual' goal.
+	* doc/gendocs.sh: New file.
+	* doc/gendocs_template: ps output is not built.
+
+	Remove not used files
+	* headers/Makefile.am: Remove.
+	* headers/fnmatch.h: Remove.
+	* Makefile.am: Update.
+	* configure.ac: Update.
+
+	Include gnulib and paxutils as submodules.
+	* gnulib: New submodule.
+	* paxutils: New submodule.
+	* .gitignore: Updage
+	* .gitmodules: Update
+	* README-hacking: Update.
+	* bootstrap: Install slightly modified version from the gnulib
+	repo.
+	* bootstrap.conf: Add paxutils-related stuff.
+	* po/.gitignore: Update.
+	* tests/symlink-bad-length.at: Fix expected output.
+	* src/copyin.c: Tiny change.
+	* src/util.c: Likewise.
+
+2014-12-11  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Fix symlink-bad-length test for 64-bit architectures.
+	* src/util.c: Return non-zero exit code if EOF is hit prematurely.
+	* tests/symlink-bad-length.at: Revert to original archive: there's
+	no use testing for recovery, because that depends on the host
+	architecture.  Don't test for exit code as well (same reason).
+	Account for eventual warning messages.
+
+	Fix error recovery in copy-in mode
+	* src/copyin.c (copyin_link): Fix null dereference.
+	(read_in_header): Fix error recovery (bug introduced by
+	27e0ae55).
+	* tests/symlink-bad-length.at: Test error recovery.
+	Catch various architecture-dependent error messages (suggested
+	by Pavel Raiskup).
+
+2014-12-02  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Fix typo
+
+2014-12-01  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Bugfix
+	* src/copyin.c (get_link_name): Fix range checking.
+	* tests/symlink-bad-length.at: Change expected error message.
+
+	Fix memory overrun on reading improperly created link records.
+	See
+	http://lists.gnu.org/archive/html/bug-cpio/2014-11/msg00007.html
+	* src/copyin.c (get_link_name): New function.
+	(list_file, copyin_link): use get_link_name
+	* tests/symlink-bad-length.at: New file.
+	* tests/symlink-long.at: New file.
+	* tests/Makefile.am: Add new files.
+	* tests/testsuite.at: Likewise.
+
+	New options to create device and inode-independent archives.
+	* src/util.c (inode_val): New member trans_inode
+	(find_inode_val): New function.
+	(find_inode_file): Rewrite using the above.
+	(add_inode): Initialize the trans_inode member
+	depending on the value of renumber_inodes_option.
+	(get_inode_and_dev): New function.
+	(stat_to_cpio): Use get_inode_and_dev.
+	(arf_stores_inode_p): New function.
+	* src/extern.h (renumber_inodes_option)
+	(ignore_devno_option): New externs.
+	* src/global.c (renumber_inodes_option)
+	(ignore_devno_option): New variables.
+	* src/main.c: Add new options.
+	* NEWS: Document changes.
+	* doc/cpio.1: Document new options.
+	* doc/cpio.texi: Likewise.
+
+2014-01-31  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Fix package name recognition in bootstrap.
+	The script logic failed if AC_INIT was split among two lines.
+	Reported
+	by Pavel.
+	* bootstrap (extract_package_name): Rewrite as m4 script to allow
+	for multiline AC_INIT.
+
+2014-01-30  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Update copyright years.
+
+	Treat UID/GID as numeric if prefixed by + (-R option)
+	The IDs supplied with the -R option are treated as numeric
+	(without
+	looking them up in the system database), when prefixed with +.
+	This
+	allows to force using numeric value if a user (group) with
+	a numeric
+	name exists in the database.
+	Reported by Joshua Briefman <sirgatez@gmail.com>.
+	* src/userspec.c (parse_user_spec): Use + as an indicator of
+	a numeric UID/GID.
+	* doc/cpio.1: Document changes.
+	* doc/cpio.texi: Likewise.
+
+	Use exit codes consistenly.
+
+	Improve documentation.
+	* .gitignore: Update.
+	* NEWS: Update.
+	* doc/cpio.1: Rewrite.
+	* doc/cpio.texi: Major revamp.
+	* src/main.c (options): Fix sectioning of the help output.
+	(parse_opt):
+	* src/util.c: Use PAXEXIT_FAILURE to indicate an error.
+
+2014-01-28  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Distribute rmt.8; update build system
+	* NEWS: Update.
+	* bootstrap (gnulib_extra_files): Remove "missing"
+	* configure.ac: Do not distribute shar archive.
+	Define CPIO_MT_COND
+	* doc/Makefile.am: Always install manpages (mt.1 and rmt.8 --
+	depending on whether the corresponding programs are built).
+	* doc/cpio.1: Update.
+	* doc/mt.1: Update.
+	* lib/Makefile.am: Use AM_CPPFLAGS instead of INCLUDES.
+	* src/Makefile.am: Likewise.
+	* tests/Makefile.am: Likewise.
+
+2012-02-20  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Always use 32 bit CRC
+	* src/cpiohdr.h (cpio_file_stat) <c_chksum>: Change type to
+	uint32_t.
+	* src/extern.h (crc): Change type to uint32_t.
+	* src/global.c: Likewise.
+	* src/copyout.c (read_for_checksum): Return uint32_t.
+	* src/copyin.c: Fix printf formats.
+
+2011-09-19  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Fix error handling in disk_empty_output_buffer and sparse_write
+	* src/extern.h (delayed_seek_count): Remove.
+	(disk_empty_output_buffer): Change signature.
+	* src/util.c (disk_empty_output_buffer): Take two arguments.
+	Correctly handle partial writes (errno is not meaningful).
+	(delayed_seek_count): Remove variable.
+	(sparse_write): Change return type and signature.  Rewrite.
+	Return number actual number of bytes written or -1 on error.
+	Check returns from lseek and write.
+	* src/copyin.c (copyin_regular_file): Call
+	disk_empty_output_buffer
+	with flush=true before closing the file.
+	* src/copypass.c (process_copy_pass): Likewise.
+
+	Minor fixes.
+	* configure.ac: Use gettext 0.18
+	* doc/.gitignore: Add parse-datetime.texi.
+	* lib/Makefile.am (libpax_a_SOURCES): Add exit-status.c
+	* src/copyin.c (read_pattern_file): Use open_fatal if opening
+	pattern file failed.
+	* src/util.c (set_file_times): Use fdutimens.
+
+2010-08-09  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Bugfixes.
+	* gnulib.modules: Add getline, required by rmt.
+	* src/mt.c (fatal_exit): Change exit code to
+	MT_EXIT_FAILURE.
+
+2010-07-23  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Fix setstat testcases to work on Darwin.
+	* tests/setstat01.at: Set write permission on the directory
+	before attempting to rename it.
+	* tests/setstat02.at: Likewise.
+
+	Housekeeping.
+	* .gitignore: Sort.
+	* src/cpiohdr.h: Fix indentation of preprocessor statements.
+	* src/filetypes.h: Likewise.
+
+	Improve handling of -D in copy-pass mode.
+	* gnulib.modules: Add xgetcwd.
+	* src/copypass.c (process_copy_pass): Convert directory_name
+	to absolute if -D option was given.
+
+2010-07-22  Sergey Poznyakoff  <gray@gnu.org.ua>
+
+	Fix bootstrapping.
+	* bootstrap (symlink_to_dir): Fix symlink calculation.
+
+	Minor fix.
+	* src/filetypes.h: Remove declarations of stat and lstat.
+
+	Minor fixes.
+	* src/copyout.c (count_defered_links_to_dev_ino): Return size_t.
+	(last_link): Do not use superfluous local variable.
+	* src/util.c (copy_files_disk_to_tape)
+	(copy_files_disk_to_disk): Shut down gcc warnings.
+
+	Minor changes
+	* .gitignore: Update.
+	* am/.gitignore: New file.
+	* src/.gitignore: Add .gdbinit.
+	* tests/symlink-to-stdout.at: Fix keywords.
+
+	Provide a tar-like --directory (-D) option.
+	* src/copyin.c (process_copy_in): Call change_dir.
+	* src/copyout.c (process_copy_out): Likewise.
+	* src/copypass.c (process_copy_pass): Likewise.
+	* src/extern.h (change_directory_option): New extern.
+	(change_dir): New proto.
+	* src/global.c (change_directory_option): New global.
+	* src/main.c (options): New option --directory.
+	(parse_opt): Handle the --directory option.
+	* src/util.c (change_dir): New proto.
+	* doc/cpio.texi: Document the --directory option.
+
+2010-07-22  Dmitry V. Levin  <ldv@altlinux.org>
+
+	Fix --to-stdout option support
+	* src/copyin.c (copyin_link): Skip an appropriate number of bytes
+	when to_stdout_option flag is set.
+	* tests/symlink-to-stdout.at: New test case.
+	* tests/Makefile.am (TESTSUITE_AT): Add symlink-to-stdout.at.
+	* tests/testsuite.at: Include symlink-to-stdout.at.
+
 2010-03-10  Sergey Poznyakoff  <gray@gnu.org.ua>
 
 	Version 2.11
@@ -73,7 +313,6 @@
 	* tests/Makefile.am (TESTSUITE_AT): Add setstat01.at and
 	setstat02.at
 	* tests/testsuite.at: Include setstat01.at and setstat02.at.
-
 	* NEWS: Update.
 
 	Minor compatibility fix
@@ -82,9 +321,8 @@
 
 	Raise version number to 2.10.90
 
-	Fix mt and make sure it is always build during distcheck.
-	Minor fixes in cpio.
-
+	Fix mt and make sure it is always build during distcheck. Minor
+	fixes in cpio.
 	* Makefile.am (AM_DISTCHECK_CONFIGURE_FLAGS): New variable.
 	Ensure that distcheck builds mt.
 	* bootstrap: Patch Makefile.in to honor
@@ -106,14 +344,11 @@
 	(licence): Remove. This info is output by --version.
 	(process_args): Remove useless test.
 	(main): Use set_program_name and argp_version_setup.
-
 	* src/mt.c: Remove superfluous includes.
 	Include argp-version-etc.h and progname.h
 	Use argp to parse arguments.
 	Supply the fatal_exit function.
-
 	* tests/version.at: Update for the new --version output.
-
 	* THANKS: Add Peter Breitenlohner.
 	* AUTHORS: Update Sergey's email.
 

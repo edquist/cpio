@@ -1,7 +1,7 @@
 # Makefile for GNU tar library.			-*- Makefile -*-
 
-# Copyright (C) 1994, 1995, 1996, 1997, 1999, 2000, 2001, 2003, 2004,
-# 2005, 2006, 2007, 2009, 2010 Free Software Foundation, Inc.
+# Copyright (C) 1994-1997, 1999-2001, 2003-2007, 2009-2010, 2014-2015
+# Free Software Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,11 +26,12 @@ rmt-command.h : Makefile
 	$(AM_V_at)mv $@-t $@
 BUILT_SOURCES = rmt-command.h
 CLEANFILES = rmt-command.h rmt-command.h-t
-INCLUDES = -I$(top_srcdir)/gnu -I../ -I../gnu 
+AM_CPPFLAGS = -I$(top_srcdir)/gnu -I../ -I../gnu 
 
 noinst_HEADERS = system.h system-ioctl.h rmt.h paxlib.h
 libpax_a_SOURCES = \
  exit.c\
+ exit-status.c\
  paxlib.h\
  rtapelib.c\
  sysdep.h\

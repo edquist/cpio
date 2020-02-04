@@ -1,5 +1,5 @@
 /* global.c - global variables and initial values for cpio.
-   Copyright (C) 1990, 1991, 1992, 2001, 2006, 2007, 2009, 2010 Free
+   Copyright (C) 1990-1992, 2001, 2006-2007, 2009-2010, 2014-2015 Free
    Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -144,7 +144,7 @@ char *archive_name = NULL;
 char *rsh_command_option = NULL;
 
 /* CRC checksum.  */
-unsigned long crc;
+uint32_t crc;
 
 /* Input and output buffers.  */
 char *input_buffer, *output_buffer;
@@ -193,3 +193,9 @@ int (*xstat) ();
 
 /* Which copy operation to perform. (-i, -o, -p) */
 void (*copy_function) () = 0;
+
+char *change_directory_option;
+
+int renumber_inodes_option;
+int ignore_devno_option;
+

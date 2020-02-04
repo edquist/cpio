@@ -1,6 +1,6 @@
 /* copyout.c - create a cpio archive
-   Copyright (C) 1990, 1991, 1992, 2001, 2003, 2004, 2006, 2007, 2009,
-   2010 Free Software Foundation, Inc.
+   Copyright (C) 1990-1992, 2001, 2003-2004, 2006-2007, 2009-2010,
+   2014-2015 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -33,10 +33,10 @@
 /* Read FILE_SIZE bytes of FILE_NAME from IN_FILE_DES and
    compute and return a checksum for them.  */
 
-static unsigned long
+static uint32_t
 read_for_checksum (int in_file_des, int file_size, char *file_name)
 {
-  unsigned long crc;
+  uint32_t crc;
   char buf[BUFSIZ];
   int bytes_left;
   int bytes_read;
@@ -48,7 +48,7 @@ read_for_checksum (int in_file_des, int file_size, char *file_name)
     {
       bytes_read = read (in_file_des, buf, BUFSIZ);
       if (bytes_read < 0)
-	error (1, errno, _("cannot read checksum for %s"), file_name);
+	error (PAXEXIT_FAILURE, errno, _("cannot read checksum for %s"), file_name);
       if (bytes_read == 0)
 	break;
       if (bytes_left < bytes_read)
@@ -57,7 +57,7 @@ read_for_checksum (int in_file_des, int file_size, char *file_name)
 	crc += buf[i] & 0xff;
     }
   if (lseek (in_file_des, 0L, SEEK_SET))
-    error (1, errno, _("cannot read checksum for %s"), file_name);
+    error (PAXEXIT_FAILURE, errno, _("cannot read checksum for %s"), file_name);
 
   return crc;
 }
@@ -106,22 +106,20 @@ struct deferment *deferouts = NULL;
 /* Count the number of other (hard) links to this file that have
    already been defered.  */
 
-static int
+static size_t
 count_defered_links_to_dev_ino (struct cpio_file_stat *file_hdr)
 {
   struct deferment *d;
-  ino_t	ino;
-  int 	maj;
-  int   min;
-  int 	count;
-  ino = file_hdr->c_ino;
-  maj = file_hdr->c_dev_maj;
-  min = file_hdr->c_dev_min;
-  count = 0;
+  ino_t	ino = file_hdr->c_ino;
+  long 	maj = file_hdr->c_dev_maj;
+  long  min = file_hdr->c_dev_min;
+  size_t count = 0;
+
   for (d = deferouts; d != NULL; d = d->next)
     {
-      if ( (d->header.c_ino == ino) && (d->header.c_dev_maj == maj)
-	  && (d->header.c_dev_min == min) )
+      if (d->header.c_ino == ino
+	  && d->header.c_dev_maj == maj
+	  && d->header.c_dev_min == min)
 	++count;
     }
   return count;
@@ -133,16 +131,8 @@ count_defered_links_to_dev_ino (struct cpio_file_stat *file_hdr)
 static int
 last_link (struct cpio_file_stat *file_hdr)
 {
-  int	other_files_sofar;
-
-  other_files_sofar = count_defered_links_to_dev_ino (file_hdr);
-  if (file_hdr->c_nlink == (other_files_sofar + 1) )
-    {
-      return 1;
-    }
-  return 0;
+  return file_hdr->c_nlink == count_defered_links_to_dev_ino (file_hdr) + 1;
 }
-
 
 /* Add the file header for a link that is being defered to the deferouts
    list.  */
@@ -616,7 +606,7 @@ process_copy_out ()
   else
     {
       if (fstat (out_file_des, &file_stat))
-	error (1, errno, _("standard output is closed"));
+	error (PAXEXIT_FAILURE, errno, _("standard output is closed"));
       output_is_special =
 #ifdef S_ISBLK
 	S_ISBLK (file_stat.st_mode) ||
@@ -625,6 +615,8 @@ process_copy_out ()
       output_is_seekable = S_ISREG (file_stat.st_mode);
     }
 
+  change_dir ();
+  
   if (append_flag)
     {
       process_copy_in ();

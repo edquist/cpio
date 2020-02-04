@@ -1,6 +1,6 @@
 /* copyin.c - extract or list a cpio archive
-   Copyright (C) 1990, 1991, 1992, 2001, 2002, 2003, 2004, 2005, 2006,
-   2007, 2009, 2010 Free Software Foundation, Inc.
+   Copyright (C) 1990-1992, 2001-2007, 2009-2010, 2014-2015 Free
+   Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -124,10 +124,30 @@ tape_skip_padding (int in_file_des, off_t offset)
   if (pad != 0)
     tape_toss_input (in_file_des, pad);
 }
-
+
+static char *
+get_link_name (struct cpio_file_stat *file_hdr, int in_file_des)
+{
+  char *link_name;
+  
+  if (file_hdr->c_filesize < 0 || file_hdr->c_filesize > SIZE_MAX-1)
+    {
+      error (0, 0, _("%s: stored filename length is out of range"),
+	     file_hdr->c_name);
+      link_name = NULL;
+    }
+  else
+    {
+      link_name = xmalloc (file_hdr->c_filesize + 1);
+      tape_buffered_read (link_name, in_file_des, file_hdr->c_filesize);
+      link_name[file_hdr->c_filesize] = '\0';
+      tape_skip_padding (in_file_des, file_hdr->c_filesize);
+    }
+  return link_name;
+}
 
 static void
-list_file(struct cpio_file_stat* file_hdr, int in_file_des)
+list_file (struct cpio_file_stat* file_hdr, int in_file_des)
 {
   if (verbose_flag)
     {
@@ -136,21 +156,16 @@ list_file(struct cpio_file_stat* file_hdr, int in_file_des)
 	{
 	  if (archive_format != arf_tar && archive_format != arf_ustar)
 	    {
-	      char *link_name = NULL;	/* Name of hard and symbolic links.  */
-
-	      link_name = (char *) xmalloc ((unsigned int) file_hdr->c_filesize + 1);
-	      link_name[file_hdr->c_filesize] = '\0';
-	      tape_buffered_read (link_name, in_file_des, file_hdr->c_filesize);
-	      long_format (file_hdr, link_name);
-	      free (link_name);
-	      tape_skip_padding (in_file_des, file_hdr->c_filesize);
-	      return;
+	      char *link_name = get_link_name (file_hdr, in_file_des);
+	      if (link_name)
+		{
+		  long_format (file_hdr, link_name);
+		  free (link_name);
+		}
 	    }
 	  else
-	    {
-	      long_format (file_hdr, file_hdr->c_tar_linkname);
-	      return;
-	    }
+	    long_format (file_hdr, file_hdr->c_tar_linkname);
+	  return;
 	}
       else
 #endif
@@ -178,7 +193,7 @@ list_file(struct cpio_file_stat* file_hdr, int in_file_des)
 #endif
       if (crc != file_hdr->c_chksum)
 	{
-	  error (0, 0, _("%s: checksum error (0x%lx, should be 0x%lx)"),
+	  error (0, 0, _("%s: checksum error (0x%x, should be 0x%x)"),
 		 file_hdr->c_name, crc, file_hdr->c_chksum);
 	}
     }
@@ -518,30 +533,20 @@ copyin_regular_file (struct cpio_file_stat* file_hdr, int in_file_des)
 	       file_hdr->c_name);
     }
   copy_files_tape_to_disk (in_file_des, out_file_des, file_hdr->c_filesize);
-  disk_empty_output_buffer (out_file_des);
+  disk_empty_output_buffer (out_file_des, true);
   
   if (to_stdout_option)
     {
       if (archive_format == arf_crcascii)
 	{
 	  if (crc != file_hdr->c_chksum)
-	    error (0, 0, _("%s: checksum error (0x%lx, should be 0x%lx)"),
+	    error (0, 0, _("%s: checksum error (0x%x, should be 0x%x)"),
 		   file_hdr->c_name, crc, file_hdr->c_chksum);
 	}
       tape_skip_padding (in_file_des, file_hdr->c_filesize);
       return;
     }
       
-  /* Debian hack to fix a bug in the --sparse option.
-     This bug has been reported to
-     "bug-gnu-utils@prep.ai.mit.edu".  (96/7/10) -BEM */
-  if (delayed_seek_count > 0)
-    {
-      lseek (out_file_des, delayed_seek_count-1, SEEK_CUR);
-      write (out_file_des, "", 1);
-      delayed_seek_count = 0;
-    }
-
   set_perms (out_file_des, file_hdr);
 
   if (close (out_file_des) < 0)
@@ -550,7 +555,7 @@ copyin_regular_file (struct cpio_file_stat* file_hdr, int in_file_des)
   if (archive_format == arf_crcascii)
     {
       if (crc != file_hdr->c_chksum)
-	error (0, 0, _("%s: checksum error (0x%lx, should be 0x%lx)"),
+	error (0, 0, _("%s: checksum error (0x%x, should be 0x%x)"),
 	       file_hdr->c_name, crc, file_hdr->c_chksum);
     }
 
@@ -640,23 +645,27 @@ copyin_device (struct cpio_file_stat* file_hdr)
 }
 
 static void
-copyin_link(struct cpio_file_stat *file_hdr, int in_file_des)
+copyin_link (struct cpio_file_stat *file_hdr, int in_file_des)
 {
   char *link_name = NULL;	/* Name of hard and symbolic links.  */
   int res;			/* Result of various function calls.  */
 
-  if (to_stdout_option)
-    return;
-
   if (archive_format != arf_tar && archive_format != arf_ustar)
     {
-      link_name = (char *) xmalloc ((unsigned int) file_hdr->c_filesize + 1);
-      link_name[file_hdr->c_filesize] = '\0';
-      tape_buffered_read (link_name, in_file_des, file_hdr->c_filesize);
-      tape_skip_padding (in_file_des, file_hdr->c_filesize);
+      if (to_stdout_option)
+        {
+          tape_toss_input (in_file_des, file_hdr->c_filesize);
+          tape_skip_padding (in_file_des, file_hdr->c_filesize);
+          return;
+        }
+      link_name = get_link_name (file_hdr, in_file_des);
+      if (!link_name)
+	return;
     }
   else
     {
+      if (to_stdout_option)
+        return;
       link_name = xstrdup (file_hdr->c_tar_linkname);
     }
 
@@ -861,7 +870,7 @@ read_pattern_file ()
 
   pattern_fp = fopen (pattern_file_name, "r");
   if (pattern_fp == NULL)
-    open_error (pattern_file_name);
+    open_fatal (pattern_file_name);
   while (ds_fgetstr (pattern_fp, &pattern_name, '\n') != NULL)
     {
       if (new_num_patterns >= max_new_patterns)
@@ -961,7 +970,7 @@ read_in_header (struct cpio_file_stat *file_hdr, int in_des)
 	{
 	  peeked_bytes = tape_buffered_peek (tmpbuf, in_des, 512);
 	  if (peeked_bytes < 6)
-	    error (1, 0, _("premature end of archive"));
+	    error (PAXEXIT_FAILURE, 0, _("premature end of archive"));
 
 	  if (!strncmp (tmpbuf, "070701", 6))
 	    archive_format = arf_newascii;
@@ -1005,7 +1014,7 @@ read_in_header (struct cpio_file_stat *file_hdr, int in_des)
 
   file_hdr->c_tar_linkname = NULL;
 
-  tape_buffered_read (magic.str, in_des, 6L);
+  tape_buffered_read (magic.str, in_des, sizeof (magic.str));
   while (1)
     {
       if (append_flag)
@@ -1050,8 +1059,8 @@ read_in_header (struct cpio_file_stat *file_hdr, int in_des)
 	  break;
 	}
       bytes_skipped++;
-      memmove (magic.str, magic.str + 1, 5);
-      tape_buffered_read (magic.str, in_des, 1L);
+      memmove (magic.str, magic.str + 1, sizeof (magic.str) - 1);
+      tape_buffered_read (magic.str + sizeof (magic.str) - 1, in_des, 1L);
     }
 }
 
@@ -1294,7 +1303,7 @@ process_copy_in ()
       rename_in = fopen (rename_batch_file, "r");
       if (rename_in == NULL)
 	{
-	  error (2, errno, TTY_NAME);
+	  error (PAXEXIT_FAILURE, errno, TTY_NAME);
 	}
     }
   else if (rename_flag)
@@ -1303,12 +1312,12 @@ process_copy_in ()
       tty_in = fopen (TTY_NAME, "r");
       if (tty_in == NULL)
 	{
-	  error (2, errno, TTY_NAME);
+	  error (PAXEXIT_FAILURE, errno, TTY_NAME);
 	}
       tty_out = fopen (TTY_NAME, "w");
       if (tty_out == NULL)
 	{
-	  error (2, errno, TTY_NAME);
+	  error (PAXEXIT_FAILURE, errno, TTY_NAME);
 	}
     }
 
@@ -1328,7 +1337,7 @@ process_copy_in ()
   else
     {
       if (fstat (in_file_des, &file_stat))
-	error (1, errno, _("standard input is closed"));
+	error (PAXEXIT_FAILURE, errno, _("standard input is closed"));
       input_is_special =
 #ifdef S_ISBLK
 	S_ISBLK (file_stat.st_mode) ||
@@ -1338,6 +1347,8 @@ process_copy_in ()
     }
   output_is_seekable = true;
 
+  change_dir ();
+  
   /* While there is more input in the collection, process the input.  */
   while (!done)
     {
@@ -1414,7 +1425,7 @@ process_copy_in ()
 	}
       else if (table_flag)
 	{
-	  list_file(&file_hdr, in_file_des);
+	  list_file (&file_hdr, in_file_des);
 	}
       else if (append_flag)
 	{
@@ -1439,7 +1450,7 @@ process_copy_in ()
 	    tape_skip_padding (in_file_des, file_hdr.c_filesize);
 	    if (crc != file_hdr.c_chksum)
 	      {
-		error (0, 0, _("%s: checksum error (0x%lx, should be 0x%lx)"),
+		error (0, 0, _("%s: checksum error (0x%x, should be 0x%x)"),
 		       file_hdr.c_name, crc, file_hdr.c_chksum);
 	      }
          /* Debian hack: -v and -V now work with --only-verify-crc.

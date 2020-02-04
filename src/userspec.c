@@ -1,6 +1,6 @@
 /* userspec.c -- Parse a user and group string.
-   Copyright (C) 1989, 1990, 1991, 1992, 2001, 2004, 2005, 2007, 2010
-   Free Software Foundation, Inc.
+   Copyright (C) 1989-1992, 2001, 2004-2005, 2007, 2010, 2014-2015 Free
+   Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -108,10 +108,16 @@ parse_user_spec (const char *spec_arg, uid_t *uid, gid_t *gid,
 
   if (u != NULL)
     {
-      pwd = getpwnam (u);
+      if (*u == '+')
+	{
+	  pwd = NULL;
+	  ++u;
+	}
+      else
+	pwd = getpwnam (u);
+
       if (pwd == NULL)
 	{
-
 	  if (!isnumber_p (u))
 	    error_msg = _("invalid user");
 	  else
@@ -155,7 +161,14 @@ parse_user_spec (const char *spec_arg, uid_t *uid, gid_t *gid,
   if (g != NULL && error_msg == NULL)
     {
       /* Explicit group.  */
-      grp = getgrnam (g);
+      if (*g == '+')
+	{
+	  grp = NULL;
+	  ++g;
+	}
+      else
+	grp = getgrnam (g);
+
       if (grp == NULL)
 	{
 	  if (!isnumber_p (g))

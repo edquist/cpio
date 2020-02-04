@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl This file is part of GNU cpio
-dnl Copyright (C) 2003, 2004, 2005, 2006, 2007, 2009, 2010 Free Software
+dnl Copyright (C) 2003-2007, 2009-2010, 2014-2015 Free Software
 dnl Foundation, Inc.
 dnl
 dnl This program is free software; you can redistribute it and/or modify
@@ -14,15 +14,15 @@ dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 dnl GNU General Public License for more details.
 dnl
 dnl You should have received a copy of the GNU General Public License
-dnl along with this program; if not, write to the Free Software Foundation,
-dnl Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+dnl along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-AC_INIT([GNU cpio], [2.11], [bug-cpio@gnu.org])
+AC_INIT([GNU cpio], [2.12], [bug-cpio@gnu.org],,
+        [http://www.gnu.org/software/cpio])
 AC_CONFIG_SRCDIR(src/cpio.h)
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_HEADERS([config.h])
 AC_PREREQ([2.63])
-AM_INIT_AUTOMAKE([1.11.1 gnits tar-ustar dist-bzip2 dist-shar std-options silent-rules])
+AM_INIT_AUTOMAKE([1.11.1 gnits tar-ustar dist-bzip2 std-options silent-rules])
 
 # Enable silent rules by default:
 AM_SILENT_RULES([yes])
@@ -58,14 +58,12 @@ cpio_PAXUTILS
 # Additional system dependencies (for mingw)
 CPIO_SYSDEP
 CPIO_PACKED_STRUCTS
-AC_SUBST(CPIO_MT_PROG)
 
 AC_ARG_ENABLE(mt,
  AC_HELP_STRING([--enable-mt], [Enable building of mt program]),
- [case $enableval in
-  yes) CPIO_MT_PROG='mt$(EXEEXT)';;
-  no)  ;;
-  esac])
+ [build_mt=$enableval])
+
+AM_CONDITIONAL([CPIO_MT_COND], [test $build_mt = yes])
 
 AC_CHECK_HEADERS([unistd.h stdlib.h string.h fcntl.h pwd.h grp.h sys/io/trioctl.h utmp.h getopt.h locale.h libintl.h sys/wait.h utime.h locale.h process.h sys/ioctl.h])
 
@@ -84,7 +82,7 @@ AC_CHECK_DECLS([errno, getpwnam, getgrnam, getgrgid, strdup, strerror, getenv, a
 # Gettext.
 AM_ICONV
 AM_GNU_GETTEXT([external], [need-formatstring-macros])
-AM_GNU_GETTEXT_VERSION(0.17)
+AM_GNU_GETTEXT_VERSION(0.19)
 
 LIBS="$LIBS $LIB_CLOCK_GETTIME"
 
@@ -95,7 +93,6 @@ AM_MISSING_PROG([AUTOM4TE], [autom4te])
 
 AC_CONFIG_FILES([Makefile
  doc/Makefile
- headers/Makefile
  gnu/Makefile
  lib/Makefile
  rmt/Makefile

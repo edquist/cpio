@@ -28,11 +28,11 @@
 #include <argmatch.h>
 #include <argp.h>
 #include <argcv.h>
-#include <getdate.h>
-#include <utimens.h>
+#include <parse-datetime.h>
 #include <inttostr.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <c-ctype.h>
 #define obstack_chunk_alloc malloc
 #define obstack_chunk_free free
 #include <obstack.h>
@@ -364,7 +364,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
       break;
 
     case OPT_DATE:
-      if (!get_date (&touch_time, arg, NULL))
+      if (! parse_datetime (&touch_time, arg, NULL))
 	argp_error (state, _("Unknown date format"));
       break;
 
@@ -486,9 +486,11 @@ generate_files_from_list ()
 static void
 mkhole (int fd, off_t displ)
 {
-  if (lseek (fd, displ, SEEK_CUR) == -1)
+  off_t offset = lseek (fd, displ, SEEK_CUR);
+  if (offset < 0)
     error (EXIT_FAILURE, errno, "lseek");
-  ftruncate (fd, lseek (fd, 0, SEEK_CUR));
+  if (ftruncate (fd, offset) != 0)
+    error (EXIT_FAILURE, errno, "ftruncate");
 }
 
 static void
@@ -503,6 +505,53 @@ mksparse (int fd, off_t displ, char *marks)
       if (write (fd, buffer, block_size) != block_size)
 	error (EXIT_FAILURE, errno, "write");
     }
+}
+
+static int
+make_fragment (int fd, char *offstr, char *mapstr)
+{
+  int i;
+  off_t displ = get_size (offstr, 1);
+
+  file_length += displ;
+
+  if (!mapstr || !*mapstr)
+    {
+      mkhole (fd, displ);
+      return 1;
+    }
+  else if (*mapstr == '=')
+    {
+      off_t n = get_size (mapstr + 1, 1);
+
+      switch (pattern)
+	{
+	case DEFAULT_PATTERN:
+	  for (i = 0; i < block_size; i++)
+	    buffer[i] = i & 255;
+	  break;
+	  
+	case ZEROS_PATTERN:
+	  memset (buffer, 0, block_size);
+	  break;
+	}
+
+      if (lseek (fd, displ, SEEK_CUR) == -1)
+	error (EXIT_FAILURE, errno, "lseek");
+      
+      for (; n; n--)
+	{
+	  if (write (fd, buffer, block_size) != block_size)
+	    error (EXIT_FAILURE, errno, "write");
+	  file_length += block_size;
+	}
+    }
+  else
+    {
+      file_length += block_size * strlen (mapstr);
+      mksparse (fd, displ, mapstr);
+    }
+  return 0;
 }
 
 static void
@@ -525,20 +574,33 @@ generate_sparse_file (int argc, char **argv)
 
   file_length = 0;
 
-  for (i = 0; i < argc; i += 2)
+  while (argc)
     {
-      off_t displ = get_size (argv[i], 1);
-      file_length += displ;
-
-      if (i == argc-1)
+      if (argv[0][0] == '-' && argv[0][1] == 0)
 	{
-	  mkhole (fd, displ);
-	  break;
+	  char buf[256];
+	  while (fgets (buf, sizeof (buf), stdin))
+	    {
+	      size_t n = strlen (buf);
+
+	      while (n > 0 && c_isspace (buf[n-1]))
+		buf[--n] = 0;
+	      
+	      n = strcspn (buf, " \t");
+	      buf[n++] = 0;
+	      while (buf[n] && c_isblank (buf[n]))
+		++n;
+	      make_fragment (fd, buf, buf + n);
+	    }
+	  ++argv;
+	  --argc;
 	}
       else
 	{
-	  file_length += block_size * strlen (argv[i+1]);
-	  mksparse (fd, displ, argv[i+1]);
+	  if (make_fragment (fd, argv[0], argv[1]))
+	    break;
+	  argc -= 2;
+	  argv += 2;
 	}
     }
 
@@ -582,13 +644,13 @@ print_stat (const char *name)
 	printf ("%lu", (unsigned long) st.st_ino);
       else if (strncmp (p, "mode", 4) == 0)
 	{
-	  mode_t mask = ~0;
+	  unsigned val = st.st_mode;
 
 	  if (ispunct ((unsigned char) p[4]))
 	    {
 	      char *q;
 
-	      mask = strtoul (p + 5, &q, 8);
+	      val &= strtoul (p + 5, &q, 8);
 	      if (*q)
 		{
 		  printf ("\n");
@@ -600,7 +662,7 @@ print_stat (const char *name)
 	      printf ("\n");
 	      error (EXIT_FAILURE, 0, _("Unknown field `%s'"), p);
 	    }
-	  printf ("%0o", st.st_mode & mask);
+	  printf ("%0o", val);
 	}
       else if (strcmp (p, "nlink") == 0)
 	printf ("%lu", (unsigned long) st.st_nlink);
@@ -656,7 +718,7 @@ exec_checkpoint (struct action *p)
 	struct timespec ts[2];
 
 	ts[0] = ts[1] = p->ts;
-	if (utimens (p->name, ts) != 0)
+	if (utimensat (AT_FDCWD, p->name, ts, 0) != 0)
 	  {
 	    error (0, errno, _("cannot set time on `%s'"), p->name);
 	    break;
@@ -686,20 +748,25 @@ exec_checkpoint (struct action *p)
 	    error (0, errno, _("cannot open `%s'"), p->name);
 	    break;
 	  }
-	ftruncate (fd, p->size);
+	if (ftruncate (fd, p->size) != 0)
+	  {
+	    error (0, errno, _("cannot truncate `%s'"), p->name);
+	    break;
+	  }
 	close (fd);
       }
       break;
 
     case OPT_EXEC:
-      system (p->name);
+      if (system (p->name) != 0)
+	error (0, 0, _("command failed: %s"), p->name);
       break;
 
     case OPT_UNLINK:
       if (unlink (p->name))
 	error (0, errno, _("cannot unlink `%s'"), p->name);
       break;
-      
+
     default:
       abort ();
     }
@@ -762,7 +829,8 @@ exec_command (void)
   signal (SIGCHLD, SIG_DFL);
 #endif
 
-  pipe (fd);
+  if (pipe (fd) != 0)
+    error (EXIT_FAILURE, errno, "pipe");
 
   pid = fork ();
   if (pid == -1)
@@ -855,7 +923,7 @@ main (int argc, char **argv)
   bindtextdomain (PACKAGE, LOCALEDIR);
   textdomain (PACKAGE);
 
-  get_date (&touch_time, "now", NULL);
+  parse_datetime (&touch_time, "now", NULL);
 
   /* Decode command options.  */
 

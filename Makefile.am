@@ -1,6 +1,6 @@
 # This file is part of GNU cpio
-# Copyright (C) 2003, 2004, 2007, 2009, 2010 Free Software Foundation,
-# Inc.
+# Copyright (C) 2003-2004, 2007, 2009-2010, 2014-2015 Free Software
+# Foundation, Inc.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 
 ACLOCAL_AMFLAGS = -I m4 -I am
 
-SUBDIRS = doc headers gnu lib rmt src po tests
+SUBDIRS = doc gnu lib rmt src po tests
 
 AM_DISTCHECK_CONFIGURE_FLAGS = --enable-mt
 

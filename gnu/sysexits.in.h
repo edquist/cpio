@@ -1,7 +1,5 @@
-/* -*- buffer-read-only: t -*- vi: set ro: */
-/* DO NOT EDIT! GENERATED AUTOMATICALLY! */
 /* exit() exit codes for some BSD system programs.
-   Copyright (C) 2003, 2006-2010 Free Software Foundation, Inc.
+   Copyright (C) 2003, 2006-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,13 +16,14 @@
 
 /* Written by Simon Josefsson based on sysexits(3) man page */
 
-#ifndef _GL_SYSEXITS_H
+#ifndef _@GUARD_PREFIX@_SYSEXITS_H
+
+#if __GNUC__ >= 3
+@PRAGMA_SYSTEM_HEADER@
+#endif
+@PRAGMA_COLUMNS@
 
 #if @HAVE_SYSEXITS_H@
-
-# if __GNUC__ >= 3
-@PRAGMA_SYSTEM_HEADER@
-# endif
 
 /* IRIX 6.5 has an <unistd.h> that defines a macro EX_OK with a nonzero
    value.  Override it.  See
@@ -44,8 +43,8 @@
 
 #endif
 
-#ifndef _GL_SYSEXITS_H
-#define _GL_SYSEXITS_H
+#ifndef _@GUARD_PREFIX@_SYSEXITS_H
+#define _@GUARD_PREFIX@_SYSEXITS_H
 
 #if !@HAVE_SYSEXITS_H@
 
@@ -69,5 +68,5 @@
 
 #endif
 
-#endif /* _GL_SYSEXITS_H */
-#endif /* _GL_SYSEXITS_H */
+#endif /* _@GUARD_PREFIX@_SYSEXITS_H */
+#endif /* _@GUARD_PREFIX@_SYSEXITS_H */
