@@ -1,5 +1,5 @@
 /* copyin.c - extract or list a cpio archive
-   Copyright (C) 1990-1992, 2001-2007, 2009-2010, 2014-2015 Free
+   Copyright (C) 1990-1992, 2001-2007, 2009-2010, 2014-2015, 2017 Free
    Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -76,28 +76,7 @@ query_rename(struct cpio_file_stat* file_hdr, FILE *tty_in, FILE *tty_out,
       return -1;
     }
   else
-  /* Debian hack: file_hrd.c_name is sometimes set to
-     point to static memory by code in tar.c.  This
-     causes a segfault.  This has been fixed and an
-     additional check to ensure that the file name
-     is not too long has been added.  (Reported by
-     Horst Knobloch.)  This bug has been reported to
-     "bug-gnu-utils@prep.ai.mit.edu". (99/1/6) -BEM */
-    {
-      if (archive_format != arf_tar && archive_format != arf_ustar)
-	{
-	  free (file_hdr->c_name);
-	  file_hdr->c_name = xstrdup (new_name.ds_string);
-	}
-      else
-	{
-	  if (is_tar_filename_too_long (new_name.ds_string))
-	    error (0, 0, _("%s: file name too long"),
-		   new_name.ds_string);
-	  else
-	    strcpy (file_hdr->c_name, new_name.ds_string);
-	}
-    }
+    cpio_set_c_name (file_hdr, new_name.ds_string);
   return 0;
 }
 
@@ -173,10 +152,8 @@ list_file (struct cpio_file_stat* file_hdr, int in_file_des)
     }
   else
     {
-      /* Debian hack: Modified to print a list of filenames
-	 terminiated by a null character when the -t and -0
-	 flags are used.  This has been submitted as a
-	 suggestion to "bug-gnu-utils@prep.ai.mit.edu".  -BEM */
+      /* Print out the name as it is.  The name_end delimiter is normally
+	 '\n', but can be reset to '\0' by the -0 option. */
       printf ("%s%c", file_hdr->c_name, name_end);
     }
 
@@ -201,7 +178,7 @@ list_file (struct cpio_file_stat* file_hdr, int in_file_des)
 
 static int
 try_existing_file (struct cpio_file_stat* file_hdr, int in_file_des,
-		   int *existing_dir)
+		   bool *existing_dir)
 {
   struct stat file_stat;
 
@@ -344,8 +321,7 @@ create_defered_links_to_skipped (struct cpio_file_stat *file_hdr,
 	    d_prev->next = d->next;
 	  else
 	    deferments = d->next;
-	  free (file_hdr->c_name);
-	  file_hdr->c_name = xstrdup(d->header.c_name);
+	  cpio_set_c_name (file_hdr, d->header.c_name);
 	  free_deferment (d);
 	  copyin_regular_file(file_hdr, in_file_des);
 	  return 0;
@@ -669,13 +645,14 @@ copyin_link (struct cpio_file_stat *file_hdr, int in_file_des)
       link_name = xstrdup (file_hdr->c_tar_linkname);
     }
 
+  cpio_safer_name_suffix (link_name, true, !no_abs_paths_flag, false);
+  
   res = UMASKED_SYMLINK (link_name, file_hdr->c_name,
 			 file_hdr->c_mode);
   if (res < 0 && create_dir_flag)
     {
       create_all_directories (file_hdr->c_name);
-      res = UMASKED_SYMLINK (link_name, file_hdr->c_name,
-			     file_hdr->c_mode);
+      res = UMASKED_SYMLINK (link_name, file_hdr->c_name, file_hdr->c_mode);
     }
   if (res < 0)
     {
@@ -698,7 +675,7 @@ copyin_link (struct cpio_file_stat *file_hdr, int in_file_des)
 static void
 copyin_file (struct cpio_file_stat *file_hdr, int in_file_des)
 {
-  int existing_dir;
+  bool existing_dir = false;
 
   if (!to_stdout_option
       && try_existing_file (file_hdr, in_file_des, &existing_dir) < 0)
@@ -749,7 +726,7 @@ static time_t current_time;
    this file is a symbolic link to.  */
 
 void
-long_format (struct cpio_file_stat *file_hdr, char *link_name)
+long_format (struct cpio_file_stat *file_hdr, char const *link_name)
 {
   char mbuf[11];
   char tbuf[40];
@@ -788,63 +765,13 @@ long_format (struct cpio_file_stat *file_hdr, char *link_name)
 
   printf ("%s ", tbuf + 4);
 
-  print_name_with_quoting (file_hdr->c_name);
+  printf ("%s", quotearg (file_hdr->c_name));
   if (link_name)
     {
       printf (" -> ");
-      print_name_with_quoting (link_name);
+      printf ("%s", quotearg (link_name));
     }
   putc ('\n', stdout);
-}
-
-void
-print_name_with_quoting (register char *p)
-{
-  register unsigned char c;
-
-  while ( (c = *p++) )
-    {
-      switch (c)
-	{
-	case '\\':
-	  printf ("\\\\");
-	  break;
-
-	case '\n':
-	  printf ("\\n");
-	  break;
-
-	case '\b':
-	  printf ("\\b");
-	  break;
-
-	case '\r':
-	  printf ("\\r");
-	  break;
-
-	case '\t':
-	  printf ("\\t");
-	  break;
-
-	case '\f':
-	  printf ("\\f");
-	  break;
-
-	case ' ':
-	  printf ("\\ ");
-	  break;
-
-	case '"':
-	  printf ("\\\"");
-	  break;
-
-	default:
-	  if (c > 040 && c < 0177)
-	    putchar (c);
-	  else
-	    printf ("\\%03o", (unsigned int) c);
-	}
-    }
 }
 
 /* Read a pattern file (for the -E option).  Put a list of
@@ -918,14 +845,14 @@ from_ascii (char const *where, size_t digs, unsigned logbase)
       char *p = strchr (codetab, toupper (*buf));
       if (!p)
 	{
-	  error (0, 0, _("Malformed number %.*s"), digs, where);
+	  error (0, 0, _("Malformed number %.*s"), (int) digs, where);
 	  break;
 	}
       
       d = p - codetab;
       if ((d >> logbase) > 1)
 	{
-	  error (0, 0, _("Malformed number %.*s"), digs, where);
+	  error (0, 0, _("Malformed number %.*s"), (int) digs, where);
 	  break;
 	}
       value += d;
@@ -936,7 +863,7 @@ from_ascii (char const *where, size_t digs, unsigned logbase)
     }
   if (overflow)
     error (0, 0, _("Archive value %.*s is out of range"),
-	   digs, where);
+	   (int) digs, where);
   return value;
 }
 
@@ -962,30 +889,34 @@ read_in_header (struct cpio_file_stat *file_hdr, int in_des)
 
   if (archive_format == arf_unknown)
     {
-      char tmpbuf[512];
+      union
+      {
+	char s[512];
+	unsigned short us;
+      }	tmpbuf;
       int check_tar;
       int peeked_bytes;
 
       while (archive_format == arf_unknown)
 	{
-	  peeked_bytes = tape_buffered_peek (tmpbuf, in_des, 512);
+	  peeked_bytes = tape_buffered_peek (tmpbuf.s, in_des, 512);
 	  if (peeked_bytes < 6)
 	    error (PAXEXIT_FAILURE, 0, _("premature end of archive"));
 
-	  if (!strncmp (tmpbuf, "070701", 6))
+	  if (!strncmp (tmpbuf.s, "070701", 6))
 	    archive_format = arf_newascii;
-	  else if (!strncmp (tmpbuf, "070707", 6))
+	  else if (!strncmp (tmpbuf.s, "070707", 6))
 	    archive_format = arf_oldascii;
-	  else if (!strncmp (tmpbuf, "070702", 6))
+	  else if (!strncmp (tmpbuf.s, "070702", 6))
 	    {
 	      archive_format = arf_crcascii;
 	      crc_i_flag = true;
 	    }
-	  else if ((*((unsigned short *) tmpbuf) == 070707) ||
-		   (*((unsigned short *) tmpbuf) == swab_short ((unsigned short) 070707)))
+	  else if (tmpbuf.us == 070707
+		   || tmpbuf.us == swab_short ((unsigned short) 070707))
 	    archive_format = arf_binary;
 	  else if (peeked_bytes >= 512
-		   && (check_tar = is_tar_header (tmpbuf)))
+		   && (check_tar = is_tar_header (tmpbuf.s)))
 	    {
 	      if (check_tar == 2)
 		archive_format = arf_ustar;
@@ -994,7 +925,7 @@ read_in_header (struct cpio_file_stat *file_hdr, int in_des)
 	    }
 	  else
 	    {
-	      tape_buffered_read ((char *) tmpbuf, in_des, 1L);
+	      tape_buffered_read (tmpbuf.s, in_des, 1L);
 	      ++bytes_skipped;
 	    }
 	}
@@ -1064,6 +995,14 @@ read_in_header (struct cpio_file_stat *file_hdr, int in_des)
     }
 }
 
+static void
+read_name_from_file (struct cpio_file_stat *file_hdr, int fd, uintmax_t len)
+{
+  cpio_realloc_c_name (file_hdr, len);
+  tape_buffered_read (file_hdr->c_name, fd, len);
+  file_hdr->c_namesize = len;
+}
+
 /* Fill in FILE_HDR by reading an old-format ASCII format cpio header from
    file descriptor IN_DES, except for the magic number, which is
    already filled in.  */
@@ -1090,14 +1029,8 @@ read_in_old_ascii (struct cpio_file_stat *file_hdr, int in_des)
   file_hdr->c_rdev_min = minor (dev);
 
   file_hdr->c_mtime = FROM_OCTAL (ascii_header.c_mtime);
-  file_hdr->c_namesize = FROM_OCTAL (ascii_header.c_namesize);
   file_hdr->c_filesize = FROM_OCTAL (ascii_header.c_filesize);
-  
-  /* Read file name from input.  */
-  if (file_hdr->c_name != NULL)
-    free (file_hdr->c_name);
-  file_hdr->c_name = (char *) xmalloc (file_hdr->c_namesize + 1);
-  tape_buffered_read (file_hdr->c_name, in_des, (long) file_hdr->c_namesize);
+  read_name_from_file (file_hdr, in_des, FROM_OCTAL (ascii_header.c_namesize));
 
   /* HP/UX cpio creates archives that look just like ordinary archives,
      but for devices it sets major = 0, minor = 1, and puts the
@@ -1152,14 +1085,8 @@ read_in_new_ascii (struct cpio_file_stat *file_hdr, int in_des)
   file_hdr->c_dev_min = FROM_HEX (ascii_header.c_dev_min);
   file_hdr->c_rdev_maj = FROM_HEX (ascii_header.c_rdev_maj);
   file_hdr->c_rdev_min = FROM_HEX (ascii_header.c_rdev_min);
-  file_hdr->c_namesize = FROM_HEX (ascii_header.c_namesize);
   file_hdr->c_chksum = FROM_HEX (ascii_header.c_chksum);
-  
-  /* Read file name from input.  */
-  if (file_hdr->c_name != NULL)
-    free (file_hdr->c_name);
-  file_hdr->c_name = (char *) xmalloc (file_hdr->c_namesize);
-  tape_buffered_read (file_hdr->c_name, in_des, (long) file_hdr->c_namesize);
+  read_name_from_file (file_hdr, in_des, FROM_HEX (ascii_header.c_namesize));
 
   /* In SVR4 ASCII format, the amount of space allocated for the header
      is rounded up to the next long-word, so we might need to drop
@@ -1207,16 +1134,9 @@ read_in_binary (struct cpio_file_stat *file_hdr,
   file_hdr->c_rdev_min = minor (short_hdr->c_rdev);
   file_hdr->c_mtime = (unsigned long) short_hdr->c_mtimes[0] << 16
                       | short_hdr->c_mtimes[1];
-
-  file_hdr->c_namesize = short_hdr->c_namesize;
   file_hdr->c_filesize = (unsigned long) short_hdr->c_filesizes[0] << 16
                       | short_hdr->c_filesizes[1];
-
-  /* Read file name from input.  */
-  if (file_hdr->c_name != NULL)
-    free (file_hdr->c_name);
-  file_hdr->c_name = (char *) xmalloc (file_hdr->c_namesize);
-  tape_buffered_read (file_hdr->c_name, in_des, (long) file_hdr->c_namesize);
+  read_name_from_file (file_hdr, in_des, short_hdr->c_namesize);
 
   /* In binary mode, the amount of space allocated in the header for
      the filename is `c_namesize' rounded up to the next short-word,
@@ -1283,7 +1203,8 @@ process_copy_in ()
   FILE *tty_out = NULL;		/* Interactive file for rename option.  */
   FILE *rename_in = NULL;	/* Batch file for rename option.  */
   struct stat file_stat;	/* Output file stat record.  */
-  struct cpio_file_stat file_hdr;	/* Output header information.  */
+  struct cpio_file_stat file_hdr = CPIO_FILE_STAT_INITIALIZER;
+                                /* Output header information.  */
   int in_file_des;		/* Input file descriptor.  */
   char skip_file;		/* Flag for use with patterns.  */
   int i;			/* Loop index variable.  */
@@ -1296,8 +1217,7 @@ process_copy_in ()
     {
       read_pattern_file ();
     }
-  file_hdr.c_name = NULL;
-
+  
   if (rename_batch_file)
     {
       rename_in = fopen (rename_batch_file, "r");
@@ -1378,30 +1298,35 @@ process_copy_in ()
 
 	}
 #endif
-      /* Is this the header for the TRAILER file?  */
-      if (strcmp (CPIO_TRAILER_NAME, file_hdr.c_name) == 0)
-	{
-	  done = true;
-	  break;
-	}
-
-      cpio_safer_name_suffix (file_hdr.c_name, false, !no_abs_paths_flag,
-			      false);
-      
-      /* Does the file name match one of the given patterns?  */
-      if (num_patterns <= 0)
-	skip_file = false;
+      if (file_hdr.c_namesize == 0)
+	skip_file = true;
       else
 	{
-	  skip_file = copy_matching_files;
-	  for (i = 0; i < num_patterns
-	       && skip_file == copy_matching_files; i++)
+	  /* Is this the header for the TRAILER file?  */
+	  if (strcmp (CPIO_TRAILER_NAME, file_hdr.c_name) == 0)
 	    {
-	      if (fnmatch (save_patterns[i], file_hdr.c_name, 0) == 0)
-		skip_file = !copy_matching_files;
+	      done = true;
+	      break;
+	    }
+
+	  cpio_safer_name_suffix (file_hdr.c_name, false, !no_abs_paths_flag,
+				  false);
+      
+	  /* Does the file name match one of the given patterns?  */
+	  if (num_patterns <= 0)
+	    skip_file = false;
+	  else
+	    {
+	      skip_file = copy_matching_files;
+	      for (i = 0; i < num_patterns
+		     && skip_file == copy_matching_files; i++)
+		{
+		  if (fnmatch (save_patterns[i], file_hdr.c_name, 0) == 0)
+		    skip_file = !copy_matching_files;
+		}
 	    }
 	}
-
+      
       if (skip_file)
 	{
 	  /* If we're skipping a file with links, there might be other
@@ -1492,6 +1417,8 @@ process_copy_in ()
     fputc ('\n', stderr);
 
   apply_delayed_set_stat ();
+
+  cpio_file_stat_free (&file_hdr);
   
   if (append_flag)
     return;

@@ -1,5 +1,5 @@
 # Process this file with autom4te to create testsuite.  -*- Autotest -*-
-# Copyright (C) 2004, 2006-2007, 2010, 2014-2015 Free Software
+# Copyright (C) 2004, 2006-2007, 2010, 2014-2015, 2017 Free Software
 # Foundation, Inc.
 
 # This program is free software; you can redistribute it and/or modify
@@ -35,7 +35,22 @@ while read NAME LENGTH
 do
 	genfile --length $LENGTH > $NAME
 	echo $NAME
-done < filelist |
- cpio --quiet -o > archive])
+done < filelist > filelist_raw
+
+for format in bin odc newc crc tar ustar hpbin hpodc
+do
+    cpio --format=$format --quiet -o < filelist_raw > archive.$format
+    rm -rf output
+    mkdir output && cd output
+    cpio -i --quiet < ../archive.$format
+
+    while read file
+    do
+        test -f $file || echo "$file not found"
+    done < ../filelist_raw
+
+    cd ..
+done
+])
 
 AT_CLEANUP

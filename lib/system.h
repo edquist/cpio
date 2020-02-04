@@ -488,3 +488,4 @@ char *getenv ();
 #if XENIX
 # include <sys/inode.h>
 #endif
+#include "sysdep.h"

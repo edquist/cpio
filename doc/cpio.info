@@ -1,9 +1,9 @@
-This is cpio.info, produced by makeinfo version 5.9.93 from cpio.texi.
+This is cpio.info, produced by makeinfo version 6.5 from cpio.texi.
 
-This manual documents GNU cpio (version 2.12, 12 September 2015).
+This manual documents GNU cpio (version 2.13, 4 November 2019).
 
-   Copyright (C) 1995, 2001-2002, 2004, 2010, 2014-2015 Free Software
-Foundation, Inc.
+   Copyright (C) 1995, 2001-2002, 2004, 2010, 2014-2015, 2017 Free
+Software Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -27,10 +27,10 @@ File: cpio.info,  Node: Top,  Next: Introduction,  Up: (dir)
 GNU CPIO
 ********
 
-This manual documents GNU cpio (version 2.12, 12 September 2015).
+This manual documents GNU cpio (version 2.13, 4 November 2019).
 
-   Copyright (C) 1995, 2001-2002, 2004, 2010, 2014-2015 Free Software
-Foundation, Inc.
+   Copyright (C) 1995, 2001-2002, 2004, 2010, 2014-2015, 2017 Free
+Software Foundation, Inc.
 
      Permission is granted to copy, distribute and/or modify this
      document under the terms of the GNU Free Documentation License,
@@ -47,11 +47,11 @@ Foundation, Inc.
    GNU cpio is a tool for creating and extracting archives, or copying
 files from one place to another.  It handles a number of cpio formats as
 well as reading and writing tar files.  This is the first edition of the
-GNU cpio documentation and is consistent with 2.12.
+GNU cpio documentation and is consistent with 2.13.
 
 * Menu:
 
-* Introduction::                
+* Introduction::
 * Tutorial::                    Getting started.
 * Invoking cpio::               How to invoke 'cpio'.
 * Media::                       Using tapes and other archive media.
@@ -62,10 +62,10 @@ GNU cpio documentation and is consistent with 2.12.
 
 Invoking cpio
 
-* Copy-out mode::               
-* Copy-in mode::                
-* Copy-pass mode::              
-* Options::                     
+* Copy-out mode::
+* Copy-in mode::
+* Copy-pass mode::
+* Options::
 
 
 
@@ -127,25 +127,34 @@ entries in a directory before printing the directory itself.  This
 limits the effects of restrictive directory permissions by printing the
 directory entries in a directory before the directory name itself.
 
-   Extracting an archive requires a bit more thought because cpio will
-not create directories by default.  Another characteristic, is it will
-not overwrite existing files unless you tell it to.
+   Extracting an archive requires a bit more thought.  First of all, by
+default cpio extracts the files with exactly the same name as stored in
+the archive.  That means that if the archive contains absolute paths,
+you will extract files to their absolute locations no matter what
+directory you're in when running the command.  You can instruct cpio to
+remove leading slashes using the '--no-absolute-filenames' option.
+Nevertheless, the good practice is to always test the archive using
+'cpio -t' prior to extracting it.
+
+   Furthermore, cpio will not create directories by default.  Another
+characteristic, is it will not overwrite existing files unless you tell
+it to.
 
      % cpio -iv < directory.cpio
 
    This will retrieve the files archived in the file directory.cpio and
-place them in the present directory.  The '-i' option extracts the
-archive and the '-v' shows the file names as they are extracted.  If you
-are dealing with an archived directory tree, you need to use the '-d'
-option to create directories as necessary, something like:
+restore them to their locations.  The '-i' option extracts the archive
+and the '-v' shows the file names as they are extracted.  If you are
+dealing with an archived directory tree, you need to use the '-d' option
+to create directories as necessary, something like:
 
      % cpio -idv < tree.cpio
 
-   This will take the contents of the archive tree.cpio and extract it
-to the current directory.  If you try to extract the files on top of
-files of the same name that already exist (and have the same or later
-modification time) cpio will not extract the file unless told to do so
-by the -u option.  *Note Copy-in mode::.
+   This will take the contents of the archive tree.cpio and extract it.
+If you try to extract the files on top of files of the same name that
+already exist (and have the same or later modification time) cpio will
+not extract the file unless told to do so by the -u option.  *Note
+Copy-in mode::.
 
    In copy-pass mode, cpio copies files from one directory tree to
 another, combining the copy-out and copy-in steps without actually using
@@ -171,10 +180,10 @@ File: cpio.info,  Node: Invoking cpio,  Next: Media,  Prev: Tutorial,  Up: Top
 
 * Menu:
 
-* Copy-out mode::               
-* Copy-in mode::                
-* Copy-pass mode::              
-* Options::                     
+* Copy-out mode::
+* Copy-in mode::
+* Copy-pass mode::
+* Options::
 
 
 File: cpio.info,  Node: Copy-out mode,  Next: Copy-in mode,  Up: Invoking cpio
@@ -208,6 +217,7 @@ option, e.g.:
      Reset the access times of files after reading them.
 '--absolute-filenames'
      Do not strip file system prefix components from the file names.
+     This is the default.
 '--no-absolute-filenames'
      Strip file system prefix components from the file names before
      storing them to the archive.
@@ -285,6 +295,7 @@ option.
 
 '--absolute-filenames'
      Do not strip file system prefix components from the file names.
+     This is the default.
 '--no-absolute-filenames'
      Create all files relative to the current directory.
 '--block-size=BLOCK-SIZE'
@@ -885,8 +896,13 @@ reporting a bug.  The information needed is:
    * Compilation options used when configuring the package.
    * Conditions under which the bug appears.
 
-   Send your report to <bug-cpio@gnu.org>.  Allow us a couple of days to
-answer.
+   Send your report to <bug-cpio@gnu.org>.  This is a public mailing
+list; all correspondence sent to it is archived and is available at
+<https://lists.gnu.org/archive/html/bug-cpio>.  Your bug report will be
+visible there, too.  The list is not limited to bug reports, in fact it
+is dedicated to any kind of technical discussions regarding GNU 'cpio'.
+If you wish to subscribe to it, visit
+<https://lists.gnu.org/mailman/listinfo/bug-cpio>.
 
 
 File: cpio.info,  Node: Concept Index,  Prev: Reports,  Up: Top
@@ -916,22 +932,22 @@ Concept Index
 
 
 Tag Table:
-Node: Top1030
-Node: Introduction2706
-Node: Tutorial3425
-Node: Invoking cpio7095
-Node: Copy-out mode7352
-Ref: copy-out7471
-Node: Copy-in mode10071
-Ref: copy-in10211
-Node: Copy-pass mode13585
-Ref: copy-pass13723
-Node: Options17545
-Ref: format21517
-Ref: owner25665
-Ref: warning28639
-Node: Media28997
-Node: Reports29977
-Node: Concept Index30609
+Node: Top1031
+Node: Introduction2629
+Node: Tutorial3348
+Node: Invoking cpio7465
+Node: Copy-out mode7656
+Ref: copy-out7775
+Node: Copy-in mode10401
+Ref: copy-in10541
+Node: Copy-pass mode13941
+Ref: copy-pass14079
+Node: Options17901
+Ref: format21873
+Ref: owner26021
+Ref: warning28995
+Node: Media29353
+Node: Reports30333
+Node: Concept Index31326
 
 End Tag Table

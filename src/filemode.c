@@ -1,6 +1,6 @@
 /* filemode.c -- make a string describing file modes
-   Copyright (C) 1985, 1990, 1993, 2004, 2007, 2010, 2014-2015 Free
-   Software Foundation, Inc.
+   Copyright (C) 1985, 1990, 1993, 2004, 2007, 2010, 2014-2015, 2017
+   Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -191,7 +191,7 @@ setst (unsigned short bits, char *chars)
    `struct stat' is given as an argument.  */
 
 void
-mode_string (unsigned short mode, char *str)
+mode_string (unsigned int mode, char *str)
 {
   str[0] = ftypelet ((long) mode);
   rwx ((mode & 0700) << 0, &str[1]);

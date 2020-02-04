@@ -1,5 +1,5 @@
 /* extern.h - External declarations for cpio.  Requires system.h.
-   Copyright (C) 1990-1992, 2001, 2006-2007, 2009-2010, 2014-2015 Free
+   Copyright (C) 1990-1992, 2001, 2006-2007, 2009-2010, 2014-2017 Free
    Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -111,18 +111,21 @@ void read_in_binary (struct cpio_file_stat *file_hdr,
 		     struct old_cpio_header *short_hdr, int in_des);
 void swab_array (char *arg, int count);
 void process_copy_in (void);
-void long_format (struct cpio_file_stat *file_hdr, char *link_name);
-void print_name_with_quoting (char *p);
+void long_format (struct cpio_file_stat *file_hdr, char const *link_name);
 
 /* copyout.c */
 int write_out_header (struct cpio_file_stat *file_hdr, int out_des);
 void process_copy_out (void);
+int to_ascii (char *where, uintmax_t v, size_t digits, unsigned logbase,
+	      bool nul);
+void field_width_error (const char *filename, const char *fieldname,
+			uintmax_t value, size_t width, bool nul);
 
 /* copypass.c */
 void process_copy_pass (void);
 int link_to_maj_min_ino (char *file_name, int st_dev_maj, 
 			 int st_dev_min, ino_t st_ino);
-int link_to_name (char *link_name, char *link_target);
+int link_to_name (char const *link_name, char const *link_target);
 
 /* dirname.c */
 char *dirname (char *path);
@@ -141,11 +144,11 @@ void process_args (int argc, char *argv[]);
 void initialize_buffers (void);
 
 /* makepath.c */
-int make_path (char *argpath, uid_t owner, gid_t group,
+int make_path (char const *argpath, uid_t owner, gid_t group,
 	       const char *verbose_fmt_string);
 
 /* tar.c */
-void write_out_tar_header (struct cpio_file_stat *file_hdr, int out_des);
+int write_out_tar_header (struct cpio_file_stat *file_hdr, int out_des);
 int null_block (long *block, int size);
 void read_in_tar_header (struct cpio_file_stat *file_hdr, int in_des);
 int otoa (char *s, unsigned long *n);
@@ -169,7 +172,7 @@ void copy_files_disk_to_tape (int in_des, int out_des, off_t num_bytes, char *fi
 void copy_files_disk_to_disk (int in_des, int out_des, off_t num_bytes, char *filename);
 void warn_if_file_changed (char *file_name, off_t old_file_size,
                            time_t old_file_mtime);
-void create_all_directories (char *name);
+void create_all_directories (char const *name);
 void prepare_append (int out_file_des);
 char *find_inode_file (ino_t node_num,
 		       unsigned long major_num, unsigned long minor_num);
@@ -204,9 +207,16 @@ void cpio_safer_name_suffix (char *name, bool link_target,
 int cpio_create_dir (struct cpio_file_stat *file_hdr, int existing_dir);
 void change_dir (void);
 
-/* FIXME: These two defines should be defined in paxutils */
+/* FIXME: The following three should be defined in paxutils */
 #define LG_8  3
 #define LG_16 4
+/* The maximum uintmax_t value that can be represented with DIGITS digits,
+   assuming that each digit is BITS_PER_DIGIT wide.  */
+#define MAX_VAL_WITH_DIGITS(digits, bits_per_digit) \
+   ((digits) * (bits_per_digit) < sizeof (uintmax_t) * CHAR_BIT \
+    ? ((uintmax_t) 1 << ((digits) * (bits_per_digit))) - 1 \
+    : (uintmax_t) -1)
+
 
 uintmax_t from_ascii (char const *where, size_t digs, unsigned logbase);
 

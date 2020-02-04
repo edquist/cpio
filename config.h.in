@@ -39,12 +39,18 @@
 /* Define to 1 if using `alloca.c'. */
 #undef C_ALLOCA
 
+/* Define to 1 if the C locale may have encoding errors. */
+#undef C_LOCALE_MAYBE_EILSEQ
+
 /* Define as the bit index in the word where to find bit 0 of the exponent of
    'double'. */
 #undef DBL_EXPBIT0_BIT
 
 /* Define as the word index where to find the exponent of 'double'. */
 #undef DBL_EXPBIT0_WORD
+
+/* Define to a default quoting style (see lib/quoteargs.c for the list) */
+#undef DEFAULT_QUOTING_STYLE
 
 /* Define full file name of rmt program. */
 #undef DEFAULT_RMT_COMMAND
@@ -71,6 +77,15 @@
 
 /* Define this to 1 if F_DUPFD behavior does not match POSIX */
 #undef FCNTL_DUPFD_BUGGY
+
+/* Define to nothing if C supports flexible array members, and to 1 if it does
+   not. That way, with a declaration like 'struct s { int n; double
+   d[FLEXIBLE_ARRAY_MEMBER]; };', the struct hack can be used with pre-C99
+   compilers. When computing the size of such an object, don't use 'sizeof
+   (struct s)' as it overestimates the size. Use 'offsetof (struct s, d)'
+   instead. Don't use 'offsetof (struct s, d[0])', as this doesn't work with
+   MSVC and with C++ compilers. */
+#undef FLEXIBLE_ARRAY_MEMBER
 
 /* Define to 1 if futimesat mishandles a NULL file name. */
 #undef FUTIMESAT_NULL_BUG
@@ -194,9 +209,6 @@
 /* Define to 1 when the gnulib module getline should be tested. */
 #undef GNULIB_TEST_GETLINE
 
-/* Define to 1 when the gnulib module getopt-gnu should be tested. */
-#undef GNULIB_TEST_GETOPT_GNU
-
 /* Define to 1 when the gnulib module gettimeofday should be tested. */
 #undef GNULIB_TEST_GETTIMEOFDAY
 
@@ -287,8 +299,14 @@
 /* Define to 1 when the gnulib module strnlen should be tested. */
 #undef GNULIB_TEST_STRNLEN
 
+/* Define to 1 when the gnulib module timegm should be tested. */
+#undef GNULIB_TEST_TIMEGM
+
 /* Define to 1 when the gnulib module time_r should be tested. */
 #undef GNULIB_TEST_TIME_R
+
+/* Define to 1 when the gnulib module time_rz should be tested. */
+#undef GNULIB_TEST_TIME_RZ
 
 /* Define to 1 when the gnulib module unsetenv should be tested. */
 #undef GNULIB_TEST_UNSETENV
@@ -546,6 +564,10 @@
    don't. */
 #undef HAVE_DECL__SNPRINTF
 
+/* Define to 1 if you have the declaration of `__argv', and to 0 if you don't.
+   */
+#undef HAVE_DECL___ARGV
+
 /* Define to 1 if you have the declaration of `__fpending', and to 0 if you
    don't. */
 #undef HAVE_DECL___FPENDING
@@ -620,6 +642,9 @@
 /* Define to 1 if you have the `geteuid' function. */
 #undef HAVE_GETEUID
 
+/* Define to 1 if you have the `getexecname' function. */
+#undef HAVE_GETEXECNAME
+
 /* Define to 1 if you have the `getgid' function. */
 #undef HAVE_GETGID
 
@@ -637,6 +662,9 @@
 
 /* Define to 1 if you have the `getpagesize' function. */
 #undef HAVE_GETPAGESIZE
+
+/* Define to 1 if you have the `getprogname' function. */
+#undef HAVE_GETPROGNAME
 
 /* Define to 1 if you have the `getpwnam' function. */
 #undef HAVE_GETPWNAM
@@ -689,6 +717,9 @@
 
 /* Define to 1 if you have the <libintl.h> header file. */
 #undef HAVE_LIBINTL_H
+
+/* Define to 1 if you have the <limits.h> header file. */
+#undef HAVE_LIMITS_H
 
 /* Define to 1 if you have the <linewrap.h> header file. */
 #undef HAVE_LINEWRAP_H
@@ -746,6 +777,12 @@
 /* Define to 1 if getcwd minimally works, that is, its result can be trusted
    when it succeeds. */
 #undef HAVE_MINIMALLY_WORKING_GETCWD
+
+/* Define to 1 if <limits.h> defines the MIN and MAX macros. */
+#undef HAVE_MINMAX_IN_LIMITS_H
+
+/* Define to 1 if <sys/param.h> defines the MIN and MAX macros. */
+#undef HAVE_MINMAX_IN_SYS_PARAM_H
 
 /* Define to 1 if you have the `mkfifo' function. */
 #undef HAVE_MKFIFO
@@ -1088,6 +1125,9 @@
 
 /* Define to 1 if pwrite is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_PWRITE
+
+/* Define to 1 if qsort_r is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_QSORT_R
 
 /* Define to 1 if random is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_RANDOM
@@ -1607,6 +1647,12 @@
 /* Define to 1 if you have the <sys/wait.h> header file. */
 #undef HAVE_SYS_WAIT_H
 
+/* Define to 1 if you have the `timegm' function. */
+#undef HAVE_TIMEGM
+
+/* Define to 1 if the system has the type `timezone_t'. */
+#undef HAVE_TIMEZONE_T
+
 /* Define if struct tm has the tm_gmtoff member. */
 #undef HAVE_TM_GMTOFF
 
@@ -1623,6 +1669,9 @@
 /* Define to 1 if you don't have `tm_zone' but do have the external array
    `tzname'. */
 #undef HAVE_TZNAME
+
+/* Define to 1 if you have the `tzset' function. */
+#undef HAVE_TZSET
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
@@ -1641,6 +1690,9 @@
 
 /* Define to 1 if you have the <utmp.h> header file. */
 #undef HAVE_UTMP_H
+
+/* Define if you have a global __progname variable */
+#undef HAVE_VAR___PROGNAME
 
 /* Define to 1 if you have the `vasnprintf' function. */
 #undef HAVE_VASNPRINTF
@@ -1706,6 +1758,16 @@
 /* Define to 1 if you have the `_set_invalid_parameter_handler' function. */
 #undef HAVE__SET_INVALID_PARAMETER_HANDLER
 
+/* Define to 1 if the compiler supports __builtin_expect,
+   and to 2 if <builtins.h> does.  */
+#undef HAVE___BUILTIN_EXPECT
+#ifndef HAVE___BUILTIN_EXPECT
+# define __builtin_expect(e, c) (e)
+#elif HAVE___BUILTIN_EXPECT == 2
+# include <builtins.h>
+#endif
+    
+
 /* Define as const if the declaration of iconv() needs const. */
 #undef ICONV_CONST
 
@@ -1746,6 +1808,12 @@
 /* Define if the mbrtowc function returns a wrong return value. */
 #undef MBRTOWC_RETVAL_BUG
 
+/* Use GNU style printf and scanf.  */
+#ifndef __USE_MINGW_ANSI_STDIO
+# undef __USE_MINGW_ANSI_STDIO
+#endif
+
+
 /* Define to mt_model (v.g., for DG/UX), else to mt_type. */
 #undef MTIO_CHECK_FIELD
 
@@ -1782,9 +1850,6 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* the number of pending output bytes on stream 'fp' */
-#undef PENDING_OUTPUT_N_BYTES
-
 /* Define if <inttypes.h> exists and defines unusable PRI* macros. */
 #undef PRI_MACROS_BROKEN
 
@@ -1798,6 +1863,9 @@
 /* Define to l, ll, u, ul, ull, etc., as suitable for constants of type
    'ptrdiff_t'. */
 #undef PTRDIFF_T_SUFFIX
+
+/* Define to 1 if gnulib's dirfd() replacement is used. */
+#undef REPLACE_DIRFD
 
 /* Define to 1 if gnulib's fchdir() replacement is used. */
 #undef REPLACE_FCHDIR
@@ -1857,6 +1925,9 @@
 /* Define to 1 if all 'time_t' values fit in a 'long int'. */
 #undef TIME_T_FITS_IN_LONG_INT
 
+/* Define to 1 if time_t is signed. */
+#undef TIME_T_IS_SIGNED
+
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #undef TIME_WITH_SYS_TIME
 
@@ -1871,7 +1942,7 @@
 #ifndef _ALL_SOURCE
 # undef _ALL_SOURCE
 #endif
-/* Enable general extensions on OS X.  */
+/* Enable general extensions on macOS.  */
 #ifndef _DARWIN_C_SOURCE
 # undef _DARWIN_C_SOURCE
 #endif
@@ -1879,13 +1950,37 @@
 #ifndef _GNU_SOURCE
 # undef _GNU_SOURCE
 #endif
-/* Use GNU style printf and scanf.  */
-#ifndef __USE_MINGW_ANSI_STDIO
-# undef __USE_MINGW_ANSI_STDIO
-#endif
 /* Enable threading extensions on Solaris.  */
 #ifndef _POSIX_PTHREAD_SEMANTICS
 # undef _POSIX_PTHREAD_SEMANTICS
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-5:2014.  */
+#ifndef __STDC_WANT_IEC_60559_ATTRIBS_EXT__
+# undef __STDC_WANT_IEC_60559_ATTRIBS_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-1:2014.  */
+#ifndef __STDC_WANT_IEC_60559_BFP_EXT__
+# undef __STDC_WANT_IEC_60559_BFP_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-2:2015.  */
+#ifndef __STDC_WANT_IEC_60559_DFP_EXT__
+# undef __STDC_WANT_IEC_60559_DFP_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-4:2015.  */
+#ifndef __STDC_WANT_IEC_60559_FUNCS_EXT__
+# undef __STDC_WANT_IEC_60559_FUNCS_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-3:2015.  */
+#ifndef __STDC_WANT_IEC_60559_TYPES_EXT__
+# undef __STDC_WANT_IEC_60559_TYPES_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TR 24731-2:2010.  */
+#ifndef __STDC_WANT_LIB_EXT2__
+# undef __STDC_WANT_LIB_EXT2__
+#endif
+/* Enable extensions specified by ISO/IEC 24747:2009.  */
+#ifndef __STDC_WANT_MATH_SPEC_FUNCS__
+# undef __STDC_WANT_MATH_SPEC_FUNCS__
 #endif
 /* Enable extensions on HP NonStop.  */
 #ifndef _TANDEM_SOURCE
@@ -1984,6 +2079,12 @@
 /* Define like PROTOTYPES; this can be used by system headers. */
 #undef __PROTOTYPES
 
+/* Define to 1 if the system <stdint.h> predates C++11. */
+#undef __STDC_CONSTANT_MACROS
+
+/* Define to 1 if the system <stdint.h> predates C++11. */
+#undef __STDC_LIMIT_MACROS
+
 /* Define to empty if `const' does not conform to ANSI C. */
 #undef const
 
@@ -2033,6 +2134,7 @@
       ? defined __GNUC_STDC_INLINE__ && __GNUC_STDC_INLINE__ \
       : (199901L <= __STDC_VERSION__ \
          && !defined __HP_cc \
+         && !defined __PGI \
          && !(defined __SUNPRO_C && __STDC__))) \
      && !defined _GL_EXTERN_INLINE_STDHEADER_BUG)
 # define _GL_INLINE inline
@@ -2109,8 +2211,14 @@
 /* Define to a type if <wchar.h> does not define. */
 #undef mbstate_t
 
+/* Define to the real name of the mktime_internal function. */
+#undef mktime_internal
+
 /* Define to `int' if <sys/types.h> does not define. */
 #undef mode_t
+
+/* Define to the name of the strftime replacement function. */
+#undef my_strftime
 
 /* Define to the type of st_nlink in struct stat, or a supertype. */
 #undef nlink_t

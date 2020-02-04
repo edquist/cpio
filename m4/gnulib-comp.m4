@@ -1,5 +1,5 @@
 # DO NOT EDIT! GENERATED AUTOMATICALLY!
-# Copyright (C) 2002-2015 Free Software Foundation, Inc.
+# Copyright (C) 2002-2017 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,7 +37,11 @@ AC_DEFUN([gl_EARLY],
   m4_pattern_allow([^gl_ES$])dnl a valid locale name
   m4_pattern_allow([^gl_LIBOBJS$])dnl a variable
   m4_pattern_allow([^gl_LTLIBOBJS$])dnl a variable
+
+  # Pre-early section.
+  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
   AC_REQUIRE([gl_PROG_AR_RANLIB])
+
   # Code from module absolute-header:
   # Code from module alignof:
   # Code from module alloca:
@@ -48,6 +52,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module assure:
   # Code from module at-internal:
   # Code from module bitrotate:
+  # Code from module builtin-expect:
   # Code from module c-ctype:
   # Code from module c-strcase:
   # Code from module c-strcaseeq:
@@ -76,7 +81,6 @@ AC_DEFUN([gl_EARLY],
   # Code from module error:
   # Code from module exitfail:
   # Code from module extensions:
-  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
   # Code from module extern-inline:
   # Code from module fchdir:
   # Code from module fcntl:
@@ -86,6 +90,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module fileblocks:
   # Code from module filename:
   # Code from module filenamecat-lgpl:
+  # Code from module flexmember:
   # Code from module float:
   # Code from module fnmatch:
   # Code from module fnmatch-gnu:
@@ -104,11 +109,13 @@ AC_DEFUN([gl_EARLY],
   # Code from module getopt:
   # Code from module getopt-gnu:
   # Code from module getopt-posix:
+  # Code from module getprogname:
   # Code from module gettext:
   # Code from module gettext-h:
   # Code from module gettime:
   # Code from module gettimeofday:
   # Code from module gitlog-to-changelog:
+  # Code from module hard-locale:
   # Code from module hash:
   # Code from module havelib:
   # Code from module include_next:
@@ -119,6 +126,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module largefile:
   AC_REQUIRE([AC_SYS_LARGEFILE])
   # Code from module lchown:
+  # Code from module limits-h:
   # Code from module localcharset:
   # Code from module lseek:
   # Code from module lstat:
@@ -131,7 +139,9 @@ AC_DEFUN([gl_EARLY],
   # Code from module memchr:
   # Code from module mempcpy:
   # Code from module memrchr:
+  # Code from module minmax:
   # Code from module mktime:
+  # Code from module mktime-internal:
   # Code from module msvc-inval:
   # Code from module msvc-nothrow:
   # Code from module multiarch:
@@ -187,6 +197,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module streq:
   # Code from module strerror:
   # Code from module strerror-override:
+  # Code from module strftime:
   # Code from module string:
   # Code from module strings:
   # Code from module strndup:
@@ -199,6 +210,8 @@ AC_DEFUN([gl_EARLY],
   # Code from module sysexits:
   # Code from module time:
   # Code from module time_r:
+  # Code from module time_rz:
+  # Code from module timegm:
   # Code from module timespec:
   # Code from module unistd:
   # Code from module unistd-safer:
@@ -244,6 +257,7 @@ AC_DEFUN([gl_INIT],
     [AM_][XGETTEXT_OPTION([--flag=argp_error:2:c-format])
      AM_][XGETTEXT_OPTION([--flag=argp_failure:4:c-format])])
   AC_LIBOBJ([openat-proc])
+  gl___BUILTIN_EXPECT
   gl_UNISTD_MODULE_INDICATOR([chdir])
   gl_FUNC_CHDIR_LONG
   if test $gl_cv_have_arbitrary_file_name_length_limit = yes; then
@@ -279,7 +293,8 @@ AC_DEFUN([gl_INIT],
   gl_DIRENT_SAFER
   gl_MODULE_INDICATOR([dirent-safer])
   gl_FUNC_DIRFD
-  if test $ac_cv_func_dirfd = no && test $gl_cv_func_dirfd_macro = no; then
+  if test $ac_cv_func_dirfd = no && test $gl_cv_func_dirfd_macro = no \
+     || test $REPLACE_DIRFD = 1; then
     AC_LIBOBJ([dirfd])
     gl_PREREQ_DIRFD
   fi
@@ -332,6 +347,7 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_FILEBLOCKS
   fi
   gl_FILE_NAME_CONCAT_LGPL
+  AC_C_FLEXIBLE_ARRAY_MEMBER
   gl_FLOAT_H
   if test $REPLACE_FLOAT_LDBL = 1; then
     AC_LIBOBJ([float])
@@ -352,7 +368,6 @@ AC_DEFUN([gl_INIT],
   gl_FUNC_FPENDING
   if test $gl_cv_func___fpending = no; then
     AC_LIBOBJ([fpending])
-    gl_PREREQ_FPENDING
   fi
   gl_FUNC_FSEEK
   if test $REPLACE_FSEEK = 1; then
@@ -415,7 +430,6 @@ AC_DEFUN([gl_INIT],
     GNULIB_GL_UNISTD_H_GETOPT=1
   fi
   AC_SUBST([GNULIB_GL_UNISTD_H_GETOPT])
-  gl_MODULE_INDICATOR_FOR_TESTS([getopt-gnu])
   gl_FUNC_GETOPT_POSIX
   if test $REPLACE_GETOPT = 1; then
     AC_LIBOBJ([getopt])
@@ -425,6 +439,7 @@ AC_DEFUN([gl_INIT],
     GNULIB_GL_UNISTD_H_GETOPT=1
   fi
   AC_SUBST([GNULIB_GL_UNISTD_H_GETOPT])
+  gl_FUNC_GETPROGNAME
   dnl you must add AM_GNU_GETTEXT([external]) or similar to configure.ac.
   AM_GNU_GETTEXT_VERSION([0.18.1])
   AC_SUBST([LIBINTL])
@@ -436,6 +451,7 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_GETTIMEOFDAY
   fi
   gl_SYS_TIME_MODULE_INDICATOR([gettimeofday])
+  gl_HARD_LOCALE
   gl_INTTOSTR
   gl_INTTYPES_H
   gl_INTTYPES_INCOMPLETE
@@ -445,6 +461,7 @@ AC_DEFUN([gl_INIT],
     AC_LIBOBJ([lchown])
   fi
   gl_UNISTD_MODULE_INDICATOR([lchown])
+  gl_LIMITS_H
   gl_LOCALCHARSET
   LOCALCHARSET_TESTS_ENVIRONMENT="CHARSETALIASDIR=\"\$(abs_top_builddir)/$gl_source_base\""
   AC_SUBST([LOCALCHARSET_TESTS_ENVIRONMENT])
@@ -507,17 +524,23 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_MEMRCHR
   fi
   gl_STRING_MODULE_INDICATOR([memrchr])
+  gl_MINMAX
   gl_FUNC_MKTIME
   if test $REPLACE_MKTIME = 1; then
     AC_LIBOBJ([mktime])
     gl_PREREQ_MKTIME
   fi
   gl_TIME_MODULE_INDICATOR([mktime])
-  gl_MSVC_INVAL
+  gl_FUNC_MKTIME_INTERNAL
+  if test $REPLACE_MKTIME = 1; then
+    AC_LIBOBJ([mktime])
+    gl_PREREQ_MKTIME
+  fi
+  AC_REQUIRE([gl_MSVC_INVAL])
   if test $HAVE_MSVC_INVALID_PARAMETER_HANDLER = 1; then
     AC_LIBOBJ([msvc-inval])
   fi
-  gl_MSVC_NOTHROW
+  AC_REQUIRE([gl_MSVC_NOTHROW])
   if test $HAVE_MSVC_INVALID_PARAMETER_HANDLER = 1; then
     AC_LIBOBJ([msvc-nothrow])
   fi
@@ -651,6 +674,7 @@ AC_DEFUN([gl_INIT],
     AC_LIBOBJ([strerror-override])
     gl_PREREQ_SYS_H_WINSOCK2
   fi
+  gl_FUNC_GNU_STRFTIME
   gl_HEADER_STRING_H
   gl_HEADER_STRINGS_H
   gl_FUNC_STRNDUP
@@ -682,6 +706,17 @@ AC_DEFUN([gl_INIT],
     gl_PREREQ_TIME_R
   fi
   gl_TIME_MODULE_INDICATOR([time_r])
+  gl_TIME_RZ
+  if test "$HAVE_TIMEZONE_T" = 0; then
+    AC_LIBOBJ([time_rz])
+  fi
+  gl_TIME_MODULE_INDICATOR([time_rz])
+  gl_FUNC_TIMEGM
+  if test $HAVE_TIMEGM = 0 || test $REPLACE_TIMEGM = 1; then
+    AC_LIBOBJ([timegm])
+    gl_PREREQ_TIMEGM
+  fi
+  gl_TIME_MODULE_INDICATOR([timegm])
   gl_TIMESPEC
   gl_UNISTD_H
   gl_UNISTD_SAFER
@@ -936,6 +971,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/filename.h
   lib/filenamecat-lgpl.c
   lib/filenamecat.h
+  lib/flexmember.h
   lib/float+.h
   lib/float.c
   lib/float.in.h
@@ -959,9 +995,13 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/getopt.in.h
   lib/getopt1.c
   lib/getopt_int.h
+  lib/getprogname.c
+  lib/getprogname.h
   lib/gettext.h
   lib/gettime.c
   lib/gettimeofday.c
+  lib/hard-locale.c
+  lib/hard-locale.h
   lib/hash.c
   lib/hash.h
   lib/imaxtostr.c
@@ -971,6 +1011,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/inttypes.in.h
   lib/itold.c
   lib/lchown.c
+  lib/limits.in.h
   lib/localcharset.c
   lib/localcharset.h
   lib/lseek.c
@@ -988,6 +1029,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/memchr.valgrind
   lib/mempcpy.c
   lib/memrchr.c
+  lib/minmax.h
   lib/mktime-internal.h
   lib/mktime.c
   lib/msvc-inval.c
@@ -1058,6 +1100,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/strerror-override.c
   lib/strerror-override.h
   lib/strerror.c
+  lib/strftime.c
+  lib/strftime.h
   lib/string.in.h
   lib/strings.in.h
   lib/stripslash.c
@@ -1071,8 +1115,11 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/sys_time.in.h
   lib/sys_types.in.h
   lib/sysexits.in.h
+  lib/time-internal.h
   lib/time.in.h
   lib/time_r.c
+  lib/time_rz.c
+  lib/timegm.c
   lib/timespec.c
   lib/timespec.h
   lib/uinttostr.c
@@ -1112,6 +1159,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/alloca.m4
   m4/argp.m4
   m4/bison.m4
+  m4/builtin-expect.m4
   m4/chdir-long.m4
   m4/chown.m4
   m4/clock_time.m4
@@ -1143,6 +1191,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/fdopendir.m4
   m4/fileblocks.m4
   m4/filenamecat.m4
+  m4/flexmember.m4
   m4/float_h.m4
   m4/fnmatch.m4
   m4/fpending.m4
@@ -1157,12 +1206,14 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/getdtablesize.m4
   m4/getline.m4
   m4/getopt.m4
+  m4/getprogname.m4
   m4/gettext.m4
   m4/gettime.m4
   m4/gettimeofday.m4
   m4/glibc2.m4
   m4/glibc21.m4
   m4/gnulib-common.m4
+  m4/hard-locale.m4
   m4/iconv.m4
   m4/include_next.m4
   m4/intdiv0.m4
@@ -1181,6 +1232,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/lib-ld.m4
   m4/lib-link.m4
   m4/lib-prefix.m4
+  m4/limits-h.m4
   m4/localcharset.m4
   m4/locale-fr.m4
   m4/locale-ja.m4
@@ -1199,6 +1251,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/memchr.m4
   m4/mempcpy.m4
   m4/memrchr.m4
+  m4/minmax.m4
   m4/mktime.m4
   m4/mmap-anon.m4
   m4/mode_t.m4
@@ -1250,6 +1303,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/strchrnul.m4
   m4/strdup.m4
   m4/strerror.m4
+  m4/strftime.m4
   m4/string_h.m4
   m4/strings_h.m4
   m4/strndup.m4
@@ -1263,6 +1317,8 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/threadlib.m4
   m4/time_h.m4
   m4/time_r.m4
+  m4/time_rz.m4
+  m4/timegm.m4
   m4/timespec.m4
   m4/tm_gmtoff.m4
   m4/uintmax_t.m4

@@ -596,12 +596,15 @@ at_help_all="1;version.at:20;cpio version;;
 4;symlink-bad-length.at:23;symlink-bad-length;symlink-long copyout;
 5;symlink-long.at:23;symlink-long;symlink-long copyout;
 6;symlink-to-stdout.at:24;symlink --to-stdout;symlink symlink-to-stdout;
-7;interdir.at:24;interdir;interdir copyin copypass;
-8;setstat01.at:17;delayed setstat;setstat setstat01;
-9;setstat02.at:17;delayed setstat (with -depth);setstat debian=458079 setstat02;
-10;setstat03.at:17;delayed setstat (copy-pass);setstat debian=458079 setstat03;
-11;setstat04.at:17;delayed setstat (umask);setstat debian=458079 setstat04;
-12;setstat05.at:17;delayed setstat (umask, copy-pass);setstat debian=458079 setstat05;
+7;interdir.at:25;interdir;interdir copyin copypass;
+8;setstat01.at:18;delayed setstat;setstat setstat01;
+9;setstat02.at:18;delayed setstat (with -depth);setstat debian=458079 setstat02;
+10;setstat03.at:18;delayed setstat (copy-pass);setstat debian=458079 setstat03;
+11;setstat04.at:18;delayed setstat (umask);setstat debian=458079 setstat04;
+12;setstat05.at:18;delayed setstat (umask, copy-pass);setstat debian=458079 setstat05;
+13;big-block-size.at:18;big block size;block integer overflow;
+14;CVE-2015-1197.at:17;CVE-2015-1197 (--no-absolute-filenames for symlinks);;
+15;CVE-2019-14866.at:17;CVE-2019-14866 (tar header size overflow);;
 "
 # List of the all the test groups.
 at_groups_all=`$as_echo "$at_help_all" | sed 's/;.*//'`
@@ -615,7 +618,7 @@ at_fn_validate_ranges ()
   for at_grp
   do
     eval at_value=\$$at_grp
-    if test $at_value -lt 1 || test $at_value -gt 12; then
+    if test $at_value -lt 1 || test $at_value -gt 15; then
       $as_echo "invalid test group: $at_value" >&2
       exit 1
     fi
@@ -914,7 +917,7 @@ fi
 # List of tests.
 if $at_list_p; then
   cat <<_ATEOF || at_write_fail=1
-GNU cpio 2.12 test suite test groups:
+GNU cpio 2.13 test suite test groups:
 
  NUM: FILE-NAME:LINE     TEST-GROUP-NAME
       KEYWORDS
@@ -955,7 +958,7 @@ _ATEOF
   exit $at_write_fail
 fi
 if $at_version_p; then
-  $as_echo "$as_me (GNU cpio 2.12)" &&
+  $as_echo "$as_me (GNU cpio 2.13)" &&
   cat <<\_ATEOF || at_write_fail=1
 
 Copyright (C) 2012 Free Software Foundation, Inc.
@@ -1132,11 +1135,11 @@ exec 5>>"$at_suite_log"
 
 # Banners and logs.
 $as_echo "## ------------------------- ##
-## GNU cpio 2.12 test suite. ##
+## GNU cpio 2.13 test suite. ##
 ## ------------------------- ##"
 {
   $as_echo "## ------------------------- ##
-## GNU cpio 2.12 test suite. ##
+## GNU cpio 2.13 test suite. ##
 ## ------------------------- ##"
   echo
 
@@ -1980,7 +1983,7 @@ _ASBOX
   $as_echo "Please send $at_msg and all information you think might help:
 
    To: <bug-cpio@gnu.org>
-   Subject: [GNU cpio 2.12] $as_me: $at_fail_list${at_fail_list:+ failed${at_xpass_list:+, }}$at_xpass_list${at_xpass_list:+ passed unexpectedly}
+   Subject: [GNU cpio 2.13] $as_me: $at_fail_list${at_fail_list:+ failed${at_xpass_list:+, }}$at_xpass_list${at_xpass_list:+ passed unexpectedly}
 
 You may investigate any problem if you feel able to do so, in which
 case the test suite provides a good starting point.  Its output may
@@ -2011,7 +2014,7 @@ at_fn_check_prepare_notrace 'a shell pipeline' "version.at:22"
 at_status=$? at_failed=false
 $at_check_filter
 at_fn_diff_devnull "$at_stderr" || at_failed=:
-echo >>"$at_stdout"; $as_echo "cpio (GNU cpio) 2.12
+echo >>"$at_stdout"; $as_echo "cpio (GNU cpio) 2.13
 " | \
   $at_diff - "$at_stdout" || at_failed=:
 at_fn_check_status 0 $at_status "$at_srcdir/version.at:22"
@@ -2061,16 +2064,46 @@ while read NAME LENGTH
 do
 	genfile --length \$LENGTH > \$NAME
 	echo \$NAME
-done < filelist |
- cpio --quiet -o > archive"
+done < filelist > filelist_raw
+
+for format in bin odc newc crc tar ustar hpbin hpodc
+do
+    cpio --format=\$format --quiet -o < filelist_raw > archive.\$format
+    rm -rf output
+    mkdir output && cd output
+    cpio -i --quiet < ../archive.\$format
+
+    while read file
+    do
+        test -f \$file || echo \"\$file not found\"
+    done < ../filelist_raw
+
+    cd ..
+done
+"
 at_fn_check_prepare_notrace 'an embedded newline' "inout.at:33"
 ( $at_check_trace;
 while read NAME LENGTH
 do
 	genfile --length $LENGTH > $NAME
 	echo $NAME
-done < filelist |
- cpio --quiet -o > archive
+done < filelist > filelist_raw
+
+for format in bin odc newc crc tar ustar hpbin hpodc
+do
+    cpio --format=$format --quiet -o < filelist_raw > archive.$format
+    rm -rf output
+    mkdir output && cd output
+    cpio -i --quiet < ../archive.$format
+
+    while read file
+    do
+        test -f $file || echo "$file not found"
+    done < ../filelist_raw
+
+    cd ..
+done
+
 ) >>"$at_stdout" 2>>"$at_stderr" 5>&-
 at_status=$? at_failed=false
 $at_check_filter
@@ -2235,30 +2268,26 @@ at_xfail=no
 
 
 
+
+
 { set +x
-$as_echo "$at_srcdir/symlink-long.at:26:
+$as_echo "$at_srcdir/symlink-long.at:29:
 
 # len(dirname) > READBUFSIZE
-dirname=
-for i in {1..52}; do
-    dirname=\"xxxxxxxxx/\$dirname\"
-    mkdir \"\$dirname\"
-done
+dirname=xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/
+as_dir=\$dirname; as_fn_mkdir_p
 ln -s \"\$dirname\" x || exit 77
 
 echo x | cpio -o > ar
 list=\`cpio -tv < ar | sed 's|.*-> ||'\`
 test \"\$list\" = \"\$dirname\" && echo success || echo fail
 "
-at_fn_check_prepare_notrace 'a `...` command substitution' "symlink-long.at:26"
+at_fn_check_prepare_notrace 'a `...` command substitution' "symlink-long.at:29"
 ( $at_check_trace;
 
 # len(dirname) > READBUFSIZE
-dirname=
-for i in {1..52}; do
-    dirname="xxxxxxxxx/$dirname"
-    mkdir "$dirname"
-done
+dirname=xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/xxxxxxxxx/
+as_dir=$dirname; as_fn_mkdir_p
 ln -s "$dirname" x || exit 77
 
 echo x | cpio -o > ar
@@ -2275,9 +2304,11 @@ echo >>"$at_stderr"; $as_echo "2 blocks
 echo >>"$at_stdout"; $as_echo "success
 " | \
   $at_diff - "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/symlink-long.at:26"
+at_fn_check_status 0 $at_status "$at_srcdir/symlink-long.at:29"
 $at_failed && at_fn_log_failure
 $at_traceon; }
+
+
 
 
   set +x
@@ -2331,7 +2362,7 @@ $at_traceon; }
 read at_status <"$at_status_file"
 #AT_STOP_6
 #AT_START_7
-at_fn_group_banner 7 'interdir.at:24' \
+at_fn_group_banner 7 'interdir.at:25' \
   "interdir" "                                       "
 at_xfail=no
 (
@@ -2347,7 +2378,7 @@ _ATEOF
 
 
 { set +x
-$as_echo "$at_srcdir/interdir.at:31:
+$as_echo "$at_srcdir/interdir.at:32:
 umask 022
 mkdir dir
 chmod 700 dir
@@ -2361,7 +2392,7 @@ genfile --stat=name,mode.777 en/to/tre
 genfile --stat=name,mode.777 en/to/tre/dir
 genfile --stat=name,mode.777 en/to/tre/dir/file
 "
-at_fn_check_prepare_notrace 'an embedded newline' "interdir.at:31"
+at_fn_check_prepare_notrace 'an embedded newline' "interdir.at:32"
 ( $at_check_trace;
 umask 022
 mkdir dir
@@ -2392,7 +2423,7 @@ en/to/tre/dir 700
 en/to/tre/dir/file 644
 " | \
   $at_diff - "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/interdir.at:31"
+at_fn_check_status 0 $at_status "$at_srcdir/interdir.at:32"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
@@ -2403,7 +2434,7 @@ $at_traceon; }
 read at_status <"$at_status_file"
 #AT_STOP_7
 #AT_START_8
-at_fn_group_banner 8 'setstat01.at:17' \
+at_fn_group_banner 8 'setstat01.at:18' \
   "delayed setstat" "                                "
 at_xfail=no
 (
@@ -2418,7 +2449,7 @@ at_xfail=no
 # the directory.
 
 { set +x
-$as_echo "$at_srcdir/setstat01.at:25:
+$as_echo "$at_srcdir/setstat01.at:26:
 mkdir dir
 echo \"test file\" > dir/file
 chmod 500 dir
@@ -2431,7 +2462,7 @@ mv dir old
 cpio -i --quiet < archive
 genfile --stat=mode.777 dir
 "
-at_fn_check_prepare_notrace 'an embedded newline' "setstat01.at:25"
+at_fn_check_prepare_notrace 'an embedded newline' "setstat01.at:26"
 ( $at_check_trace;
 mkdir dir
 echo "test file" > dir/file
@@ -2452,7 +2483,7 @@ at_fn_diff_devnull "$at_stderr" || at_failed=:
 echo >>"$at_stdout"; $as_echo "500
 " | \
   $at_diff - "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/setstat01.at:25"
+at_fn_check_status 0 $at_status "$at_srcdir/setstat01.at:26"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
@@ -2463,7 +2494,7 @@ $at_traceon; }
 read at_status <"$at_status_file"
 #AT_STOP_8
 #AT_START_9
-at_fn_group_banner 9 'setstat02.at:17' \
+at_fn_group_banner 9 'setstat02.at:18' \
   "delayed setstat (with -depth)" "                  "
 at_xfail=no
 (
@@ -2483,7 +2514,7 @@ at_xfail=no
 # See also: setstat03, setstat04, setstat05
 
 { set +x
-$as_echo "$at_srcdir/setstat02.at:30:
+$as_echo "$at_srcdir/setstat02.at:31:
 mkdir dir
 echo \"test file\" > dir/file
 chmod 500 dir
@@ -2496,7 +2527,7 @@ mv dir old
 cpio -id --quiet < archive
 genfile --stat=mode.777 dir
 "
-at_fn_check_prepare_notrace 'an embedded newline' "setstat02.at:30"
+at_fn_check_prepare_notrace 'an embedded newline' "setstat02.at:31"
 ( $at_check_trace;
 mkdir dir
 echo "test file" > dir/file
@@ -2517,7 +2548,7 @@ at_fn_diff_devnull "$at_stderr" || at_failed=:
 echo >>"$at_stdout"; $as_echo "500
 " | \
   $at_diff - "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/setstat02.at:30"
+at_fn_check_status 0 $at_status "$at_srcdir/setstat02.at:31"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
@@ -2528,7 +2559,7 @@ $at_traceon; }
 read at_status <"$at_status_file"
 #AT_STOP_9
 #AT_START_10
-at_fn_group_banner 10 'setstat03.at:17' \
+at_fn_group_banner 10 'setstat03.at:18' \
   "delayed setstat (copy-pass)" "                    "
 at_xfail=no
 (
@@ -2549,7 +2580,7 @@ at_xfail=no
 # See also: setstat02, setstat04. setstat05
 
 { set +x
-$as_echo "$at_srcdir/setstat03.at:31:
+$as_echo "$at_srcdir/setstat03.at:32:
 mkdir dir
 echo \"test file\" > dir/file
 chmod 500 dir
@@ -2558,7 +2589,7 @@ mkdir newdir
 find dir -depth | cpio -pmaud --quiet newdir
 genfile --stat=mode.777 newdir/dir
 "
-at_fn_check_prepare_notrace 'an embedded newline' "setstat03.at:31"
+at_fn_check_prepare_notrace 'an embedded newline' "setstat03.at:32"
 ( $at_check_trace;
 mkdir dir
 echo "test file" > dir/file
@@ -2575,7 +2606,7 @@ at_fn_diff_devnull "$at_stderr" || at_failed=:
 echo >>"$at_stdout"; $as_echo "500
 " | \
   $at_diff - "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/setstat03.at:31"
+at_fn_check_status 0 $at_status "$at_srcdir/setstat03.at:32"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
@@ -2586,7 +2617,7 @@ $at_traceon; }
 read at_status <"$at_status_file"
 #AT_STOP_10
 #AT_START_11
-at_fn_group_banner 11 'setstat04.at:17' \
+at_fn_group_banner 11 'setstat04.at:18' \
   "delayed setstat (umask)" "                        "
 at_xfail=no
 (
@@ -2608,7 +2639,7 @@ at_xfail=no
 # See also: setstat02, setstat03, setstat05
 
 { set +x
-$as_echo "$at_srcdir/setstat04.at:32:
+$as_echo "$at_srcdir/setstat04.at:33:
 umask 022
 mkdir dir
 echo \"test file\" > dir/file
@@ -2620,7 +2651,7 @@ umask 077
 cpio -id --quiet < archive
 genfile --stat=mode.777 dir
 "
-at_fn_check_prepare_notrace 'an embedded newline' "setstat04.at:32"
+at_fn_check_prepare_notrace 'an embedded newline' "setstat04.at:33"
 ( $at_check_trace;
 umask 022
 mkdir dir
@@ -2640,7 +2671,7 @@ at_fn_diff_devnull "$at_stderr" || at_failed=:
 echo >>"$at_stdout"; $as_echo "755
 " | \
   $at_diff - "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/setstat04.at:32"
+at_fn_check_status 0 $at_status "$at_srcdir/setstat04.at:33"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
@@ -2651,7 +2682,7 @@ $at_traceon; }
 read at_status <"$at_status_file"
 #AT_STOP_11
 #AT_START_12
-at_fn_group_banner 12 'setstat05.at:17' \
+at_fn_group_banner 12 'setstat05.at:18' \
   "delayed setstat (umask, copy-pass)" "             "
 at_xfail=no
 (
@@ -2673,7 +2704,7 @@ at_xfail=no
 # See also: setstat02, setstat03
 
 { set +x
-$as_echo "$at_srcdir/setstat05.at:32:
+$as_echo "$at_srcdir/setstat05.at:33:
 umask 022
 mkdir dir
 echo \"test file\" > dir/file
@@ -2682,7 +2713,7 @@ umask 077
 find dir -depth | cpio -pmaud --quiet newdir
 genfile --stat=mode.777 newdir/dir
 "
-at_fn_check_prepare_notrace 'an embedded newline' "setstat05.at:32"
+at_fn_check_prepare_notrace 'an embedded newline' "setstat05.at:33"
 ( $at_check_trace;
 umask 022
 mkdir dir
@@ -2699,7 +2730,7 @@ at_fn_diff_devnull "$at_stderr" || at_failed=:
 echo >>"$at_stdout"; $as_echo "755
 " | \
   $at_diff - "$at_stdout" || at_failed=:
-at_fn_check_status 0 $at_status "$at_srcdir/setstat05.at:32"
+at_fn_check_status 0 $at_status "$at_srcdir/setstat05.at:33"
 $at_failed && at_fn_log_failure
 $at_traceon; }
 
@@ -2709,3 +2740,161 @@ $at_traceon; }
 ) 5>&1 2>&1 7>&- | eval $at_tee_pipe
 read at_status <"$at_status_file"
 #AT_STOP_12
+#AT_START_13
+at_fn_group_banner 13 'big-block-size.at:18' \
+  "big block size" "                                 "
+at_xfail=no
+(
+  $as_echo "13. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+
+
+# Description: Cpio versions up to 2.12 did not check the size of the
+# value supplied to the --block-size argument. This could result in
+# a signed integer overflow.
+
+{ set +x
+$as_echo "$at_srcdir/big-block-size.at:25:
+echo \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\" > file
+echo file | cpio -o > a
+cpio -i  --block-size=20971520  -F a
+"
+at_fn_check_prepare_notrace 'an embedded newline' "big-block-size.at:25"
+( $at_check_trace;
+echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" > file
+echo file | cpio -o > a
+cpio -i  --block-size=20971520  -F a
+
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo >>"$at_stderr"; $as_echo "4 blocks
+cpio: invalid block size
+Try 'cpio --help' or 'cpio --usage' for more information.
+" | \
+  $at_diff - "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 2 $at_status "$at_srcdir/big-block-size.at:25"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_13
+#AT_START_14
+at_fn_group_banner 14 'CVE-2015-1197.at:17' \
+  "CVE-2015-1197 (--no-absolute-filenames for symlinks)" ""
+at_xfail=no
+(
+  $as_echo "14. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+{ set +x
+$as_echo "$at_srcdir/CVE-2015-1197.at:18:
+tempdir=\$(pwd)/tmp
+mkdir \$tempdir
+touch \$tempdir/file
+ln -s \$tempdir dir
+cat >filelist <<'_ATEOF'
+dir
+dir/file
+_ATEOF
+
+ln -s /tmp dir
+touch /tmp/file
+cpio -o < filelist > test.cpio
+rm dir /tmp/file
+cpio --no-absolute-filenames -iv < test.cpio
+"
+at_fn_check_prepare_notrace 'a $(...) command substitution' "CVE-2015-1197.at:18"
+( $at_check_trace;
+tempdir=$(pwd)/tmp
+mkdir $tempdir
+touch $tempdir/file
+ln -s $tempdir dir
+cat >filelist <<'_ATEOF'
+dir
+dir/file
+_ATEOF
+
+ln -s /tmp dir
+touch /tmp/file
+cpio -o < filelist > test.cpio
+rm dir /tmp/file
+cpio --no-absolute-filenames -iv < test.cpio
+
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo >>"$at_stderr"; $as_echo "1 block
+cpio: Removing leading \`/' from hard link targets
+dir
+cpio: dir/file: Cannot open: No such file or directory
+dir/file
+1 block
+" | \
+  $at_diff - "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 2 $at_status "$at_srcdir/CVE-2015-1197.at:18"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_14
+#AT_START_15
+at_fn_group_banner 15 'CVE-2019-14866.at:17' \
+  "CVE-2019-14866 (tar header size overflow)" "      "
+at_xfail=no
+(
+  $as_echo "15. $at_setup_line: testing $at_desc ..."
+  $at_traceon
+
+{ set +x
+$as_echo "$at_srcdir/CVE-2019-14866.at:18:
+# Use -s (seek) instead of -l (size) to speed up file creation.
+# This can fail if the device lacks sufficient space.  Skip the test, then.
+if genfile -s 16G -f file; then
+  echo file | cpio -H tar -o > a.tar
+  s=\$?
+  rm -f file
+  exit \$?
+else
+  exit 77
+fi
+"
+at_fn_check_prepare_notrace 'an embedded newline' "CVE-2019-14866.at:18"
+( $at_check_trace;
+# Use -s (seek) instead of -l (size) to speed up file creation.
+# This can fail if the device lacks sufficient space.  Skip the test, then.
+if genfile -s 16G -f file; then
+  echo file | cpio -H tar -o > a.tar
+  s=$?
+  rm -f file
+  exit $?
+else
+  exit 77
+fi
+
+) >>"$at_stdout" 2>>"$at_stderr" 5>&-
+at_status=$? at_failed=false
+$at_check_filter
+echo >>"$at_stderr"; $as_echo "cpio: file: value size 17179869184 out of allowed range 0..8589934591
+2 blocks
+" | \
+  $at_diff - "$at_stderr" || at_failed=:
+at_fn_diff_devnull "$at_stdout" || at_failed=:
+at_fn_check_status 0 $at_status "$at_srcdir/CVE-2019-14866.at:18"
+$at_failed && at_fn_log_failure
+$at_traceon; }
+
+  set +x
+  $at_times_p && times >"$at_times_file"
+) 5>&1 2>&1 7>&- | eval $at_tee_pipe
+read at_status <"$at_status_file"
+#AT_STOP_15

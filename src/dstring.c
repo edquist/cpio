@@ -1,6 +1,6 @@
 /* dstring.c - The dynamic string handling routines used by cpio.
-   Copyright (C) 1990-1992, 2004, 2007, 2010, 2014-2015 Free Software
-   Foundation, Inc.
+   Copyright (C) 1990-1992, 2004, 2007, 2010, 2014-2015, 2017 Free
+   Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -28,9 +28,7 @@
 #include <strings.h>
 #endif
 #include "dstring.h"
-
-char *xmalloc (unsigned n);
-char *xrealloc (char *p, unsigned n);
+#include <xalloc.h>
 
 /* Initialiaze dynamic string STRING with space for SIZE characters.  */
 

@@ -1,6 +1,6 @@
 /* util.c - Several utility routines for cpio.
-   Copyright (C) 1990-1992, 2001, 2004, 2006-2007, 2010-2011, 2014-2015
-   Free Software Foundation, Inc.
+   Copyright (C) 1990-1992, 2001, 2004, 2006-2007, 2010-2011, 2014-2015,
+   2017 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -498,8 +498,9 @@ copy_files_disk_to_tape (int in_des, int out_des, off_t num_bytes,
 			 filename,  STRINGIFY_BIGINT (num_bytes, buf));
 	      }
 	    else
-	      error (0, 0, _("Read error at byte %lld in file %s, padding with zeros"),
-			original_num_bytes - num_bytes, filename);
+	      error (0, 0,
+		     _("Read error at byte %lld in file %s, padding with zeros"),
+		     (long long) (original_num_bytes - num_bytes), filename);
 	    write_nuls_to_file (num_bytes, out_des, tape_buffered_write);
 	    break;
 	  }
@@ -548,8 +549,9 @@ copy_files_disk_to_disk (int in_des, int out_des, off_t num_bytes,
 		       filename,  STRINGIFY_BIGINT (num_bytes, buf));
 	      }
 	    else
-	      error (0, 0, _("Read error at byte %lld in file %s, padding with zeros"),
-			original_num_bytes - num_bytes, filename);
+	      error (0, 0,
+		     _("Read error at byte %lld in file %s, padding with zeros"),
+		     (long long) (original_num_bytes - num_bytes), filename);
 	    write_nuls_to_file (num_bytes, out_des, disk_buffered_write);
 	    break;
 	  }
@@ -596,25 +598,11 @@ warn_if_file_changed (char *file_name, off_t old_file_size,
    Do not destroy any nondirectories while creating directories.  */
 
 void
-create_all_directories (char *name)
+create_all_directories (char const *name)
 {
   char *dir;
-  int   mode;
-#ifdef HPUX_CDF
-  int   cdf;
-#endif
 
   dir = dir_name (name);
-  mode = 0700;
-#ifdef HPUX_CDF
-  cdf = islastparentcdf (name);
-  if (cdf)
-    {
-      dir [strlen (dir) - 1] = '\0';	/* remove final + */
-      mode = 04700;
-    }
-  
-#endif
   
   if (dir == NULL)
     error (PAXEXIT_FAILURE, 0, _("virtual memory exhausted"));
@@ -718,7 +706,6 @@ find_inode_val (ino_t node_num, unsigned long major_num,
 		 unsigned long minor_num)
 {
   struct inode_val sample;
-  struct inode_val *ival;
   
   if (!hash_table)
     return NULL;
@@ -768,7 +755,7 @@ add_inode (ino_t node_num, char *file_name, unsigned long major_num,
   return e;
 }
 
-static ino_t
+static void
 get_inode_and_dev (struct cpio_file_stat *hdr, struct stat *st)
 {
   if (renumber_inodes_option)
@@ -1003,146 +990,6 @@ umasked_symlink (char *name1, char *name2, int mode)
   return rc;
 }
 #endif /* SYMLINK_USES_UMASK */
-
-#ifdef HPUX_CDF
-/* When we create a cpio archive we mark CDF's by putting an extra `/'
-   after their component name so we can distinguish the CDF's when we
-   extract the archive (in case the "hidden" directory's files appear
-   in the archive before the directory itself).  E.g., in the path
-   "a/b+/c", if b+ is a CDF, we will write this path as "a/b+//c" in
-   the archive so when we extract the archive we will know that b+
-   is actually a CDF, and not an ordinary directory whose name happens
-   to end in `+'.  We also do the same thing internally in copypass.c.  */
-
-
-/* Take an input pathname and check it for CDF's.  Insert an extra
-   `/' in the pathname after each "hidden" directory.  If we add
-   any `/'s, return a malloced string instead of the original input
-   string.
-   FIXME: This creates a memory leak.
-*/
-
-char *
-add_cdf_double_slashes (char *input_name)
-{
-  static char *ret_name = NULL;	/* re-usuable return buffer (malloc'ed)  */
-  static int ret_size = -1;	/* size of return buffer.  */
-  char *p;
-  char *q;
-  int n;
-  struct stat dir_stat;
-
-  /*  Search for a `/' preceeded by a `+'.  */
-
-  for (p = input_name; *p != '\0'; ++p)
-    {
-      if ( (*p == '+') && (*(p + 1) == '/') )
-	break;
-    }
-
-  /* If we didn't find a `/' preceeded by a `+' then there are
-     no CDF's in this pathname.  Return the original pathname.  */
-
-  if (*p == '\0')
-    return input_name;
-
-  /* There was a `/' preceeded by a `+' in the pathname.  If it is a CDF 
-     then we will need to copy the input pathname to our return
-     buffer so we can insert the extra `/'s.  Since we can't tell
-     yet whether or not it is a CDF we will just always copy the
-     string to the return buffer.  First we have to make sure the
-     buffer is large enough to hold the string and any number of
-     extra `/'s we might add.  */
-
-  n = 2 * (strlen (input_name) + 1);
-  if (n >= ret_size)
-    {
-      if (ret_size < 0)
-	ret_name = (char *) malloc (n);
-      else
-	ret_name = (char *)realloc (ret_name, n);
-      ret_size = n;
-    }
-
-  /* Clear the `/' after this component, so we can stat the pathname 
-     up to and including this component.  */
-  ++p;
-  *p = '\0';
-  if ((*xstat) (input_name, &dir_stat) < 0)
-    {
-      stat_error (input_name);
-      return input_name;
-    }
-
-  /* Now put back the `/' after this component and copy the pathname up to
-     and including this component and its trailing `/' to the return
-     buffer.  */
-  *p++ = '/';
-  strncpy (ret_name, input_name, p - input_name);
-  q = ret_name + (p - input_name);
-
-  /* If it was a CDF, add another `/'.  */
-  if (S_ISDIR (dir_stat.st_mode) && (dir_stat.st_mode & 04000) )
-    *q++ = '/';
-
-  /* Go through the rest of the input pathname, copying it to the
-     return buffer, and adding an extra `/' after each CDF.  */
-  while (*p != '\0')
-    {
-      if ( (*p == '+') && (*(p + 1) == '/') )
-	{
-	  *q++ = *p++;
-
-	  *p = '\0';
-	  if ((*xstat) (input_name, &dir_stat) < 0)
-	    {
-	      stat_error (input_name);
-	      return input_name;
-	    }
-	  *p = '/';
-
-	  if (S_ISDIR (dir_stat.st_mode) && (dir_stat.st_mode & 04000) )
-	    *q++ = '/';
-	}
-      *q++ = *p++;
-    }
-  *q = '\0';
-
-  return ret_name;
-}
-
-/* Is the last parent directory (e.g., c in a/b/c/d) a CDF?  If the
-   directory name ends in `+' and is followed by 2 `/'s instead of 1
-   then it is.  This is only the case for cpio archives, but we don't
-   have to worry about tar because tar always has the directory before
-   its files (or else we lose).  */
-int
-islastparentcdf (char *path)
-{
-  char *newpath;
-  char *slash;
-  int slash_count;
-  int length;			/* Length of result, not including NUL.  */
-
-  slash = strrchr (path, '/');
-  if (slash == 0)
-    return 0;
-  else
-    {
-      slash_count = 0;
-      while (slash > path && *slash == '/')
-	{
-	  ++slash_count;
-	  --slash;
-	}
-
-
-      if ( (*slash == '+') && (slash_count >= 2) )
-	return 1;
-    }
-  return 0;
-}
-#endif
 
 #define DISKBLOCKSIZE	(512)
 
@@ -1383,12 +1230,6 @@ set_perms (int fd, struct cpio_file_stat *header)
   /* chown may have turned off some permissions we wanted. */
   if (fchmod_or_chmod (fd, header->c_name, header->c_mode) < 0)
     chmod_error_details (header->c_name, header->c_mode);
-#ifdef HPUX_CDF
-  if ((header->c_mode & CP_IFMT) && cdf_flag)
-    /* Once we "hide" the directory with the chmod(),
-       we have to refer to it using name+ instead of name.  */
-    file_hdr->c_name [cdf_char] = '+';
-#endif
   if (retain_time_flag)
     set_file_times (fd, header->c_name, header->c_mtime, header->c_mtime);
 }
@@ -1410,8 +1251,28 @@ set_file_times (int fd,
     utime_error (name);
 }
 
+/* Reallocate file_hdr->c_name to accomodate len bytes (including final \0) */
+void
+cpio_realloc_c_name (struct cpio_file_stat *file_hdr, size_t len)
+{
+  while (file_hdr->c_name_buflen < len)
+    file_hdr->c_name = x2realloc (file_hdr->c_name, &file_hdr->c_name_buflen);
+}
+
+void
+cpio_set_c_name (struct cpio_file_stat *file_hdr, char *name)
+{
+  size_t len = strlen (name) + 1;
+
+  cpio_realloc_c_name (file_hdr, len);
+  file_hdr->c_namesize = len;
+  memmove (file_hdr->c_name, name, len);
+}
+
 /* Do we have to ignore absolute paths, and if so, does the filename
-   have an absolute path?  */
+   have an absolute path?  Before calling this function make sure that the
+   allocated NAME buffer has capacity at least 2 bytes. */
+
 void
 cpio_safer_name_suffix (char *name, bool link_target, bool absolute_names,
 			bool strip_leading_dots)
@@ -1426,6 +1287,10 @@ cpio_safer_name_suffix (char *name, bool link_target, bool absolute_names,
 	  ++p;
       }
   if (p != name)
+    /* The 'p' string is shortened version of 'name' with one exception;  when
+       the 'name' points to an empty string (buffer where name[0] == '\0') the
+       'p' then points to static string ".".  So caller needs to ensure there
+       are at least two bytes available in 'name' buffer so memmove succeeds. */
     memmove (name, p, (size_t)(strlen (p) + 1));
 }
 
@@ -1572,10 +1437,6 @@ int
 cpio_create_dir (struct cpio_file_stat *file_hdr, int existing_dir)
 {
   int res;			/* Result of various function calls.  */
-#ifdef HPUX_CDF
-  int cdf_flag;                 /* True if file is a CDF.  */
-  int cdf_char;                 /* Index of `+' char indicating a CDF.  */
-#endif
   int setstat_delayed = 0;
   
   if (to_stdout_option)
@@ -1594,26 +1455,8 @@ cpio_create_dir (struct cpio_file_stat *file_hdr, int existing_dir)
       return 0;
     }
 
-#ifdef HPUX_CDF
-  cdf_flag = 0;
-#endif
   if (!existing_dir)
-    {
-#ifdef HPUX_CDF
-      /* If the directory name ends in a + and is SUID,
-	 then it is a CDF.  Strip the trailing + from
-	 the name before creating it.  */
-      cdf_char = strlen (file_hdr->c_name) - 1;
-      if ( (cdf_char > 0) &&
-	   (file_hdr->c_mode & 04000) && 
-	   (file_hdr->c_name [cdf_char] == '+') )
-	{
-	  file_hdr->c_name [cdf_char] = '\0';
-	  cdf_flag = 1;
-	}
-#endif
-      res = cpio_mkdir (file_hdr, &setstat_delayed);
-    }
+    res = cpio_mkdir (file_hdr, &setstat_delayed);
   else
     res = 0;
   if (res < 0 && create_dir_flag)
@@ -1688,3 +1531,15 @@ arf_stores_inode_p (enum archive_format arf)
   return 1;
 }
   
+void
+cpio_file_stat_init (struct cpio_file_stat *file_hdr)
+{
+  memset (file_hdr, 0, sizeof (*file_hdr));
+}
+
+void
+cpio_file_stat_free (struct cpio_file_stat *file_hdr)
+{
+  free (file_hdr->c_name);
+  cpio_file_stat_init (file_hdr);
+}

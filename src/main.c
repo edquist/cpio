@@ -1,6 +1,5 @@
 /* main.c - main program and argument processing for cpio.
-   Copyright (C) 1990-1992, 2001, 2003-2007, 2009-2010, 2014-2015 Free
-   Software Foundation, Inc.
+   Copyright (C) 1990-2019 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -321,7 +320,7 @@ parse_opt (int key, char *arg, struct argp_state *state)
 
     case BLOCK_SIZE_OPTION:		/* --block-size */
       io_block_size = atoi (arg);
-      if (io_block_size < 1)
+      if (io_block_size < 1 || io_block_size > INT_MAX/512)
 	USAGE_ERROR ((0, 0, _("invalid block size")));
       io_block_size *= 512;
       break;
@@ -581,8 +580,6 @@ usage (int status)
 void
 process_args (int argc, char *argv[])
 {
-  void (*copy_in) ();		/* Work around for pcc bug.  */
-  void (*copy_out) ();
   int index;
 
   xstat = lstat;
@@ -598,15 +595,10 @@ process_args (int argc, char *argv[])
 	copy_function = process_copy_in;
       else
 	USAGE_ERROR ((0, 0,
-	       _("You must specify one of -oipt options.\nTry `%s --help' or `%s --usage' for more information.\n"),
-		      program_name, program_name));
+		      _("You must specify one of -oipt options.")));
     }
 
-  /* Work around for pcc bug.  */
-  copy_in = process_copy_in;
-  copy_out = process_copy_out;
-
-  if (copy_function == copy_in)
+  if (copy_function == process_copy_in)
     {
       archive_des = 0;
       CHECK_USAGE (link_flag, "--link", "--extract");
@@ -638,7 +630,7 @@ process_args (int argc, char *argv[])
       if (input_archive_name)
 	archive_name = input_archive_name;
     }
-  else if (copy_function == copy_out)
+  else if (copy_function == process_copy_out)
     {
       if (index != argc)
 	USAGE_ERROR ((0, 0, _("Too many arguments")));
@@ -711,7 +703,7 @@ process_args (int argc, char *argv[])
 
   if (archive_name)
     {
-      if (copy_function != copy_in && copy_function != copy_out)
+      if (copy_function != process_copy_in && copy_function != process_copy_out)
 	error (PAXEXIT_FAILURE, 0, 
 	       _("-F can be used only with --create or --extract"));
       archive_des = open_archive (archive_name);
